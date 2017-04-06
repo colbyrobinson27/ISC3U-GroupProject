@@ -38,51 +38,81 @@ class App():
         self.map = []
         #This is the size of the map, it is used for all kinds of calculations and for generating the map
         self.mapsize = 100
-        #This forloop adds enough lists to our map lists for all the Xs and Ys of the map. This creates a 2 dimensional list thats variables can be accessed by typing self.mapsize[y][x]. This is how we easily set up a 2d world
-        for i in range(self.mapsize):
-            self.map.append([])
-            #This loop randomly adds a 1(floor) or 0 (wall) to the embedded lists
-            for g in range(self.mapsize):
+        self.map = self.generateCave(self.mapsize)
 
-                self.map[i].append(random.randint(0, 1))
-
-        for h in range(5):
-            for i in range(self.mapsize):
-                for g in range(self.mapsize):
-                    #print(g)
-                    if self.map[i][g] == 1:
-                        if self.nextTo(self.map,g,i,1) >=4 :
-                            self.map[i][g] = 1
-                        else:
-                            self.map[i][g] = 0
-                    else:
-                        if self.nextTo(self.map,g,i,1) >= 5:
-                            self.map[i][g] = 1
-
-
-
-        curstring = ""
-        for i in range(self.mapsize):
-            print(curstring)
-            curstring = ""
-            for g in range(self.mapsize):
-                if self.map[i][g] == 0:
-
-                    curstring += "#"
-                else:
-                    curstring += "."
-        print("\n" + str(self.nextTo(self.map,0,0,0)))
+        #This forloor draws everything that is in the self.map variable to the screen (tk.C1). It uses a camera offset of 7 x and 7 y tiles in order to set the players position onscreen equal to the self.x and self.y variables
         for i in range(self.mapsize):
             for g in range(self.mapsize):
-                if (self.map[i][g] == 0):
+                if (self.map[i][g] == "CaveWall-Middle"):
                     self.C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
                 else:
                     self.C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
+        #We tag all of the pieces of the map as "map" now so that we can move them all without moving the player, as instead of moving a player and having to redraw the screen
+        #we can simply move the tiles around the player to give semblence of movement
         self.C1.addtag_all("map")
+        #Here we draw the player in the center of the screen
         self.C1.create_image(180,180,image = self.player)
         self.timer_tick()
     def run(self):
         self.root.mainloop()
+    def generateCave(self,size):
+        map = []
+        # This forloop adds enough lists to our map lists for all the Xs and Ys of the map. This creates a 2 dimensional list thats variables can be accessed by typing self.map[y][x]
+        # outside of this function, or map[y][x] inside of the function. This is how we easily set up a 2d world
+        for i in range(size):
+            map.append([])
+            #This loop randomly adds a floor of wall to the embedded lists
+            for g in range(size):
+
+                #This gives the game walls with 40% probability and floors with 60% so we decrease the fill percentage in order to create a flowing cave environment
+                if random.randint(0,4)//3 == 0:
+                    #Throughout the project we will be using names for tiles as seen below
+                    map[i].append("CaveWall-Middle")
+                else:
+                    map[i].append("Grass-Dark")
+        #this is the first of 2 procedures to generate the caves. Logic is make it a floor if 5 or more in 1 distance of tile are floors or there re no floors within 2 distance of floor, with a few minor if statements that give tweaks and flow to the
+        #cave system
+        for h in range(4):
+            for i in range(size):
+                for g in range(size):
+                    #print(g)
+
+                    if self.nextTo2(1,map,g,i,"Grass-Dark") >=5 or self.nextTo2(2,map,g,i,"Grass-Dark") <=2:
+                        map[i][g] = "Grass-Dark"
+                        #minor change, maks it a wall if there are less than 3 grass tiles within 1 area
+                    elif self.nextTo2(1,map,g,i,"Grass-Dark") <=2:
+                        map[i][g] = "CaveWall-Middle"
+        #Second procedure, logic is the same as the first except without setting it to a floor if there are no floors within 2 distance. This time however we set all tiles that arent being set to a floor to a wall
+        for h in range(3):
+            for i in range(size):
+                for g in range(size):
+                    # print(g)
+
+                    if self.nextTo2(1, map, g, i, "Grass-Dark") >= 5:
+                        map[i][g] = "Grass-Dark"
+                    else:
+                        map[i][g] = "CaveWall-Middle"
+        #This sets all the borders of the map to walls so that for the time being the player cannot wander off the side of the map
+        for i in range(size):
+            for g in range(size):
+
+                if i ==0 or i == size-1 or g == 0 or g == size-1:
+                    map[i][g] = "CaveWall-Middle"
+        print(map[99])
+
+        #This section only serves to print the entire map line by line to the console, is only useful for debugging and will be removed when the game is finished
+        curstring = ""
+        for i in range(size):
+
+            curstring = ""
+            for g in range(size):
+                if map[i][g] == "CaveWall-Middle":
+
+                    curstring += "#"
+                else:
+                    curstring += "."
+            print(curstring)
+        return map
     def timer_tick(self):
 
 
@@ -107,31 +137,35 @@ class App():
             ans +=1
         return ans
     def nextTo2(self,scale,list,x,y,n):
+        ans = 0
         for i in range(-scale,scale+1,1):
             for g in range(-scale,scale+1,1):
-                if x + g >= 0 and x + g <= self.mapsize-1 and y + i >= 0 and y + i <= self.mapsize-1:
+                if x + g >= 0 and x + g <= self.mapsize-1 and y + i >= 0 and y + i <= self.mapsize-1 and list[y+i][x+g] == n:
+
+                    ans += 1
+        return ans
 
 
     def onLeftPress(self,*args):
 
-        if self.cML and self.x >=24 and self.map[self.y//24][(self.x-24)//24] != 0:
+        if self.cML and self.x >=24 and self.map[self.y//24][(self.x-24)//24] != "CaveWall-Middle":
             self.C1.move("map", 24, 0)
             self.x -= 24
         self.cML = False
 
     def onRightPress(self,*args):
-        if self.cMR and self.x <= self.mapsize*24-24 and self.map[self.y//24][(self.x+24)//24] != 0:
+        if self.cMR and self.x <= self.mapsize*24-24 and self.map[self.y//24][(self.x+24)//24] != "CaveWall-Middle":
             self.C1.move("map", -24, 0)
             self.x += 24
         self.cMR = False
     def onUpPress(self,*args):
-        if self.cMU and self.y >=24 and self.map[(self.y-24)//24][self.x//24] != 0:
+        if self.cMU and self.y >=24 and self.map[(self.y-24)//24][self.x//24] != "CaveWall-Middle":
             self.C1.move("map", 0, 24)
             self.y -= 24
         self.cMU = False
     def onDownPress(self,*args):
         #print((self.y+24)//24,self.x//24)
-        if self.cMD and self.y <= self.mapsize*24-24 and self.map[(self.y+24)//24][self.x//24] != 0:
+        if self.cMD and self.y <= self.mapsize*24-24 and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
             self.C1.move("map", 0, -24)
             self.y+=24
         self.cMD = False
