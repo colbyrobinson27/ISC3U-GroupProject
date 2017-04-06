@@ -169,7 +169,7 @@ class Person():
                     tearlist.pop(i)
                 except:
                     print()
-            if
+
     def update(self):
         self.move()
         self.shoot()
