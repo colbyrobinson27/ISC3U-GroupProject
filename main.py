@@ -34,12 +34,15 @@ class App():
         self.floorImage = tk.PhotoImage(file = ".\GrassFloor1.png")
         self.wallImage = tk.PhotoImage(file = ".\WallSketch5.png")
         self.player = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
+        self.areaList = []
+        for i in range(50):
+            self.areaList.append([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
         #This is the map list; it is where we put all of the 0s and 1s that make up the cave walls and floors
         self.map = []
         #This is the size of the map, it is used for all kinds of calculations and for generating the map
         self.mapsize = 100
         self.map = self.generateCave(self.mapsize)
-
+        self.areaList[10][10] = self.map
         #This forloor draws everything that is in the self.map variable to the screen (tk.C1). It uses a camera offset of 7 x and 7 y tiles in order to set the players position onscreen equal to the self.x and self.y variables
         for i in range(self.mapsize):
             for g in range(self.mapsize):
@@ -95,8 +98,8 @@ class App():
         #This sets all the borders of the map to walls so that for the time being the player cannot wander off the side of the map
         for i in range(size):
             for g in range(size):
-
-                if i ==0 or i == size-1 or g == 0 or g == size-1:
+                #or i == size-1
+                if i ==0  or g == 0 or g == size-1:
                     map[i][g] = "CaveWall-Middle"
         print(map[99])
 
@@ -174,10 +177,12 @@ class App():
         self.cMU = False
     def onDownPress(self,*args):
         #print((self.y+24)//24,self.x//24)
-        if self.cMD and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
-            if self.y >= self.mapsize*24:
-                self.loadSection("-y")
-            else:
+        if self.y >= -24 + self.mapsize * 24:
+            self.loadSection("+y")
+        else:
+            if self.cMD and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
+
+
 
                 self.C1.move("map", 0, -24)
                 self.y+=24
@@ -192,6 +197,17 @@ class App():
         self.cMU = True
     def loadSection(self,dir):
         print("hi")
+        self.areaList[11][10] = self.generateCave(100)
+
+        self.C1.delete('all')
+        if dir == "+y":
+            self.map = self.areaList[11][10]
+        for i in range(self.mapsize):
+            for g in range(self.mapsize):
+                if (self.map[i][g] == "CaveWall-Middle"):
+                    self.C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
+                else:
+                    self.C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
 
 app = App()
 app.run()
