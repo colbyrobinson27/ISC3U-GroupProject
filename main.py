@@ -148,26 +148,39 @@ class App():
 
     def onLeftPress(self,*args):
 
-        if self.cML and self.x >=24 and self.map[self.y//24][(self.x-24)//24] != "CaveWall-Middle":
-            self.C1.move("map", 24, 0)
-            self.x -= 24
+        if self.cML and self.map[self.y//24][(self.x-24)//24] != "CaveWall-Middle":
+            if self.x < 0:
+                self.loadSection("-x")
+            else:
+                self.C1.move("map", 24, 0)
+                self.x -= 24
         self.cML = False
 
     def onRightPress(self,*args):
-        if self.cMR and self.x <= self.mapsize*24-24 and self.map[self.y//24][(self.x+24)//24] != "CaveWall-Middle":
-            self.C1.move("map", -24, 0)
-            self.x += 24
+        if self.cMR and self.map[self.y//24][(self.x+24)//24] != "CaveWall-Middle":
+            if self.x >= self.mapsize*24:
+                self.loadSection("+x")
+            else:
+                self.C1.move("map", -24, 0)
+                self.x += 24
         self.cMR = False
     def onUpPress(self,*args):
-        if self.cMU and self.y >=24 and self.map[(self.y-24)//24][self.x//24] != "CaveWall-Middle":
-            self.C1.move("map", 0, 24)
-            self.y -= 24
+        if self.cMU and self.map[(self.y-24)//24][self.x//24] != "CaveWall-Middle":
+            if self.y <0:
+                self.loadSection("-y")
+            else:
+                self.C1.move("map", 0, 24)
+                self.y -= 24
         self.cMU = False
     def onDownPress(self,*args):
         #print((self.y+24)//24,self.x//24)
-        if self.cMD and self.y <= self.mapsize*24-24 and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
-            self.C1.move("map", 0, -24)
-            self.y+=24
+        if self.cMD and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
+            if self.y >= self.mapsize*24:
+                self.loadSection("-y")
+            else:
+
+                self.C1.move("map", 0, -24)
+                self.y+=24
         self.cMD = False
     def onLeftUp(self,*args):
         self.cML = True
@@ -177,6 +190,8 @@ class App():
         self.cMD = True
     def onUpUp(self,*args):
         self.cMU = True
+    def loadSection(self,dir):
+        print("hi")
 
 app = App()
 app.run()
