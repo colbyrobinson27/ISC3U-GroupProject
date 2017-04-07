@@ -13,3 +13,7 @@ Welcome to the project! This README file will contain a list of things that we w
 - Economy algorithm based on supply and demand
 - Design of civilizations and different biomes they can be situated in
 - Story idea, basis for the game, can come later after more world design is finished
+
+
+Okay, so I have no place to but this so I will just put it here I guess. Firstly to clean things up, can we try and keep things as clear and de-centralized as possible. So make classes or functions
+for everything, like a Class for Tiles or Class for biomes etc, and try and keep functions decentralized as well. - Rhys
