@@ -14,8 +14,10 @@ class App():
         self.C1.place(width = 360,height = 360, x = 0, y = 0)
         self.C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
-        self.x = 216
-        self.y = 216
+        self.x = 2160
+        self.y = 2160
+        self.mapx = 10
+        self.mapy = 10
         #Here is just variables that are used to stop players from holding down a key and moving extremely fast, not too much to worry about
         self.cMU = True
         self.cMD = True
@@ -96,11 +98,11 @@ class App():
                     else:
                         map[i][g] = "CaveWall-Middle"
         #This sets all the borders of the map to walls so that for the time being the player cannot wander off the side of the map
-        for i in range(size):
-            for g in range(size):
+        #for i in range(size):
+         #   for g in range(size):
                 #or i == size-1
-                if i ==0  or g == 0 or g == size-1:
-                    map[i][g] = "CaveWall-Middle"
+          #      if i ==0  or g == 0 or g == size-1:
+           #         map[i][g] = "CaveWall-Middle"
         print(map[99])
 
         #This section only serves to print the entire map line by line to the console, is only useful for debugging and will be removed when the game is finished
@@ -150,40 +152,32 @@ class App():
 
 
     def onLeftPress(self,*args):
-
-        if self.cML and self.map[self.y//24][(self.x-24)//24] != "CaveWall-Middle":
-            if self.x < 0:
-                self.loadSection("-x")
-            else:
+        if self.x <= 0:
+            self.loadSection("-x")
+        elif self.cML and self.map[self.y//24][(self.x-24)//24] != "CaveWall-Middle":
                 self.C1.move("map", 24, 0)
                 self.x -= 24
         self.cML = False
 
     def onRightPress(self,*args):
+        if self.x >= - 24 + self.mapsize * 24:
+            self.loadSection("+x")
         if self.cMR and self.map[self.y//24][(self.x+24)//24] != "CaveWall-Middle":
-            if self.x >= self.mapsize*24:
-                self.loadSection("+x")
-            else:
                 self.C1.move("map", -24, 0)
                 self.x += 24
         self.cMR = False
     def onUpPress(self,*args):
-        if self.cMU and self.map[(self.y-24)//24][self.x//24] != "CaveWall-Middle":
-            if self.y <0:
-                self.loadSection("-y")
-            else:
+        if self.y <= 0:
+            self.loadSection("-y")
+        elif self.cMU and self.map[(self.y-24)//24][self.x//24] != "CaveWall-Middle":
                 self.C1.move("map", 0, 24)
                 self.y -= 24
         self.cMU = False
     def onDownPress(self,*args):
         #print((self.y+24)//24,self.x//24)
-        if self.y >= -24 + self.mapsize * 24:
+        if self.y >=  - 24 + self.mapsize * 24:
             self.loadSection("+y")
-        else:
-            if self.cMD and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
-
-
-
+        elif self.cMD and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
                 self.C1.move("map", 0, -24)
                 self.y+=24
         self.cMD = False
@@ -201,7 +195,17 @@ class App():
 
         self.C1.delete('all')
         if dir == "+y":
-            self.map = self.areaList[11][10]
+            self.mapy +=1
+
+        if dir == "-y":
+            self.mapy -=1
+
+        if dir == "+x":
+            self.mapx +=1
+
+        if dir == "-x":
+            self.map -=1
+        self.map = self.areaList[self.mapy][self.mapx]
         for i in range(self.mapsize):
             for g in range(self.mapsize):
                 if (self.map[i][g] == "CaveWall-Middle"):
