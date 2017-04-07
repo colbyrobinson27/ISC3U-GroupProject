@@ -1,0 +1,14 @@
+GOOD TYPES:
+Food -
+    All towns need, produced from farm economies
+
+
+ECONOMY TYPES -
+
+
+
+CIVILIZATIONS:
+Civs should be distinguished by:
+1. Size (Town, City, Hamlet) - Determined by Pop size
+2. Race of population (Dwarf, Goblin, Human, Elf, etc.)
+3. Goods produced and goods required (Mining town, Farming town, Blacksmith)
