@@ -8,7 +8,7 @@ from time import gmtime, strftime
 root = tk.Tk()
 tearlist = []
 monsterlist = []
-class Person():
+class Battle():
     def __init__(self):
         global roomc, person
         self.shotspeed = 3.2
@@ -160,16 +160,45 @@ class Person():
         for i in range(len(tearlist)):
             print(tearlist)
             try:
+
                 self.tearx = roomc.coords(tearlist[i])[0]
                 self.teary = roomc.coords(tearlist[i])[1]
             except:
-                print()
+                pass
             if self.tearx<38 or self.tearx>self.tsize*2-55 or self.teary>self.tsize-50 or self.teary<38:
                 try:
                     roomc.delete(tearlist[i])
                     tearlist.pop(i)
                 except:
-                    print()
+                    pass
+            for j in range(len(monsterlist)):
+                try:
+                    self.bbox = roomc.bbox(monsterlist[j])
+                except:
+                    pass
+                if self.tearx>self.bbox[0] and self.tearx<self.bbox[2] and self.teary>self.bbox[1] and self.teary<self.bbox[3]:
+                    try:
+                        roomc.delete(tearlist[i])
+                        tearlist.pop(i)
+                        roomc.delete(monsterlist[j])
+                        monsterlist.pop(j)
+                    except:
+                        pass
+        for i in range(len(monsterlist)//2):
+            for k in range(len(monsterlist)//2,len(monsterlist)):
+                if abs(roomc.coords(monsterlist[i])[0]-roomc.coords(monsterlist[k])[0])<70 and abs(roomc.coords(monsterlist[i])[1]-roomc.coords(monsterlist[k])[1])<60:
+                    if roomc.coords(monsterlist[i])[0]>roomc.coords(monsterlist[k])[0]:
+                        roomc.move(monsterlist[i],1,0)
+                        roomc.move(monsterlist[k],-1,0)
+                    if roomc.coords(monsterlist[i])[0]<roomc.coords(monsterlist[k])[0]:
+                        roomc.move(monsterlist[i],-10,0)
+                        roomc.move(monsterlist[k],10,0)
+                    if roomc.coords(monsterlist[i])[1] > roomc.coords(monsterlist[k])[1]:
+                        roomc.move(monsterlist[i], 0, 1)
+                        roomc.move(monsterlist[k], 0, -1)
+                    if roomc.coords(monsterlist[i])[1] < roomc.coords(monsterlist[k])[1]:
+                        roomc.move(monsterlist[i], 0, -1)
+                        roomc.move(monsterlist[k], 0, 1)
 
     def update(self):
         self.move()
@@ -219,18 +248,20 @@ class Enemy:
     def chase(self):
         self.pos=roomc.coords(self.bat)[0:2]
         self.playerpos = roomc.coords(person)[0:2]
-        if self.pos[0] > self.playerpos[0]:
-            roomc.move(self.bat,-self.speed,0)
-        if self.pos[0] < self.playerpos[0]:
-            roomc.move(self.bat,self.speed,0)
-        if self.pos[1] > self.playerpos[1]:
-            roomc.move(self.bat,0,-self.speed)
-        if self.pos[1] < self.playerpos[1]:
-            roomc.move(self.bat,0,self.speed)
+        try:
+            if self.pos[0] > self.playerpos[0]:
+                roomc.move(self.bat,-self.speed,0)
+            if self.pos[0] < self.playerpos[0]:
+                roomc.move(self.bat,self.speed,0)
+            if self.pos[1] > self.playerpos[1]:
+                roomc.move(self.bat,0,-self.speed)
+            if self.pos[1] < self.playerpos[1]:
+                roomc.move(self.bat,0,self.speed)
+        except:
+            pass
 
 
-
-isaac = Person()
+battle = Battle()
 bat =Enemy(1,500,250)
-bat2 =Enemy(1,400,250)
+bat2 =Enemy(1,450,100)
 root.mainloop()
