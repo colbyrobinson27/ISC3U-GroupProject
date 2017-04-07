@@ -7,6 +7,7 @@ import random
 from time import gmtime, strftime
 root = tk.Tk()
 tearlist = []
+monsterlist = []
 class Person():
     def __init__(self):
         global roomc, person
@@ -205,6 +206,7 @@ class Enemy:
             self.img = PhotoImage(file = "./FatBat.png")
             self.img=self.img.zoom(2,2)
             self.bat = roomc.create_image(x,y,image=self.img)
+            monsterlist.append(self.bat)
             self.health =4
             self.speed = 1
             self.update()
