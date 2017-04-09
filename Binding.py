@@ -260,7 +260,8 @@ class Enemy:
         except:
             pass
 
-
+def bounce(distance, time,canvas,object):
+    canvas.move(object)
 battle = Battle()
 bat =Enemy(1,500,250)
 bat2 =Enemy(1,450,100)
