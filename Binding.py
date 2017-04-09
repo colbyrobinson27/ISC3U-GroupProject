@@ -69,6 +69,7 @@ class Battle():
         root.bind("<KeyRelease-Right>", self.rightup)
         root.bind("<KeyRelease-Up>", self.upup)
         root.bind("<KeyRelease-Down>", self.downup)
+
         self.update()
         self.shoot()
 
@@ -110,6 +111,7 @@ class Battle():
             roomc.move(person,0,-self.speed)
             self.xspeed = 0
             self.yspeed = -self.speed/2
+
 
     def leftup(self,*args):
         self.shootleft = False
@@ -237,31 +239,45 @@ class Enemy:
             self.bat = roomc.create_image(x,y,image=self.img)
             monsterlist.append(self.bat)
             self.health =4
-            self.speed = 1
+            self.speed = 2
+            self.speedgain = 0.05
+            self.xspeed=self.speed
+            self.yspeed = self.speed
             self.update()
 
     def update(self):
         self.chase()
-
+        self.move()
         root.after(17,self.update)
+
+    def move(self):
+        roomc.move(self.bat,self.xspeed,self.yspeed)
 
     def chase(self):
         self.pos=roomc.coords(self.bat)[0:2]
         self.playerpos = roomc.coords(person)[0:2]
         try:
             if self.pos[0] > self.playerpos[0]:
-                roomc.move(self.bat,-self.speed,0)
+                self.xspeed+=-self.speedgain
             if self.pos[0] < self.playerpos[0]:
-                roomc.move(self.bat,self.speed,0)
+                self.xspeed += self.speedgain
             if self.pos[1] > self.playerpos[1]:
-                roomc.move(self.bat,0,-self.speed)
+                self.yspeed += -self.speedgain
             if self.pos[1] < self.playerpos[1]:
-                roomc.move(self.bat,0,self.speed)
+                self.yspeed += self.speedgain
+
+            if self.xspeed>self.speed:
+                self.xspeed=self.speed
+            elif self.xspeed<-self.speed:
+                self.xspeed=-self.speed
+            if self.yspeed>self.speed:
+                self.yspeed=self.speed
+            elif self.yspeed<-self.speed:
+                self.yspeed=-self.speed
         except:
             pass
 
-def bounce(distance, time,canvas,object):
-    canvas.move(object)
+
 battle = Battle()
 bat =Enemy(1,500,250)
 bat2 =Enemy(1,450,100)
