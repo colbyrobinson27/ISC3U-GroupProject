@@ -7,7 +7,7 @@ import random
 from time import gmtime, strftime
 root = tk.Tk()
 tearlist = []
-monsterlist = []
+
 class Battle():
     def __init__(self):
         global roomc, person
@@ -23,7 +23,7 @@ class Battle():
         self.timer=0
         self.xspeed = 0
         self.yspeed = 0
-
+        self.monsterlist=[]
 
         self.imgRight=PhotoImage(file="./WarRight.png")
         self.imgLeft = PhotoImage(file="./WarLeft.png")
@@ -69,6 +69,8 @@ class Battle():
         root.bind("<KeyRelease-Right>", self.rightup)
         root.bind("<KeyRelease-Up>", self.upup)
         root.bind("<KeyRelease-Down>", self.downup)
+
+        self.monsterlist.append(Enemy(1, self.tsize / 4, self.tsize / 2))
 
         self.update()
         self.shoot()
@@ -173,34 +175,34 @@ class Battle():
                     tearlist.pop(i)
                 except:
                     pass
-            for j in range(len(monsterlist)):
+            for j in range(len(self.monsterlist)):
                 try:
-                    self.bbox = roomc.bbox(monsterlist[j])
+                    self.bbox = roomc.bbox(self.monsterlist[j].bat)
                 except:
                     pass
                 if self.tearx>self.bbox[0] and self.tearx<self.bbox[2] and self.teary>self.bbox[1] and self.teary<self.bbox[3]:
                     try:
                         roomc.delete(tearlist[i])
                         tearlist.pop(i)
-                        roomc.delete(monsterlist[j])
-                        monsterlist.pop(j)
+                        roomc.delete(self.monsterlist[j].bat)
+                        self.monsterlist.pop(j)
                     except:
                         pass
-        for i in range(len(monsterlist)//2):
-            for k in range(len(monsterlist)//2,len(monsterlist)):
-                if abs(roomc.coords(monsterlist[i])[0]-roomc.coords(monsterlist[k])[0])<70 and abs(roomc.coords(monsterlist[i])[1]-roomc.coords(monsterlist[k])[1])<60:
-                    if roomc.coords(monsterlist[i])[0]>roomc.coords(monsterlist[k])[0]:
-                        roomc.move(monsterlist[i],1,0)
-                        roomc.move(monsterlist[k],-1,0)
-                    if roomc.coords(monsterlist[i])[0]<roomc.coords(monsterlist[k])[0]:
-                        roomc.move(monsterlist[i],-10,0)
-                        roomc.move(monsterlist[k],10,0)
-                    if roomc.coords(monsterlist[i])[1] > roomc.coords(monsterlist[k])[1]:
-                        roomc.move(monsterlist[i], 0, 1)
-                        roomc.move(monsterlist[k], 0, -1)
-                    if roomc.coords(monsterlist[i])[1] < roomc.coords(monsterlist[k])[1]:
-                        roomc.move(monsterlist[i], 0, -1)
-                        roomc.move(monsterlist[k], 0, 1)
+        for i in range(len(self.monsterlist)//2):
+            for k in range(len(self.monsterlist)//2,len(self.monsterlist)):
+                if abs(roomc.coords(self.monsterlist[i].bat)[0]-roomc.coords(self.monsterlist[k].bat)[0])<70 and abs(roomc.coords(self.monsterlist[i].bat)[1]-roomc.coords(self.monsterlist[k].bat)[1])<60:
+                    if roomc.coords(self.monsterlist[i].bat)[0]>roomc.coords(self.monsterlist[k].bat)[0]:
+                        roomc.move(self.monsterlist[i].bat,1,0)
+                        roomc.move(self.monsterlist[k].bat,-1,0)
+                    if roomc.coords(self.monsterlist[i].bat)[0]<roomc.coords(self.monsterlist[k].bat)[0]:
+                        roomc.move(self.monsterlist[i].bat,-10,0)
+                        roomc.move(self.monsterlist[k].bat,10,0)
+                    if roomc.coords(self.monsterlist[i])[1] > roomc.coords(self.monsterlist[k].bat)[1]:
+                        roomc.move(self.monsterlist[i.bat], 0, 1)
+                        roomc.move(self.monsterlist[k].bat, 0, -1)
+                    if roomc.coords(self.monsterlist[i].bat)[1] < roomc.coords(self.monsterlist[k].bat)[1]:
+                        roomc.move(self.monsterlist[i.bat], 0, -1)
+                        roomc.move(self.monsterlist[k.bat], 0, 1)
 
     def update(self):
         self.move()
@@ -237,7 +239,6 @@ class Enemy:
             self.img = PhotoImage(file = "./FatBat.png")
             self.img=self.img.zoom(2,2)
             self.bat = roomc.create_image(x,y,image=self.img)
-            monsterlist.append(self.bat)
             self.health =4
             self.speed = 2
             self.speedgain = 0.05
@@ -274,12 +275,10 @@ class Enemy:
                 self.yspeed=self.speed
             elif self.yspeed<-self.speed:
                 self.yspeed=-self.speed
-                print ()
+
         except:
             pass
 
 
 battle = Battle()
-bat =Enemy(1,500,250)
-bat2 =Enemy(1,450,100)
 root.mainloop()
