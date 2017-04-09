@@ -274,6 +274,7 @@ class Enemy:
                 self.yspeed=self.speed
             elif self.yspeed<-self.speed:
                 self.yspeed=-self.speed
+                print ()
         except:
             pass
 
