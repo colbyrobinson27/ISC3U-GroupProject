@@ -1,18 +1,19 @@
 import random
 import tkinter as tk
+root = tk.Tk()
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
     #This here is the initialization function. It is what is run when the class is initially started, and is where we initialize all of the local variables being used here
     def __init__(self):
         #This is where we create the tkinter, or GUI, window. We do this through the tkinter class, which we have imported as tk as seen below
-        self.root = tk.Tk()
+        global C1
         #This sets the size of the tkinter window
-        self.root.geometry("1000x804")
+        root.geometry("1000x804")
         #This is the canvas, which is where all of the graphics for the game are painted
-        self.C1 = tk.Canvas(self.root)
-        self.C1.pack()
-        self.C1.place(width = 360,height = 360, x = 0, y = 0)
-        self.C1.config(bg = "Black")
+        C1 = tk.Canvas(root)
+        C1.pack()
+        C1.place(width = 360,height = 360, x = 0, y = 0)
+        C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
         self.x = 2160
         self.y = 2160
@@ -24,14 +25,14 @@ class App():
         self.cMR = True
         self.cML = True
         #These are keybinds. They use tkinter to bind certain keys to certain functions. We have bound all arrow keys on press and on release at the moment
-        self.root.bind("<Left>",self.onLeftPress)
-        self.root.bind("<Right>",self.onRightPress)
-        self.root.bind("<Up>", self.onUpPress)
-        self.root.bind("<Down>", self.onDownPress)
-        self.root.bind("<KeyRelease-Left>",self.onLeftUp)
-        self.root.bind("<KeyRelease-Right>", self.onRightUp)
-        self.root.bind("<KeyRelease-Down>", self.onDownUp)
-        self.root.bind("<KeyRelease-Up>", self.onUpUp)
+        root.bind("<Left>",self.onLeftPress)
+        root.bind("<Right>",self.onRightPress)
+        root.bind("<Up>", self.onUpPress)
+        root.bind("<Down>", self.onDownPress)
+        root.bind("<KeyRelease-Left>",self.onLeftUp)
+        root.bind("<KeyRelease-Right>", self.onRightUp)
+        root.bind("<KeyRelease-Down>", self.onDownUp)
+        root.bind("<KeyRelease-Up>", self.onUpUp)
         #this is where we import images from the game folder, and assign them to variables
         self.floorImage = tk.PhotoImage(file = ".\GrassFloor1.png")
         self.wallImage = tk.PhotoImage(file = ".\WallSketch5.png")
@@ -49,17 +50,17 @@ class App():
         for i in range(self.mapsize):
             for g in range(self.mapsize):
                 if (self.map[i][g] == "CaveWall-Middle"):
-                    self.C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
+                    C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
                 else:
-                    self.C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
+                    C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
         #We tag all of the pieces of the map as "map" now so that we can move them all without moving the player, as instead of moving a player and having to redraw the screen
         #we can simply move the tiles around the player to give semblence of movement
-        self.C1.addtag_all("map")
+        C1.addtag_all("map")
         #Here we draw the player in the center of the screen
-        self.C1.create_image(180,180,image = self.player)
+        C1.create_image(180,180,image = self.player)
         self.timer_tick()
     def run(self):
-        self.root.mainloop()
+        root.mainloop()
     def generateCave(self,size):
         map = []
         # This forloop adds enough lists to our map lists for all the Xs and Ys of the map. This creates a 2 dimensional list thats variables can be accessed by typing self.map[y][x]
@@ -121,7 +122,7 @@ class App():
     def timer_tick(self):
 
 
-        self.root.after(50,self.timer_tick)
+        root.after(50,self.timer_tick)
     def nextTo(self,list,x,y,n):
         ans = 0
         if  x > 0 and list[y][x-1] == n :
@@ -155,7 +156,7 @@ class App():
         if self.x <= 0:
             self.loadSection("-x")
         elif self.cML and self.map[self.y//24][(self.x-24)//24] != "CaveWall-Middle":
-                self.C1.move("map", 24, 0)
+                C1.move("map", 24, 0)
                 self.x -= 24
         self.cML = False
 
@@ -163,14 +164,14 @@ class App():
         if self.x >= - 24 + self.mapsize * 24:
             self.loadSection("+x")
         if self.cMR and self.map[self.y//24][(self.x+24)//24] != "CaveWall-Middle":
-                self.C1.move("map", -24, 0)
+                C1.move("map", -24, 0)
                 self.x += 24
         self.cMR = False
     def onUpPress(self,*args):
         if self.y <= 0:
             self.loadSection("-y")
         elif self.cMU and self.map[(self.y-24)//24][self.x//24] != "CaveWall-Middle":
-                self.C1.move("map", 0, 24)
+                C1.move("map", 0, 24)
                 self.y -= 24
         self.cMU = False
     def onDownPress(self,*args):
@@ -178,7 +179,7 @@ class App():
         if self.y >=  - 24 + self.mapsize * 24:
             self.loadSection("+y")
         elif self.cMD and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
-                self.C1.move("map", 0, -24)
+                C1.move("map", 0, -24)
                 self.y+=24
         self.cMD = False
     def onLeftUp(self,*args):
@@ -193,25 +194,28 @@ class App():
         print("hi")
         self.areaList[11][10] = self.generateCave(100)
 
-        self.C1.delete('all')
+        C1.delete('all')
         if dir == "+y":
             self.mapy +=1
+            self.y = len(self.areaList[self.mapy][self.mapx])
 
         if dir == "-y":
             self.mapy -=1
-
+            self.y = 0
         if dir == "+x":
             self.mapx +=1
-
+            self.x = len(self.areaList[self.mapy][self.mapx][0])
         if dir == "-x":
             self.map -=1
+            self.x = 0
         self.map = self.areaList[self.mapy][self.mapx]
         for i in range(self.mapsize):
             for g in range(self.mapsize):
                 if (self.map[i][g] == "CaveWall-Middle"):
-                    self.C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
+                    C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
                 else:
-                    self.C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
-
+                    C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
+        C1.addtag_all("map")
+        C1.create_image(180, 180, image=self.player)
 app = App()
 app.run()
