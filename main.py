@@ -1,7 +1,8 @@
 import random
 import tkinter as tk
-import enemyData as eD
+import EnemyData as eD
 import Biomes as bI
+import Binding as binding
 root = tk.Tk()
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
@@ -10,7 +11,7 @@ class App():
         #This is where we create the tkinter, or GUI, window. We do this through the tkinter class, which we have imported as tk as seen below
         global C1, enemyList
         #This sets the size of the tkinter window
-        root.geometry("1000x804")
+        root.geometry("1400x804")
         #This is the canvas, which is where all of the graphics for the game are painted
         C1 = tk.Canvas(root)
         C1.pack()
@@ -23,11 +24,11 @@ class App():
         self.mapy = 10
         enemyList = []
 
-        #Here is just variables that are used to stop players from holding down a key and moving extremely fast, not too much to worry about
-        self.cMU = True
         self.cMD = True
         self.cMR = True
         self.cML = True
+        #Here is just variables that are used to stop players from holding down a key and moving extremely fast, not too much to worry about
+        self.cMU = True
         #These are keybinds. They use tkinter to bind certain keys to certain functions. We have bound all arrow keys on press and on release at the moment
         root.bind("<Left>",self.onLeftPress)
         root.bind("<Right>",self.onRightPress)
@@ -58,7 +59,7 @@ class App():
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
                 else:
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
-        enemyList.append(eD.Enemy(C1,"cave-spider"))
+        enemyList.append(eD.Enemy(C1,"FatBat"))
 
 
         #We tag all of the pieces of the map as "map" now so that we can move them all without moving the player, as instead of moving a player and having to redraw the screen
@@ -162,6 +163,10 @@ class App():
         C1.addtag_all("map")
         C1.create_image(180, 180, image=self.player)
     def NPCInteractions(self,*args):
-        print(eD.eNT(self.playerImage,enemyList,C1))
+        response = eD.eNT(self.playerImage,enemyList,C1)
+        if response != "":
+            if response == "FatBat":
+                eD.FatBat()
+                battle1 = binding.Battle(root)
 app = App()
 app.run()

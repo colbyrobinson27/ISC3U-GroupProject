@@ -5,8 +5,7 @@ from tkinter import *
 import math
 import random
 
-root = tk.Tk()
-tearlist = []
+
 
 class Player():
     def __init__(self,char):
@@ -17,7 +16,10 @@ class Player():
             self.armour = 0
 
 class Battle():
-    def __init__(self):
+    def __init__(self,root):
+        global root1, tearlist
+        root1 = root
+        tearlist = []
         global roomc, person
         self.shotspeed = 5
         self.tears = 40
@@ -49,9 +51,11 @@ class Battle():
         self.fatBat = self.fatBat.zoom(2,2)
         self.floorimg = PhotoImage(file="./floor.png")
         self.floorimg=self.floorimg.zoom(2,1)
-        root.config(width=self.tsize*2,height = self.tsize)
-        roomc=Canvas(width=self.tsize*2,height=self.tsize,bg="#9e570c")
+        root1.config(width=self.tsize*2,height = self.tsize)
+        roomc=Canvas(root1)
+
         roomc.pack()
+        roomc.place(width=self.tsize * 2, height=self.tsize)
         roomc.create_image(self.tsize,self.tsize/2,image=self.floorimg)
         person = roomc.create_image(self.tsize,self.tsize/2,image = self.imgDown)
 
@@ -66,24 +70,25 @@ class Battle():
         self.s = False
         self.w = False
 
-        root.bind("<a>", self.adef)
-        root.bind("<w>", self.wdef)
-        root.bind("<s>", self.sdef)
-        root.bind("<d>", self.ddef)
-        root.bind("<KeyRelease-a>", self.aup)
-        root.bind("<KeyRelease-d>", self.dup)
-        root.bind("<KeyRelease-w>", self.wup)
-        root.bind("<KeyRelease-s>", self.sup)
-        root.bind("<Left>",self.left)
-        root.bind("<Up>", self.up)
-        root.bind("<Down>", self.down)
-        root.bind("<Right>", self.right)
-        root.bind("<KeyRelease-Left>",self.leftup)
-        root.bind("<KeyRelease-Right>", self.rightup)
-        root.bind("<KeyRelease-Up>", self.upup)
-        root.bind("<KeyRelease-Down>", self.downup)
+        root1.bind("<a>", self.adef)
+        root1.bind("<w>", self.wdef)
+        root1.bind("<s>", self.sdef)
+        root1.bind("<d>", self.ddef)
+        root1.bind("<KeyRelease-a>", self.aup)
+        root1.bind("<KeyRelease-d>", self.dup)
+        root1.bind("<KeyRelease-w>", self.wup)
+        root1.bind("<KeyRelease-s>", self.sup)
+        root1.bind("<Left>",self.left)
+        root1.bind("<Up>", self.up)
+        root1.bind("<Down>", self.down)
+        root1.bind("<Right>", self.right)
+        root1.bind("<KeyRelease-Left>",self.leftup)
+        root1.bind("<KeyRelease-Right>", self.rightup)
+        root1.bind("<KeyRelease-Up>", self.upup)
+        root1.bind("<KeyRelease-Down>", self.downup)
 
         self.monsterlist.append(Enemy(1, self.tsize / 1, self.tsize / 2))
+        print(self.monsterlist[0].speed)
         self.monsterlist.append(Enemy(1, self.tsize / 2, self.tsize / 2))
         self.monsterlist.append(Enemy(1, self.tsize / 3, self.tsize / 2))
         #self.monsterlist.append(Enemy(1, self.tsize / 4, self.tsize / 2))
@@ -267,7 +272,7 @@ class Battle():
 
 
 
-        root.after(17,self.update)
+        root1.after(17,self.update)
 
 
 
@@ -284,25 +289,25 @@ class Tear():
 
     def update(self):
         self.move()
-        root.after(17,self.update)
+        root1.after(17,self.update)
     def move(self):
         roomc.move(self.tear,self.xspeed,self.yspeed)
 
 
 class Enemy:
     def __init__(self,num,x,y):
-        if num ==1: #FatBat
-            self.img = PhotoImage(file = "./FatBat.png")
-            self.img=self.img.zoom(2,2)
-            self.bat = roomc.create_image(x,y,image=self.img)
-            self.health =50
-            self.speed = 2.5
-            self.speedgain = 0.05
-            self.xspeed=self.speed
-            self.yspeed = self.speed
-            self.damagetimer = 0
-            self.hit = 0
-            self.update()
+
+        self.img = PhotoImage(file = "./FatBat.png")
+        self.img=self.img.zoom(2,2)
+        self.bat = roomc.create_image(x,y,image=self.img)
+        self.health =50
+        self.speed = 2.5
+        self.speedgain = 0.05
+        self.xspeed=self.speed
+        self.yspeed = self.speed
+        self.damagetimer = 0
+        self.hit = 0
+        self.update()
 
     def update(self):
         self.damagetimer+=1
@@ -311,7 +316,7 @@ class Enemy:
         if self.damagetimer >4:
             roomc.itemconfig(self.bat, image=self.img)
 
-        root.after(17,self.update)
+        root1.after(17,self.update)
 
     def move(self):
         roomc.move(self.bat,self.xspeed,self.yspeed)
@@ -342,5 +347,4 @@ class Enemy:
             pass
 
 
-battle = Battle()
-root.mainloop()
+
