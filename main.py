@@ -1,6 +1,7 @@
 import random
 import tkinter as tk
 import enemyData as eD
+import Biomes as bI
 root = tk.Tk()
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
@@ -45,11 +46,11 @@ class App():
         for i in range(50):
             self.areaList.append([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
         #This is the map list; it is where we put all of the 0s and 1s that make up the cave walls and floors
-        self.map = []
+
         #This is the size of the map, it is used for all kinds of calculations and for generating the map
         self.mapsize = 100
-        self.map = self.generateCave(self.mapsize)
-        self.areaList[10][10] = self.map
+        self.areaList[self.mapy][self.mapx] = bI.Biome("cave",100,100)
+        self.map = self.areaList[self.mapy][self.mapx].map
         #This forloor draws everything that is in the self.map variable to the screen (tk.C1). It uses a camera offset of 7 x and 7 y tiles in order to set the players position onscreen equal to the self.x and self.y variables
         for i in range(self.mapsize):
             for g in range(self.mapsize):
@@ -68,64 +69,7 @@ class App():
         self.timer_tick()
     def run(self):
         root.mainloop()
-    def generateCave(self,size):
-        map = []
-        # This forloop adds enough lists to our map lists for all the Xs and Ys of the map. This creates a 2 dimensional list thats variables can be accessed by typing self.map[y][x]
-        # outside of this function, or map[y][x] inside of the function. This is how we easily set up a 2d world
-        for i in range(size):
-            map.append([])
-            #This loop randomly adds a floor of wall to the embedded lists
-            for g in range(size):
 
-                #This gives the game walls with 40% probability and floors with 60% so we decrease the fill percentage in order to create a flowing cave environment
-                if random.randint(0,4)//3 == 0:
-                    #Throughout the project we will be using names for tiles as seen below
-                    map[i].append("CaveWall-Middle")
-                else:
-                    map[i].append("Grass-Dark")
-        #this is the first of 2 procedures to generate the caves. Logic is make it a floor if 5 or more in 1 distance of tile are floors or there re no floors within 2 distance of floor, with a few minor if statements that give tweaks and flow to the
-        #cave system
-        for h in range(4):
-            for i in range(size):
-                for g in range(size):
-                    #print(g)
-
-                    if self.nextTo2(1,map,g,i,"Grass-Dark") >=5 or self.nextTo2(2,map,g,i,"Grass-Dark") <=2:
-                        map[i][g] = "Grass-Dark"
-                        #minor change, maks it a wall if there are less than 3 grass tiles within 1 area
-                    elif self.nextTo2(1,map,g,i,"Grass-Dark") <=2:
-                        map[i][g] = "CaveWall-Middle"
-        #Second procedure, logic is the same as the first except without setting it to a floor if there are no floors within 2 distance. This time however we set all tiles that arent being set to a floor to a wall
-        for h in range(3):
-            for i in range(size):
-                for g in range(size):
-                    # print(g)
-
-                    if self.nextTo2(1, map, g, i, "Grass-Dark") >= 5:
-                        map[i][g] = "Grass-Dark"
-                    else:
-                        map[i][g] = "CaveWall-Middle"
-        #This sets all the borders of the map to walls so that for the time being the player cannot wander off the side of the map
-        #for i in range(size):
-         #   for g in range(size):
-                #or i == size-1
-          #      if i ==0  or g == 0 or g == size-1:
-           #         map[i][g] = "CaveWall-Middle"
-        print(map[99])
-
-        #This section only serves to print the entire map line by line to the console, is only useful for debugging and will be removed when the game is finished
-        curstring = ""
-        for i in range(size):
-
-            curstring = ""
-            for g in range(size):
-                if map[i][g] == "CaveWall-Middle":
-
-                    curstring += "#"
-                else:
-                    curstring += "."
-            print(curstring)
-        return map
     def timer_tick(self):
 
 
@@ -149,14 +93,7 @@ class App():
         if  x > 0 and y < self.mapsize-1 and list[y+1][x-1] == n :
             ans +=1
         return ans
-    def nextTo2(self,scale,list,x,y,n):
-        ans = 0
-        for i in range(-scale,scale+1,1):
-            for g in range(-scale,scale+1,1):
-                if x + g >= 0 and x + g <= self.mapsize-1 and y + i >= 0 and y + i <= self.mapsize-1 and list[y+i][x+g] == n:
 
-                    ans += 1
-        return ans
 
 
     def onLeftPress(self,*args):
@@ -199,7 +136,7 @@ class App():
         self.cMU = True
     def loadSection(self,dir):
         print("hi")
-        self.areaList[11][10] = self.generateCave(100)
+        self.areaList[11][10] = bI.Biome("cave",100,100)
 
         C1.delete('all')
         if dir == "+y":
