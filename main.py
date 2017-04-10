@@ -1,12 +1,13 @@
 import random
 import tkinter as tk
+import enemyData as eD
 root = tk.Tk()
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
     #This here is the initialization function. It is what is run when the class is initially started, and is where we initialize all of the local variables being used here
     def __init__(self):
         #This is where we create the tkinter, or GUI, window. We do this through the tkinter class, which we have imported as tk as seen below
-        global C1
+        global C1, enemyList
         #This sets the size of the tkinter window
         root.geometry("1000x804")
         #This is the canvas, which is where all of the graphics for the game are painted
@@ -19,6 +20,8 @@ class App():
         self.y = 2160
         self.mapx = 10
         self.mapy = 10
+        enemyList = []
+
         #Here is just variables that are used to stop players from holding down a key and moving extremely fast, not too much to worry about
         self.cMU = True
         self.cMD = True
@@ -29,6 +32,7 @@ class App():
         root.bind("<Right>",self.onRightPress)
         root.bind("<Up>", self.onUpPress)
         root.bind("<Down>", self.onDownPress)
+        root.bind("<z>",self.NPCInteractions)
         root.bind("<KeyRelease-Left>",self.onLeftUp)
         root.bind("<KeyRelease-Right>", self.onRightUp)
         root.bind("<KeyRelease-Down>", self.onDownUp)
@@ -53,11 +57,14 @@ class App():
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
                 else:
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
+        enemyList.append(eD.Enemy(C1,"cave-spider"))
+
+
         #We tag all of the pieces of the map as "map" now so that we can move them all without moving the player, as instead of moving a player and having to redraw the screen
         #we can simply move the tiles around the player to give semblence of movement
         C1.addtag_all("map")
         #Here we draw the player in the center of the screen
-        C1.create_image(180,180,image = self.player)
+        self.playerImage = C1.create_image(180,180,image = self.player)
         self.timer_tick()
     def run(self):
         root.mainloop()
@@ -197,17 +204,17 @@ class App():
         C1.delete('all')
         if dir == "+y":
             self.mapy +=1
-            self.y = len(self.areaList[self.mapy][self.mapx])
+            self.y = 0
 
         if dir == "-y":
             self.mapy -=1
-            self.y = 0
+            self.y = len(self.areaList[self.mapy][self.mapx])*24 -24
         if dir == "+x":
             self.mapx +=1
-            self.x = len(self.areaList[self.mapy][self.mapx][0])
+            self.x = 0
         if dir == "-x":
             self.map -=1
-            self.x = 0
+            self.x = len(self.areaList[self.mapy][self.mapx][0])*24 -24
         self.map = self.areaList[self.mapy][self.mapx]
         for i in range(self.mapsize):
             for g in range(self.mapsize):
@@ -217,5 +224,7 @@ class App():
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
         C1.addtag_all("map")
         C1.create_image(180, 180, image=self.player)
+    def NPCInteractions(self,*args):
+        print(eD.eNT(self.playerImage,enemyList,C1))
 app = App()
 app.run()
