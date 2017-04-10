@@ -13,3 +13,5 @@ class Enemy(object):
         if type == "cave-spider":
             self.image = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
             self.pos = canvas.create_image(12,12,image = self.image)
+            self.health = 10
+            self.damage = 4
