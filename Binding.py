@@ -12,8 +12,8 @@ tearlist = []
 class Battle():
     def __init__(self):
         global roomc, person
-        self.shotspeed = 40
-        self.tears = 1
+        self.shotspeed = 5
+        self.tears = 30
         self.speed =5
         self.damage = 1
         self.luck = 1
