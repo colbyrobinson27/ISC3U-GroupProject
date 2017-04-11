@@ -7,7 +7,7 @@ class Biome():
         self.hostility = 0
         if type == "cave":
             self.map = self.generateCave()
-            self.hostility = 2
+            #self.hostility = 2
             self.biome = "cave"
     def generateCave(self):
         map = []

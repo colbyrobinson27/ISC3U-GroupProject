@@ -50,7 +50,11 @@ class App():
 
         #This is the size of the map, it is used for all kinds of calculations and for generating the map
         self.mapsize = 100
+        bI.Biome.hostility = 100
         self.areaList[self.mapy][self.mapx] = bI.Biome("cave",100,100)
+
+        print(bI.Biome.hostility)
+        print(self.areaList[self.mapy][self.mapx].hostility)
         self.map = self.areaList[self.mapy][self.mapx].map
         #This forloor draws everything that is in the self.map variable to the screen (tk.C1). It uses a camera offset of 7 x and 7 y tiles in order to set the players position onscreen equal to the self.x and self.y variables
         for i in range(self.mapsize):
