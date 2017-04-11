@@ -172,6 +172,6 @@ class App():
             if response == "FatBat":
 
                 battle1 = binding.Battle(root)
-                eD.FatBat(1)
+                eD.FatBat(3)
 app = App()
 app.run()

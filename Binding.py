@@ -17,7 +17,7 @@ class Player():
 
 class Battle():
     def __init__(self,root):
-        global root1, tearlist
+        global root1, tearlist, monsterlist
         root1 = root
         tearlist = []
         global roomc, person
@@ -35,7 +35,7 @@ class Battle():
         self.xspeed = 0
         self.yspeed = 0
 
-        self.monsterlist=[]
+        monsterlist=[]
         self.fatBat = PhotoImage(file="./FatBat.png")
         self.fatBatDamage = PhotoImage(file="./FatBatDamage.png")
         self.imgRight=PhotoImage(file="./WarRight.png")
@@ -169,7 +169,7 @@ class Battle():
             roomc.itemconfig(person, image=self.imgDown)
 
     def returnsprite(self, num):
-        roomc.itemconfig(self.monsterlist[num].bat, image=self.fatBat)
+        roomc.itemconfig(monsterlist[num].bat, image=self.fatBat)
         print("nope")
 
     def collision(self):
@@ -196,27 +196,27 @@ class Battle():
                     tearlist.pop(i)
                 except:
                     pass
-            for j in range(len(self.monsterlist)):
+            for j in range(len(monsterlist)):
 
                 try:
-                    self.bbox = roomc.bbox(self.monsterlist[j].bat)
+                    self.bbox = roomc.bbox(monsterlist[j].bat)
                 except:
                     pass
                 if self.tearx>self.bbox[0] and self.tearx<self.bbox[2] and self.teary>self.bbox[1] and self.teary<self.bbox[3]:
                     try:
 
-                        self.monsterlist[j].xspeed = tearlist[i].xspeed * self.knockback
-                        self.monsterlist[j].yspeed = tearlist[i].yspeed * self.knockback
+                        monsterlist[j].xspeed = tearlist[i].xspeed * self.knockback
+                        monsterlist[j].yspeed = tearlist[i].yspeed * self.knockback
                         roomc.delete(tearlist[i].tear)
                         tearlist.pop(i)
-                        self.monsterlist[j].hit += 1
+                        monsterlist[j].hit += 1
 
-                        roomc.itemconfig(self.monsterlist[j].bat, image=self.fatBatDamage)
-                        self.monsterlist[j].damagetimer = 0
+                        roomc.itemconfig(monsterlist[j].bat, image=self.fatBatDamage)
+                        monsterlist[j].damagetimer = 0
 
-                        if self.monsterlist[j].hit == self.monsterlist[j].health:
-                            roomc.delete(self.monsterlist[j].bat)
-                            self.monsterlist.pop(j)
+                        if monsterlist[j].hit == monsterlist[j].health:
+                            roomc.delete(monsterlist[j].bat)
+                            monsterlist.pop(j)
 
 
                     except:
@@ -224,36 +224,36 @@ class Battle():
 
 
 
-        for i in range(len(self.monsterlist)-1):
-            for k in range((len(self.monsterlist))-1,0,-1):
-                if abs(roomc.coords(self.monsterlist[i].bat)[0]-roomc.coords(self.monsterlist[k].bat)[0])<70 and abs(roomc.coords(self.monsterlist[i].bat)[1]-roomc.coords(self.monsterlist[k].bat)[1])<60:
-                    if roomc.coords(self.monsterlist[i].bat)[0]>roomc.coords(self.monsterlist[k].bat)[0]:
-                        self.monsterlist[i].xspeed = 1
-                        self.monsterlist[k].xspeed = -1
-                    if roomc.coords(self.monsterlist[i].bat)[0]<roomc.coords(self.monsterlist[k].bat)[0]:
-                        self.monsterlist[i].xspeed = -1
-                        self.monsterlist[k].xspeed = 1
-                    if roomc.coords(self.monsterlist[i].bat)[1] > roomc.coords(self.monsterlist[k].bat)[1]:
-                        self.monsterlist[i].yspeed = 1
-                        self.monsterlist[k].yspeed = -1
-                    if roomc.coords(self.monsterlist[i].bat)[1] < roomc.coords(self.monsterlist[k].bat)[1]:
-                        self.monsterlist[i].yspeed = -1
-                        self.monsterlist[k].yspeed = 1
-        for i in range(len(self.monsterlist)):
+        for i in range(len(monsterlist)-1):
+            for k in range((len(monsterlist))-1,0,-1):
+                if abs(roomc.coords(monsterlist[i].bat)[0]-roomc.coords(monsterlist[k].bat)[0])<70 and abs(roomc.coords(monsterlist[i].bat)[1]-roomc.coords(monsterlist[k].bat)[1])<60:
+                    if roomc.coords(monsterlist[i].bat)[0]>roomc.coords(monsterlist[k].bat)[0]:
+                        monsterlist[i].xspeed = 1
+                        monsterlist[k].xspeed = -1
+                    if roomc.coords(monsterlist[i].bat)[0]<roomc.coords(monsterlist[k].bat)[0]:
+                        monsterlist[i].xspeed = -1
+                        monsterlist[k].xspeed = 1
+                    if roomc.coords(monsterlist[i].bat)[1] > roomc.coords(monsterlist[k].bat)[1]:
+                        monsterlist[i].yspeed = 1
+                        monsterlist[k].yspeed = -1
+                    if roomc.coords(monsterlist[i].bat)[1] < roomc.coords(monsterlist[k].bat)[1]:
+                        monsterlist[i].yspeed = -1
+                        monsterlist[k].yspeed = 1
+        for i in range(len(monsterlist)):
             self.x = roomc.coords(person)[0]
             self.y = roomc.coords(person)[1]
-            if abs(roomc.coords(self.monsterlist[i].bat)[0]-self.x)<70 and abs(roomc.coords(self.monsterlist[i].bat)[1]-self.y)<60:
-                if roomc.coords(self.monsterlist[i].bat)[0]>self.x:
-                    self.monsterlist[i].xspeed = 1
+            if abs(roomc.coords(monsterlist[i].bat)[0]-self.x)<70 and abs(roomc.coords(monsterlist[i].bat)[1]-self.y)<60:
+                if roomc.coords(monsterlist[i].bat)[0]>self.x:
+                    monsterlist[i].xspeed = 2
                     roomc.move(person,-2,0)
-                if roomc.coords(self.monsterlist[i].bat)[0]<self.x:
-                    self.monsterlist[i].xspeed = -1
+                if roomc.coords(monsterlist[i].bat)[0]<self.x:
+                    monsterlist[i].xspeed = -2
                     roomc.move(person, 2, 0)
-                if roomc.coords(self.monsterlist[i].bat)[1] > self.y:
-                    self.monsterlist[i].yspeed = 1
+                if roomc.coords(monsterlist[i].bat)[1] > self.y:
+                    monsterlist[i].yspeed = 2
                     roomc.move(person, 0,-2)
-                if roomc.coords(self.monsterlist[i].bat)[1] < self.y:
-                    self.monsterlist[i].yspeed = -1
+                if roomc.coords(monsterlist[i].bat)[1] < self.y:
+                    monsterlist[i].yspeed = -2
                     roomc.move(person, 0,2)
 
     def update(self):
@@ -290,11 +290,12 @@ class Tear():
 
 
 class Enemy:
-    def __init__(self,num,x,y):
+    def __init__(self,x,y):
 
         self.img = PhotoImage(file = "./FatBat.png")
         self.img=self.img.zoom(2,2)
         self.bat = roomc.create_image(x,y,image=self.img)
+
         self.health =50
         self.speed = 2.5
         self.speedgain = 0.05
