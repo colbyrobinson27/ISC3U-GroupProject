@@ -170,7 +170,8 @@ class App():
         response = eD.eNT(self.playerImage,enemyList,C1)
         if response != "":
             if response == "FatBat":
-                eD.FatBat()
+
                 battle1 = binding.Battle(root)
+                eD.FatBat(1)
 app = App()
 app.run()

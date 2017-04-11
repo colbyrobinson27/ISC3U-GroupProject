@@ -13,14 +13,19 @@ class Enemy(object):
 
         if type == "FatBat":
             self.img = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
-            self.pos = canvas.create_image(12,12,image = self.img)
+            self.pos = canvas.create_image(1,1,image = self.img)
             self.health = 50
             self.damage = 4
             self.type = type
-def FatBat():
-    binding.Enemy.img = tk.PhotoImage(file="./FatBat.png")
-    binding.Enemy.img = binding.Enemy.img.zoom(2, 2)
-    binding.Enemy.health = 50
-    binding.Enemy.speed = 20.5
-    binding.Enemy.speedgain = 0.05
-    binding.Enemy.damage = 5
+
+def FatBat(num):
+    for i in range(num):
+            enemylist = []
+            enemylist.append(binding.Enemy(1,50,50))
+            enemylist[i].img = tk.PhotoImage(file="./FatBat.png")
+            enemylist[i].img = enemylist[i].img.zoom(2, 2)
+            enemylist[i].health = 1
+            enemylist[i].speed = 3
+            enemylist[i].speedgain = 0.05
+            enemylist[i].damage = 5
+

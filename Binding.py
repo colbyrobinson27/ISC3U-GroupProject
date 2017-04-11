@@ -87,11 +87,6 @@ class Battle():
         root1.bind("<KeyRelease-Up>", self.upup)
         root1.bind("<KeyRelease-Down>", self.downup)
 
-        self.monsterlist.append(Enemy(1, self.tsize / 1, self.tsize / 2))
-        print(self.monsterlist[0].speed)
-        self.monsterlist.append(Enemy(1, self.tsize / 2, self.tsize / 2))
-        self.monsterlist.append(Enemy(1, self.tsize / 3, self.tsize / 2))
-        #self.monsterlist.append(Enemy(1, self.tsize / 4, self.tsize / 2))
 
         self.update()
         self.shoot()
