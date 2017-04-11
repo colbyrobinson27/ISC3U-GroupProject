@@ -15,7 +15,7 @@ class Enemy(object):
 
         if type == "FatBat":
             self.img = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
-            self.pos = canvas.create_image(24,24,image = self.img)
+            self.pos = canvas.create_image(12,12,image = self.img)
             self.type = type
 
 def FatBat(num):
@@ -23,7 +23,7 @@ def FatBat(num):
             binding.monsterlist.append(binding.Enemy(enemypositionsx[random.randint(0,22)],enemypositionsy[random.randint(0,10)]))
             binding.monsterlist[i].img = tk.PhotoImage(file="./FatBat.png")
             binding.monsterlist[i].img = binding.monsterlist[i].img.zoom(2, 2)
-            binding.monsterlist[i].health = 100
+            binding.monsterlist[i].health = 3
             binding.monsterlist[i].speed = 3
             binding.monsterlist[i].speedgain = 0.05
             binding.monsterlist[i].damage = 5
