@@ -15,7 +15,7 @@ class Enemy(object):
 
         if type == "FatBat":
             self.img = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
-            self.pos = canvas.create_image(12,12,image = self.img)
+            self.pos = canvas.create_image(180,180,image = self.img)
             self.type = type
 
 def FatBat(num):
