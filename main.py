@@ -11,11 +11,11 @@ class App():
         #This is where we create the tkinter, or GUI, window. We do this through the tkinter class, which we have imported as tk as seen below
         global C1, enemyList
         #This sets the size of the tkinter window
-        root.geometry("1400x804")
+        root.geometry("1280x640")
         #This is the canvas, which is where all of the graphics for the game are painted
         C1 = tk.Canvas(root)
         C1.pack()
-        C1.place(width = 360,height = 360, x = 0, y = 0)
+        C1.place(width = 360,height = 360, x = 460, y = 0)
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
         self.x = 2160
