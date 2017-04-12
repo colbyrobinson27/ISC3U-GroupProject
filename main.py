@@ -19,7 +19,7 @@ class App():
         C1.place(width = 360,height = 360, x = 460, y = 0)
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
-        self.x = 2160
+        self.x = 96
         self.y = 2160
 
         enemyList = []
@@ -112,7 +112,7 @@ class App():
         self.cML = False
 
     def onRightPress(self,*args):
-        if self.x >= - 24 + self.mapsize * 24:
+        if self.x >=   len(bI.areaList[bI.mapy][bI.mapx].map) * 24:
             self.loadSection("+x")
         if self.cMR and self.map[self.y//24][(self.x+24)//24] != "CaveWall-Middle":
                 C1.move("map", -24, 0)
@@ -127,7 +127,7 @@ class App():
         self.cMU = False
     def onDownPress(self,*args):
         #print((self.y+24)//24,self.x//24)
-        if self.y >=  - 24 + self.mapsize * 24:
+        if self.y >=  - 24 + len(bI.areaList[bI.mapy][bI.mapx].map[self.y//24]) * 24:
             self.loadSection("+y")
         elif self.cMD and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
                 C1.move("map", 0, -24)
@@ -158,7 +158,7 @@ class App():
             self.x = 0
         if dir == "-x":
             bI.mapx -=1
-            self.x = len(bI.areaList[bI.mapy][bI.mapx].map[self.x//24])*24 -24
+            self.x = len(bI.areaList[bI.mapy][bI.mapx].map[self.y//24])*24 -24
 
 
         #print(bI.areaList[11][10].biome)
