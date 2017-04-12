@@ -4,6 +4,7 @@ import EnemyData as eD
 import Biomes as bI
 import Binding as binding
 root = tk.Tk()
+
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
     #This here is the initialization function. It is what is run when the class is initially started, and is where we initialize all of the local variables being used here
@@ -20,8 +21,7 @@ class App():
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
         self.x = 2160
         self.y = 2160
-        self.mapx = 10
-        self.mapy = 10
+
         enemyList = []
 
         self.cMD = True
@@ -43,22 +43,24 @@ class App():
         self.floorImage = tk.PhotoImage(file = ".\GrassFloor1.png")
         self.wallImage = tk.PhotoImage(file = ".\WallSketch5.png")
         self.player = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
-        self.areaList = []
-        for i in range(50):
-            self.areaList.append([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+
+
         #This is the map list; it is where we put all of the 0s and 1s that make up the cave walls and floors
 
         #This is the size of the map, it is used for all kinds of calculations and for generating the map
         self.mapsize = 100
         bI.Biome.hostility = 100
-        self.areaList[self.mapy][self.mapx] = bI.Biome("cave",100,100)
-
-        print(bI.Biome.hostility)
-        print(self.areaList[self.mapy][self.mapx].hostility)
-        self.map = self.areaList[self.mapy][self.mapx].map
+        bI.createSegment("cave",100,100,True,True,True,True,bI.mapx,bI.mapy)
+        bI.createSegment("cave", 1, 1, True, True, True, True, 10, 11)
+        bI.createSegment("cave", 1, 1, True, True, True, True, 10, 9)
+        bI.createSegment("cave", 1, 1, True, True, True, True, 11, 10)
+        bI.createSegment("cave", 1, 1, True, True, True, True, 9, 10)
+        #print(bI.Biome.hostility)
+        #print(bI.areaList[bI.mapy][bI.mapx].hostility)
+        self.map = bI.areaList[bI.mapy][bI.mapx].map
         #This forloor draws everything that is in the self.map variable to the screen (tk.C1). It uses a camera offset of 7 x and 7 y tiles in order to set the players position onscreen equal to the self.x and self.y variables
         for i in range(self.mapsize):
-            for g in range(self.mapsize):
+            for g in range(len(self.map[i])):
                 if (self.map[i][g] == "CaveWall-Middle"):
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
                 else:
@@ -141,25 +143,29 @@ class App():
         self.cMU = True
     def loadSection(self,dir):
         print("hi")
-        self.areaList[11][10] = bI.Biome("cave",100,100)
+        #bI.areaList[11][10] = bI.Biome("cave",100,100,True,True,True,True)
 
         C1.delete('all')
         if dir == "+y":
-            self.mapy +=1
+            bI.mapy +=1
             self.y = 0
 
         if dir == "-y":
-            self.mapy -=1
-            self.y = len(self.areaList[self.mapy][self.mapx])*24 -24
+            bI.mapy -=1
+            self.y = len(bI.areaList[bI.mapy][bI.mapx].map)*24 -24
         if dir == "+x":
-            self.mapx +=1
+            bI.mapx +=1
             self.x = 0
         if dir == "-x":
-            self.map -=1
-            self.x = len(self.areaList[self.mapy][self.mapx][0])*24 -24
-        self.map = self.areaList[self.mapy][self.mapx]
-        for i in range(self.mapsize):
-            for g in range(self.mapsize):
+            bI.mapx -=1
+            self.x = len(bI.areaList[bI.mapy][bI.mapx].map[self.x//24])*24 -24
+
+
+        #print(bI.areaList[11][10].biome)
+        #print(bI.areaList[11][10].map)
+        self.map = bI.areaList[bI.mapy][bI.mapx].map
+        for i in range(len(self.map)):
+            for g in range(len(self.map[i])):
                 if (self.map[i][g] == "CaveWall-Middle"):
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
                 else:
@@ -173,5 +179,7 @@ class App():
 
                 battle1 = binding.Battle(root)
                 eD.FatBat(3)
+
+
 app = App()
 app.run()

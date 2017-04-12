@@ -1,14 +1,73 @@
 import random
+areaList = []
+mapx = 10
+mapy = 10
+for i in range(50):
+    areaList.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 class Biome():
-    def __init__(self,type,x,y):
+    def __init__(self,type,x,y,left,right,top,bottom,xpos,ypos):
+
         self.map = []
         self.x = x
         self.y = y
+        self.left = left
+        self.bottom = bottom
+        self.top = top
+        self.right = right
         self.hostility = 0
+        self.integrated = False
+
+        self.biome = ""
         if type == "cave":
             self.map = self.generateCave()
             #self.hostility = 2
             self.biome = "cave"
+
+
+        try:
+
+            print(areaList[ypos-1][xpos].biome)
+            if areaList[ypos-1][xpos].biome == "cave" and areaList[ypos-1][xpos].bottom:
+                #print("anywhere pls")
+                self.map.reverse()
+                self.map.append(areaList[ypos-1][xpos].map[areaList[ypos-1][xpos].y - 1])
+                self.map.reverse()
+        except:
+            print("nonExistent")
+        try:
+            if areaList[ypos+1][xpos].biome == "cave" and areaList[ypos+1][xpos].top:
+                self.map.reverse()
+                #print("well we made it...")
+                self.map.append(areaList[ypos+1][xpos].map[0])
+                self.map.reverse()
+        except:
+            print("nonExistent")
+        try:
+            if areaList[ypos][xpos+1].biome == "cave" and areaList[ypos][xpos+1].left:
+                if len(areaList[ypos][xpos+1].map) > len(self.map):
+                    for i in range(len(areaList[ypos][xpos+1].map) - len(self.map)):
+                        self.map.append([])
+
+                for i in range(len(areaList[ypos][xpos+1].map)):
+                    self.map[i].reverse()
+                    self.map[i].append(areaList[ypos][xpos+1].map[i][len(areaList[ypos][xpos+1].map[i])-1])
+                    self.map[i].reverse()
+
+
+        except:
+            print("nonExistent")
+        try:
+            if areaList[ypos][xpos - 1].biome == "cave" and areaList[ypos][xpos - 1].right:
+                if len(areaList[ypos][xpos -1].map) > len(self.map):
+                    for i in range(len(areaList[ypos][xpos -1].map) - len(self.map)):
+                        self.map.append([])
+
+                for i in range(len(areaList[ypos][xpos -1].map)):
+
+                    self.map[i].append(areaList[ypos][xpos - 1].map[i][0])
+
+        except:
+            print("nonExistent")
     def generateCave(self):
         map = []
         # This forloop adds enough lists to our map lists for all the Xs and Ys of the map. This creates a 2 dimensional list thats variables can be accessed by typing self.map[y][x]
@@ -48,12 +107,21 @@ class Biome():
                     else:
                         map[i][g] = "CaveWall-Middle"
                         # This sets all the borders of the map to walls so that for the time being the player cannot wander off the side of the map
-                        # for i in range(size):
-                        #   for g in range(size):
-                        # or i == size-1
-                        #      if i ==0  or g == 0 or g == size-1:
-                        #         map[i][g] = "CaveWall-Middle"
-        print(map[99])
+        if self.left != True:
+            for i in range(self.y):
+                map[i][0] = "CaveWall-Middle"
+
+
+        if self.right != True:
+            for i in range(self.y):
+                map[i][self.x-1] = "CaveWall-Middle"
+        if self.bottom != True:
+            for i in range(self.x):
+                map[self.y-1][i] = "CaveWall-Middle"
+        if self.top != True:
+            for i in range(self.x):
+                map[0][i] = "CaveWall-Middle"
+        #print(map[99])
 
         # This section o the entire map line by line to the console, is only useful for debugging and will be removed when the game is finished
 
@@ -66,3 +134,5 @@ class Biome():
 
                     ans += 1
         return ans
+def createSegment(type,xsize,ysize,left,right,top,bottom,x,y):
+    areaList[y][x] = Biome(type,xsize,ysize,left,right,top,bottom,x,y)
