@@ -1,7 +1,8 @@
 import random
 import tkinter as tk
-import enemyData as eD
+import EnemyData as eD
 import Biomes as bI
+import Binding as binding
 root = tk.Tk()
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
@@ -10,11 +11,11 @@ class App():
         #This is where we create the tkinter, or GUI, window. We do this through the tkinter class, which we have imported as tk as seen below
         global C1, enemyList
         #This sets the size of the tkinter window
-        root.geometry("1000x804")
+        root.geometry("1280x640")
         #This is the canvas, which is where all of the graphics for the game are painted
         C1 = tk.Canvas(root)
         C1.pack()
-        C1.place(width = 360,height = 360, x = 0, y = 0)
+        C1.place(width = 360,height = 360, x = 460, y = 0)
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
         self.x = 2160
@@ -23,11 +24,11 @@ class App():
         self.mapy = 10
         enemyList = []
 
-        #Here is just variables that are used to stop players from holding down a key and moving extremely fast, not too much to worry about
-        self.cMU = True
         self.cMD = True
         self.cMR = True
         self.cML = True
+        #Here is just variables that are used to stop players from holding down a key and moving extremely fast, not too much to worry about
+        self.cMU = True
         #These are keybinds. They use tkinter to bind certain keys to certain functions. We have bound all arrow keys on press and on release at the moment
         root.bind("<Left>",self.onLeftPress)
         root.bind("<Right>",self.onRightPress)
@@ -49,7 +50,11 @@ class App():
 
         #This is the size of the map, it is used for all kinds of calculations and for generating the map
         self.mapsize = 100
+        bI.Biome.hostility = 100
         self.areaList[self.mapy][self.mapx] = bI.Biome("cave",100,100)
+
+        print(bI.Biome.hostility)
+        print(self.areaList[self.mapy][self.mapx].hostility)
         self.map = self.areaList[self.mapy][self.mapx].map
         #This forloor draws everything that is in the self.map variable to the screen (tk.C1). It uses a camera offset of 7 x and 7 y tiles in order to set the players position onscreen equal to the self.x and self.y variables
         for i in range(self.mapsize):
@@ -58,7 +63,7 @@ class App():
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
                 else:
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
-        enemyList.append(eD.Enemy(C1,"cave-spider"))
+        enemyList.append(eD.Enemy(C1,"FatBat"))
 
 
         #We tag all of the pieces of the map as "map" now so that we can move them all without moving the player, as instead of moving a player and having to redraw the screen
@@ -162,6 +167,11 @@ class App():
         C1.addtag_all("map")
         C1.create_image(180, 180, image=self.player)
     def NPCInteractions(self,*args):
-        print(eD.eNT(self.playerImage,enemyList,C1))
+        response = eD.eNT(self.playerImage,enemyList,C1)
+        if response != "":
+            if response == "FatBat":
+
+                battle1 = binding.Battle(root)
+                eD.FatBat(3)
 app = App()
 app.run()
