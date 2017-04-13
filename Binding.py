@@ -4,6 +4,7 @@ from tkinter.scrolledtext import ScrolledText
 from tkinter import *
 import math
 import random
+import Player as p
 
 
 
@@ -38,10 +39,10 @@ class Battle():
         monsterlist=[]
         self.fatBat = PhotoImage(file="./FatBat.png")
         self.fatBatDamage = PhotoImage(file="./FatBatDamage.png")
-        self.imgRight=PhotoImage(file="./WarRight.png")
-        self.imgLeft = PhotoImage(file="./WarLeft.png")
-        self.imgUp = PhotoImage(file="./WarUp.png")
-        self.imgDown = PhotoImage(file="./WarDown.png")
+        self.imgRight= p.player.battleright
+        self.imgLeft = p.player.battleleft
+        self.imgUp = p.player.battleup
+        self.imgDown = p.player.battledown
 
         self.imgDown = self.imgDown.zoom(3, 3)
         self.imgUp = self.imgUp.zoom(3, 3)
