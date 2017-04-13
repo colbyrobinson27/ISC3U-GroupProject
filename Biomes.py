@@ -45,12 +45,13 @@ class Biome():
         try:
             if areaList[ypos][xpos+1].biome == "cave" and areaList[ypos][xpos+1].left:
                 if len(areaList[ypos][xpos+1].map) > len(self.map):
+
                     for i in range(len(areaList[ypos][xpos+1].map) - len(self.map)):
                         self.map.append([])
 
                 for i in range(len(areaList[ypos][xpos+1].map)):
                     self.map[i].reverse()
-                    self.map[i].append(areaList[ypos][xpos+1].map[i][len(areaList[ypos][xpos+1].map[i])-1])
+                    self.map[i].append(areaList[ypos][xpos+1].map[i][0])
                     self.map[i].reverse()
 
 
@@ -64,7 +65,7 @@ class Biome():
 
                 for i in range(len(areaList[ypos][xpos -1].map)):
 
-                    self.map[i].append(areaList[ypos][xpos - 1].map[i][0])
+                    self.map[i].append(areaList[ypos][xpos - 1].map[i][len(areaList[ypos][xpos+1].map[i])-1])
 
         except:
             print("nonExistent")
@@ -121,6 +122,16 @@ class Biome():
         if self.top != True:
             for i in range(self.x):
                 map[0][i] = "CaveWall-Middle"
+        for i in range(self.y):
+
+            curstring = ""
+            for g in range(self.x):
+                if map[i][g] == "CaveWall-Middle":
+
+                    curstring += "#"
+                else:
+                    curstring += "."
+            #print(curstring)
         #print(map[99])
 
         # This section o the entire map line by line to the console, is only useful for debugging and will be removed when the game is finished

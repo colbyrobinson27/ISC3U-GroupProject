@@ -19,8 +19,8 @@ class App():
         C1.place(width = 360,height = 360, x = 460, y = 0)
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
-        self.x = 96
-        self.y = 2160
+        self.x = 960
+        self.y = 960
 
         enemyList = []
 
@@ -65,14 +65,16 @@ class App():
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
                 else:
                     C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
-        enemyList.append(eD.Enemy(C1,"FatBat"))
-
-
+        enemyList.append(eD.Enemy(C1,"FatBat",180,180))
+        self.spawnMonsters(18,18)
+        print(len(enemyList))
+        print(C1.coords(enemyList[len(enemyList)-1].pos))
         #We tag all of the pieces of the map as "map" now so that we can move them all without moving the player, as instead of moving a player and having to redraw the screen
         #we can simply move the tiles around the player to give semblence of movement
         C1.addtag_all("map")
         #Here we draw the player in the center of the screen
         self.playerImage = C1.create_image(180,180,image = self.player)
+
         self.timer_tick()
     def run(self):
         root.mainloop()
@@ -112,9 +114,9 @@ class App():
         self.cML = False
 
     def onRightPress(self,*args):
-        if self.x >=   len(bI.areaList[bI.mapy][bI.mapx].map) * 24:
+        if self.x >=   (len(bI.areaList[bI.mapy][bI.mapx].map[self.y//24]) * 24)-24:
             self.loadSection("+x")
-        if self.cMR and self.map[self.y//24][(self.x+24)//24] != "CaveWall-Middle":
+        elif self.cMR and self.map[self.y//24][(self.x+24)//24] != "CaveWall-Middle":
                 C1.move("map", -24, 0)
                 self.x += 24
         self.cMR = False
@@ -127,7 +129,7 @@ class App():
         self.cMU = False
     def onDownPress(self,*args):
         #print((self.y+24)//24,self.x//24)
-        if self.y >=  - 24 + len(bI.areaList[bI.mapy][bI.mapx].map[self.y//24]) * 24:
+        if self.y >=  - 24 + len(bI.areaList[bI.mapy][bI.mapx].map) * 24:
             self.loadSection("+y")
         elif self.cMD and self.map[(self.y+24)//24][self.x//24] != "CaveWall-Middle":
                 C1.move("map", 0, -24)
@@ -179,6 +181,25 @@ class App():
 
                 battle1 = binding.Battle(root)
                 eD.FatBat(3)
+    def spawnMonsters(self,xscan,yscan):
+        spawned = False
+        yZones = len(self.map)//yscan
+
+        for i in range(yZones):
+            xZones = len(self.map[i])//xscan
+            for g in range(xZones):
+                spawned = False
+                for h in range(yscan):
+                    if spawned != True:
+                        for b in range(xscan):
+                            if spawned != True:
+                                if self.map[i*yscan+h][g*xscan+b] == "Grass-Dark":
+                                    enemyList.append(eD.Enemy(C1,"FatBat",(g*xscan+b)*24-self.x + 7*24 + 12,(i*yscan+h)*24 - self.y + 7*24 + 12))
+
+                                    spawned = True
+
+
+
 
 
 app = App()
