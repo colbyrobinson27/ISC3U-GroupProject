@@ -10,12 +10,12 @@ def eNT(player,list,canvas):
 enemypositionsx = [50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200]
 enemypositionsy = [50,100,150,200,250,300,350,400,450,500,550,600]
 class Enemy(object):
-    def __init__(self,canvas,type):
+    def __init__(self,canvas,type,x,y):
 
 
         if type == "FatBat":
             self.img = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
-            self.pos = canvas.create_image(180,180,image = self.img)
+            self.pos = canvas.create_image(x,y,image = self.img)
             self.type = type
 
 def FatBat(num):
