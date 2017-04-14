@@ -41,3 +41,15 @@ class Player():
         self.battleup = tk.PhotoImage(file="./WarUp.png")
         self. battledown = tk.PhotoImage(file="./WarDown.png")
 player = Player()
+class Items():
+    def __init__(self, name, attack, armor, type):
+        self.name = name
+        self.attack = attack
+        self.armor = armor
+        self.type = type
+class Inventory():
+    def __init__(self):
+        self.items = {}
+    def additem(self, item):
+        self.items[item.name] = item
+playerinventory = Inventory()
