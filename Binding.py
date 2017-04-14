@@ -34,7 +34,7 @@ class Battle():
         self.timer=0
         self.xspeed = 0
         self.yspeed = 0
-
+        self.health = 100
         monsterlist=[]
         self.fatBat = PhotoImage(file="./FatBat.png")
         self.fatBatDamage = PhotoImage(file="./FatBatDamage.png")
@@ -51,15 +51,15 @@ class Battle():
         self.fatBat = self.fatBat.zoom(2,2)
         self.floorimg = PhotoImage(file="./floor.png")
         self.floorimg=self.floorimg.zoom(2,1)
-        root1.config(width=self.tsize*2,height = self.tsize)
+        root1.config(width=self.tsize*2,height = self.tsize+80)
         roomc=Canvas(root1)
 
         roomc.pack()
-        roomc.place(width=self.tsize * 2, height=self.tsize)
+        roomc.config(width=self.tsize * 2, height=self.tsize+80)
         roomc.create_image(self.tsize,self.tsize/2,image=self.floorimg)
         person = roomc.create_image(self.tsize,self.tsize/2,image = self.imgDown)
 
-
+        self.healthbar = roomc.create_rectangle(20,self.tsize+30,self.health,self.tsize+60)
         self.shootleft=False
         self.shootright=False
         self.shootdown=False
