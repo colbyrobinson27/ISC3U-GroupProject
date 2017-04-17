@@ -36,10 +36,10 @@ class Biome():
             print("nonExistent")
         try:
             if areaList[ypos+1][xpos].biome == "cave" and areaList[ypos+1][xpos].top:
-                self.map.reverse()
+
                 #print("well we made it...")
                 self.map.append(areaList[ypos+1][xpos].map[0])
-                self.map.reverse()
+                
         except:
             print("nonExistent")
         try:
