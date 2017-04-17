@@ -1,9 +1,11 @@
 import random
 import tkinter as tk
 import EnemyData as eD
+root = tk.Tk()
 import Biomes as bI
 import Binding as binding
-root = tk.Tk()
+import math
+
 
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
@@ -16,12 +18,18 @@ class App():
         #This is the canvas, which is where all of the graphics for the game are painted
         C1 = tk.Canvas(root)
         C1.pack()
-        C1.place(width = 360,height = 360, x = 460, y = 0)
+        self.width = 360
+        self.height = 360
+        C1.place(width = 360,height = self.width, x = 460, y = 0)
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
         self.x = 960
         self.y = 960
-
+        self.PX = 50
+        self.PY = 50
+        self.VIEWRANGE = 5
+        self.VIEWMAP = [[0 for i in range(self.width)] for j in range(self.height)]
+        self.DRAWRANGE = int(self.width / 24)
         enemyList = []
 
         self.cMD = True
@@ -59,12 +67,13 @@ class App():
         #print(bI.areaList[bI.mapy][bI.mapx].hostility)
         self.map = bI.areaList[bI.mapy][bI.mapx].map
         #This forloor draws everything that is in the self.map variable to the screen (tk.C1). It uses a camera offset of 7 x and 7 y tiles in order to set the players position onscreen equal to the self.x and self.y variables
-        for i in range(self.mapsize):
-            for g in range(len(self.map[i])):
-                if (self.map[i][g] == "CaveWall-Middle"):
-                    C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
-                else:
-                    C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
+        #for i in range(self.mapsize):
+         #   for g in range(len(self.map[i])):
+          #      if (self.map[i][g] == "CaveWall-Middle"):
+           #         C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
+            #    else:
+             #       C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
+        self.draw()
         enemyList.append(eD.Enemy(C1,"FatBat",180,180))
         self.spawnMonsters(18,18)
         print(len(enemyList))
@@ -166,12 +175,13 @@ class App():
         #print(bI.areaList[11][10].biome)
         #print(bI.areaList[11][10].map)
         self.map = bI.areaList[bI.mapy][bI.mapx].map
-        for i in range(len(self.map)):
-            for g in range(len(self.map[i])):
-                if (self.map[i][g] == "CaveWall-Middle"):
-                    C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
-                else:
-                    C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
+        #for i in range(len(self.map)):
+          #  for g in range(len(self.map[i])):
+           #     if (self.map[i][g] == "CaveWall-Middle"):
+            #        C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.wallImage)
+             #   else:
+              #      C1.create_image(g*24+12-self.x + 7*24,i*24+12-self.y + 7*24,image = self.floorImage)
+        self.draw()
         C1.addtag_all("map")
         C1.create_image(180, 180, image=self.player)
     def NPCInteractions(self,*args):
@@ -198,7 +208,47 @@ class App():
 
                                     spawned = True
 
+    def calcFOV(self):  #By Rhys
+        print('RAN')
+        for i in range(360):
+            ax = math.sin(i)
+            ay = math.cos(i)
+            x = self.PX
+            y = self.PY
+            for j in range(self.VIEWRANGE):
+                x += ax
+                y += ay
+                if self.map[int(round(y))][int(round(x))].CAN_SEE == False:
+                    print(True)
+                    self.VIEWMAP[int(round(y))][int(round(x))] = 1
+                    break
+                elif x < 0 or y < 0 or x > self.width or y > self.height:
+                    break
+           # print(self.VIEWMAP)
 
+    def draw(self):  #By Rhys
+        self.calcFOV()
+        yCTR = 0
+
+        xCTR = 0
+        P = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
+
+        print(self.PY-self.DRAWRANGE)
+        for y in range((self.PY - self.DRAWRANGE), (self.PY + self.DRAWRANGE + 1)):
+            xCTR = 0
+            for x in range((self.PX - self.DRAWRANGE), (self.PX + self.DRAWRANGE + 1)):
+                if self.VIEWMAP[y][x] == 0:
+                    if x > self.width - 1 or x < 0 or y > self.height-1 or y < 0:
+                        continue
+                    else:
+
+                        C1.create_image(xCTR * 24 + 12, yCTR * 24 + 12, image=self.map[y][x].IMAGE_DIR)
+
+                xCTR += 1
+
+            yCTR += 1
+
+        self.VIEWMAP = [[0 for i in range(self.width)] for j in range(self.height)]
 
 
 

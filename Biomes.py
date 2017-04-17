@@ -1,4 +1,5 @@
 import random
+import Tiles as tiles
 areaList = []
 mapx = 10
 mapy = 10
@@ -69,6 +70,13 @@ class Biome():
 
         except:
             print("nonExistent")
+        self.objectify()
+    def objectify(self):
+        for y in range(len(self.map)):
+            for x in range(len(self.map[y])):
+                for i in range(len(tiles.tileSet)):
+                    if tiles.tileSet[i].CODE == self.map[y][x]:
+                        self.map[y][x] = tiles.tileSet[i]
     def generateCave(self):
         map = []
         # This forloop adds enough lists to our map lists for all the Xs and Ys of the map. This creates a 2 dimensional list thats variables can be accessed by typing self.map[y][x]
@@ -81,9 +89,9 @@ class Biome():
                 # This gives the game walls with 40% probability and floors with 60% so we decrease the fill percentage in order to create a flowing cave environment
                 if random.randint(0, 4) // 3 == 0:
                     # Throughout the project we will be using names for tiles as seen below
-                    map[i].append("CaveWall-Middle")
+                    map[i].append(1)
                 else:
-                    map[i].append("Grass-Dark")
+                    map[i].append(0)
         # this is the first of 2 procedures to generate the caves. Logic is make it a floor if 5 or more in 1 distance of tile are floors or there re no floors within 2 distance of floor, with a few minor if statements that give tweaks and flow to the
         # cave system
         for h in range(4):
@@ -91,42 +99,42 @@ class Biome():
                 for g in range(self.x):
                     # print(g)
 
-                    if self.nextTo2(1, map, g, i, "Grass-Dark") >= 5 or self.nextTo2(2, map, g, i,
-                                                                                     "Grass-Dark") <= 2:
-                        map[i][g] = "Grass-Dark"
+                    if self.nextTo2(1, map, g, i, 0) >= 5 or self.nextTo2(2, map, g, i,
+                                                                                     0) <= 2:
+                        map[i][g] = 0
                         # minor change, maks it a wall if there are less than 3 grass tiles within 1 area
-                    elif self.nextTo2(1, map, g, i, "Grass-Dark") <= 2:
-                        map[i][g] = "CaveWall-Middle"
+                    elif self.nextTo2(1, map, g, i, 0) <= 2:
+                        map[i][g] = 1
         # Second procedure, logic is the same as the first except without setting it to a floor if there are no floors within 2 distance. This time however we set all tiles that arent being set to a floor to a wall
         for h in range(3):
             for i in range(self.y):
                 for g in range(self.x):
                     # print(g)
 
-                    if self.nextTo2(1, map, g, i, "Grass-Dark") >= 5:
-                        map[i][g] = "Grass-Dark"
+                    if self.nextTo2(1, map, g, i, 0) >= 5:
+                        map[i][g] = 0
                     else:
-                        map[i][g] = "CaveWall-Middle"
+                        map[i][g] = 1
                         # This sets all the borders of the map to walls so that for the time being the player cannot wander off the side of the map
         if self.left != True:
             for i in range(self.y):
-                map[i][0] = "CaveWall-Middle"
+                map[i][0] = 1
 
 
         if self.right != True:
             for i in range(self.y):
-                map[i][self.x-1] = "CaveWall-Middle"
+                map[i][self.x-1] = 1
         if self.bottom != True:
             for i in range(self.x):
-                map[self.y-1][i] = "CaveWall-Middle"
+                map[self.y-1][i] = 1
         if self.top != True:
             for i in range(self.x):
-                map[0][i] = "CaveWall-Middle"
+                map[0][i] = 1
         for i in range(self.y):
 
             curstring = ""
             for g in range(self.x):
-                if map[i][g] == "CaveWall-Middle":
+                if map[i][g] == 1:
 
                     curstring += "#"
                 else:

@@ -102,7 +102,7 @@ class Map:
                         self.map[y][x] = 0
     def objectify(self):
         for y in range(len(self.map)):
-            for x in range(len(self.map[0])):
+            for x in range(len(self.map[y])):
                 for i in range(len(tileSet)):
                     if tileSet[i].CODE == self.map[y][x]:
                         self.map[y][x] = tileSet[i]
