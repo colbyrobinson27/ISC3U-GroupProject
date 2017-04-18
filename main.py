@@ -18,11 +18,9 @@ class App():
         #This is the canvas, which is where all of the graphics for the game are painted
         C1 = tk.Canvas(root)
         C1.pack()
-        self.width = 100
-        self.height = 100
-        self.mapHeight = 360
-        self.mapWidth = 360
-        C1.place(width = self.mapWidth,height = self.mapHeight, x = 460, y = 0)
+        self.width = 360
+        self.height = 360
+        C1.place(width = 360,height = self.width, x = 460, y = 0)
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
 
@@ -30,7 +28,7 @@ class App():
         self.PY = 50
         self.VIEWRANGE = 5
         self.VIEWMAP = [[1 for i in range(self.width)] for j in range(self.height)]
-        self.DRAWRANGE = self.mapWidth // 24
+        self.DRAWRANGE = int(self.width / 24)
         enemyList = []
 
         self.cMD = True
@@ -60,10 +58,10 @@ class App():
         self.mapsize = 100
         bI.Biome.hostility = 100
         bI.createSegment("cave",100,100,True,True,True,True,bI.mapx,bI.mapy)
-        bI.createSegment("cave", 1, 1, False, False, False, False, 10, 11)
-        bI.createSegment("cave", 1, 1, False, False, False, False, 10, 9)
-        bI.createSegment("cave", 1, 1, False, False, False, False, 11, 10)
-        bI.createSegment("cave", 1, 1, False, False, False, False, 9, 10)
+        bI.createSegment("cave", 1, 1, True, True, True, True, 10, 11)
+        bI.createSegment("cave", 1, 1, True, True, True, True, 10, 9)
+        bI.createSegment("cave", 1, 1, True, True, True, True, 11, 10)
+        bI.createSegment("cave", 1, 1, True, True, True, True, 9, 10)
         #print(bI.Biome.hostility)
         #print(bI.areaList[bI.mapy][bI.mapx].hostility)
         self.map = bI.areaList[bI.mapy][bI.mapx].map
@@ -75,7 +73,7 @@ class App():
             #    else:
              #       C1.create_image(g*24+12-self.PX + 7*24,i*24+12-self.PY + 7*24,image = self.floorImage)
         self.draw()
-
+        enemyList.append(eD.Enemy("FatBat",180,180))
         self.spawnMonsters(18,18)
         print(len(enemyList))
         #print(C1.coords(enemyList[len(enemyList)-1].pos))
@@ -116,34 +114,26 @@ class App():
 
 
     def onLeftPress(self,*args):
-        if self.PX <= 0:
-            self.loadSection("-x")
-        elif self.cML:
+        if self.cML:
             self.PX -= 1
             C1.delete("all")
             self.draw()
             self.cML = False
 
     def onRightPress(self,*args):
-        if self.PX >= self.width-1:
-            self.loadSection("+x")
-        elif self.cMR:
+        if self.cMR:
             self.PX +=1
             C1.delete("all")
             self.draw()
             self.cMR = False
     def onUpPress(self,*args):
-        if self.PY <= 0:
-            self.loadSection("-y")
-        elif self.cMU:
+        if self.cMU:
             self.PY -= 1
             C1.delete("all")
             self.draw()
             self.cMU = False
     def onDownPress(self,*args):
-        if self.PY >= self.height-1:
-            self.loadSection("+y")
-        elif self.cMD:
+        if self.cMD:
             self.PY += 1
             C1.delete("all")
             self.draw()
@@ -209,7 +199,7 @@ class App():
                             if spawned != True:
                                 if self.map[i*yscan+h][g*xscan+b].CODE == 0:
                                     enemyList.append(eD.Enemy("FatBat",g*xscan+b,i*yscan+h ))
-                                    print(g*xscan+b,i*yscan+h)
+
                                     spawned = True
 
     def calcFOV(self):  #By Rhys
@@ -235,12 +225,9 @@ class App():
            # print(self.VIEWMAP)
 
     def draw(self):  #By Rhys
-        self.VIEWMAP = [[0 for i in range(self.width)] for j in range(self.height)]
+        self.VIEWMAP = [[1 for i in range(self.width)] for j in range(self.height)]
         self.calcFOV()
-        try:
-            self.VIEWMAP[self.PY][self.PX] = 0
-        except:
-            print()
+        self.VIEWMAP[self.PY][self.PX] = 0
         yCTR = 0
 
         xCTR = 0
@@ -250,21 +237,15 @@ class App():
         for y in range((self.PY - self.DRAWRANGE//2), (self.PY + self.DRAWRANGE//2 + 1)):
             xCTR = 0
             for x in range((self.PX - self.DRAWRANGE//2), (self.PX + self.DRAWRANGE//2 + 1)):
-
-                try:
-                    if self.VIEWMAP[y][x] == 0:
-                        if x > self.width - 1 or x < 0 or y > self.height-1 or y < 0:
-                            xCTR += 1
-                            continue
-                        else:
-
+                if self.VIEWMAP[y][x] == 0:
+                    if x > self.width - 1 or x < 0 or y > self.height-1 or y < 0:
+                        continue
+                    else:
+                        try:
                             C1.create_image(xCTR * 24 + 12, yCTR * 24 + 12, image=self.map[y][x].IMAGE_DIR)
-                            xCTR += 1
-                except:
-                    xCTR += 1
-
-
-
+                        except:
+                            continue
+                xCTR += 1
 
             yCTR += 1
 
