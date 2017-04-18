@@ -35,6 +35,7 @@ class Battle():
         self.xspeed = 0
         self.yspeed = 0
         self.health = 100
+        self.damagetimer=0
         monsterlist=[]
         self.fatBat = PhotoImage(file="./FatBat.png")
         self.fatBatDamage = PhotoImage(file="./FatBatDamage.png")
@@ -59,7 +60,9 @@ class Battle():
         roomc.create_image(self.tsize,self.tsize/2,image=self.floorimg)
         person = roomc.create_image(self.tsize,self.tsize/2,image = self.imgDown)
 
-        self.healthbar = roomc.create_rectangle(20,self.tsize+30,self.health,self.tsize+60)
+        self.healthbar = roomc.create_rectangle(100,self.tsize+25,self.health*3+100,self.tsize+55,fill = "green")
+        self.healthLabel = Label(text="Health", font = ("papyrus",15))
+        self.healthLabel.place(x=30,y=self.tsize+25)
         self.shootleft=False
         self.shootright=False
         self.shootdown=False
@@ -246,15 +249,33 @@ class Battle():
                 if roomc.coords(monsterlist[i].bat)[0]>self.x:
                     monsterlist[i].xspeed = 2
                     roomc.move(person,-2,0)
+                    if self.damagetimer>10:
+                        self.damagetimer=0
+                        self.health += -monsterlist[i].damage
+                        roomc.coords(self.healthbar,100,self.tsize+25,self.health*3+100,self.tsize+55)
                 if roomc.coords(monsterlist[i].bat)[0]<self.x:
                     monsterlist[i].xspeed = -2
                     roomc.move(person, 2, 0)
+                    if self.damagetimer>20:
+                        self.damagetimer=0
+                        self.health += -monsterlist[i].damage
+                        roomc.coords(self.healthbar, 100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55)
                 if roomc.coords(monsterlist[i].bat)[1] > self.y:
                     monsterlist[i].yspeed = 2
                     roomc.move(person, 0,-2)
+
+                    if self.damagetimer>20:
+                        self.damagetimer=0
+                        self.health += -monsterlist[i].damage
+                        roomc.coords(self.healthbar, 100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55)
+
                 if roomc.coords(monsterlist[i].bat)[1] < self.y:
                     monsterlist[i].yspeed = -2
                     roomc.move(person, 0,2)
+                    if self.damagetimer>20:
+                        self.damagetimer=0
+                        self.health += -monsterlist[i].damage
+                        roomc.coords(self.healthbar, 100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55)
 
     def update(self):
 
@@ -264,7 +285,7 @@ class Battle():
         self.x = roomc.coords(person)[0]-10
         self.y = roomc.coords(person)[1]-10
         self.timer+=1
-
+        self.damagetimer+=1
 
 
         root1.after(17,self.update)
@@ -303,6 +324,7 @@ class Enemy:
         self.yspeed = self.speed
         self.damagetimer = 0
         self.hit = 0
+        self.damage = 15
         self.update()
 
     def update(self):
