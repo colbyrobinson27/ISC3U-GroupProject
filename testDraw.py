@@ -24,12 +24,14 @@ class App():
         self.root = tk.Tk()
         #This sets the size of the tkinter window
         self.root.geometry("1000x804")
-        self.width = 360
+        self.mapHeight = 360
+        self.mapWidth = self.mapHeight
+        self.width = 100
         self.height =self.width
         #This is the canvas, which is where all of the graphics for the game are painted
         self.C1 = tk.Canvas(self.root)
         self.C1.pack()
-        self.C1.place(width=self.width, height=self.height, x=0, y=0)
+        self.C1.place(width=self.mapWidth, height=self.mapHeight, x=0, y=0)
         self.C1.config(bg="Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
         self.x = 216
