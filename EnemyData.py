@@ -1,22 +1,27 @@
 import tkinter as tk
 import Binding as binding
 import random
-def eNT(player,list,canvas):
+def eNT(x,y,list):
+
     for i in range(len(list)):
-        if abs(canvas.coords(list[i].pos)[0]-canvas.coords(player)[0]) <= 24 and abs(canvas.coords(list[i].pos)[1]-canvas.coords(player)[1]) <=24:
+
+        if abs(x-list[i].x) <= 1 and abs(y-list[i].y) <=1:
             return list[i].type
         else:
-            return ""
+            continue
+    return ""
 enemypositionsx = [50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200]
 enemypositionsy = [50,100,150,200,250,300,350,400,450,500,550,600]
 class Enemy(object):
-    def __init__(self,canvas,type,x,y):
-
+    def __init__(self,type,x,y):
+        print(x,y)
 
         if type == "FatBat":
             self.img = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
-            self.pos = canvas.create_image(x,y,image = self.img)
+            #self.pos = canvas.create_image(x,y,image = self.img)
             self.type = type
+            self.x = x
+            self.y = y
 
 def FatBat(num):
     for i in range(num):
