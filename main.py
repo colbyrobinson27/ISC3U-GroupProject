@@ -29,7 +29,7 @@ class App():
         self.PX = 50
         self.PY = 50
         self.VIEWRANGE = 5
-        self.VIEWMAP = [[1 for i in range(self.width)] for j in range(self.height)]
+        self.VIEWMAP = [[0 for i in range(self.width)] for j in range(self.height)]
         self.DRAWRANGE = self.mapWidth // 24
         enemyList = []
 
@@ -77,6 +77,10 @@ class App():
         self.draw()
 
         self.spawnMonsters(18,18)
+        for i in range(len(enemyList)):
+            #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
+                #print(enemyList[i].x)
+            C1.create_image((enemyList[i].x-self.PX)*24 + 7*24 + 12,(enemyList[i].y-self.PY)*24 + 7*24 + 12, image = enemyList[i].img)
         print(len(enemyList))
         #print(C1.coords(enemyList[len(enemyList)-1].pos))
         #We tag all of the pieces of the map as "map" now so that we can move them all without moving the player, as instead of moving a player and having to redraw the screen
@@ -167,13 +171,13 @@ class App():
 
         if dir == "-y":
             bI.mapy -=1
-            self.PY = len(bI.areaList[bI.mapy][bI.mapx].map)*24 -24
+            self.PY = len(bI.areaList[bI.mapy][bI.mapx].map)-1
         if dir == "+x":
             bI.mapx +=1
             self.PX = 0
         if dir == "-x":
             bI.mapx -=1
-            self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//24])*24 -24
+            self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//24])
 
 
         #print(bI.areaList[11][10].biome)
@@ -186,8 +190,7 @@ class App():
              #   else:
               #      C1.create_image(g*24+12-self.PX + 7*24,i*24+12-self.PY + 7*24,image = self.floorImage)
         self.draw()
-        C1.addtag_all("map")
-        C1.create_image(180, 180, image=self.player)
+
     def NPCInteractions(self,*args):
         response = eD.eNT(self.PX,self.PY,enemyList)
         if response != "":
@@ -236,7 +239,7 @@ class App():
 
     def draw(self):  #By Rhys
         self.VIEWMAP = [[0 for i in range(self.width)] for j in range(self.height)]
-        self.calcFOV()
+        #self.calcFOV()
         try:
             self.VIEWMAP[self.PY][self.PX] = 0
         except:
@@ -270,9 +273,9 @@ class App():
 
 
         for i in range(len(enemyList)):
-            if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
+            #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
                 #print(enemyList[i].x)
-                C1.create_image((enemyList[i].x-self.PX)*24 + 7*24 + 12,(enemyList[i].y-self.PY)*24 + 7*24 + 12, image = enemyList[i].img)
+            C1.create_image((enemyList[i].x-self.PX)*24 + 7*24 + 12,(enemyList[i].y-self.PY)*24 + 7*24 + 12, image = enemyList[i].img)
         C1.create_image(180,180,image = self.player)
 
 app = App()
