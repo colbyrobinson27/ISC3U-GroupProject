@@ -18,6 +18,7 @@ class App():
         #This is the canvas, which is where all of the graphics for the game are painted
         C1 = tk.Canvas(root)
         C1.pack()
+        self.tileSize =32
         self.width = 100
         self.height = 100
         self.mapHeight = 440
@@ -30,7 +31,7 @@ class App():
         self.PY = 50
         self.VIEWRANGE = 5
         self.VIEWMAP = [[0 for i in range(self.width)] for j in range(self.height)]
-        self.DRAWRANGE = self.mapWidth // 40
+        self.DRAWRANGE = self.mapWidth // self.tileSize
         enemyList = []
 
         self.cMD = True
@@ -71,16 +72,16 @@ class App():
         #for i in range(self.mapsize):
          #   for g in range(len(self.map[i])):
           #      if (self.map[i][g] == "CaveWall-Middle"):
-           #         C1.create_image(g*40+12-self.PX + 7*40,i*40+12-self.PY + 7*40,image = self.wallImage)
+           #         C1.create_image(g*self.tileSize+12-self.PX + 7*self.tileSize,i*self.tileSize+12-self.PY + 7*self.tileSize,image = self.wallImage)
             #    else:
-             #       C1.create_image(g*40+12-self.PX + 7*40,i*40+12-self.PY + 7*40,image = self.floorImage)
+             #       C1.create_image(g*self.tileSize+12-self.PX + 7*self.tileSize,i*self.tileSize+12-self.PY + 7*self.tileSize,image = self.floorImage)
         self.draw()
 
         self.spawnMonsters(18,18)
         for i in range(len(enemyList)):
             #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
                 #print(enemyList[i].x)
-            C1.create_image((enemyList[i].x-self.PX)*40 + 7*40 + 20,(enemyList[i].y-self.PY)*40 + 7*40 + 20, image = enemyList[i].img)
+            C1.create_image((enemyList[i].x-self.PX)*self.tileSize + 7*self.tileSize + 20,(enemyList[i].y-self.PY)*self.tileSize + 7*self.tileSize + 20, image = enemyList[i].img)
         print(len(enemyList))
         #print(C1.coords(enemyList[len(enemyList)-1].pos))
         #We tag all of the pieces of the map as "map" now so that we can move them all without moving the player, as instead of moving a player and having to redraw the screen
@@ -242,7 +243,7 @@ class App():
             self.PX = 0
         if dir == "-x":
             bI.mapx -=1
-            self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//40])-1
+            self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//self.tileSize])-1
 
 
         #print(bI.areaList[11][10].biome)
@@ -252,9 +253,9 @@ class App():
         #for i in range(len(self.map)):
           #  for g in range(len(self.map[i])):
            #     if (self.map[i][g] == "CaveWall-Middle"):
-            #        C1.create_image(g*40+12-self.PX + 7*40,i*40+12-self.PY + 7*40,image = self.wallImage)
+            #        C1.create_image(g*self.tileSize+12-self.PX + 7*self.tileSize,i*self.tileSize+12-self.PY + 7*self.tileSize,image = self.wallImage)
              #   else:
-              #      C1.create_image(g*40+12-self.PX + 7*40,i*40+12-self.PY + 7*40,image = self.floorImage)
+              #      C1.create_image(g*self.tileSize+12-self.PX + 7*self.tileSize,i*self.tileSize+12-self.PY + 7*self.tileSize,image = self.floorImage)
         self.draw()
 
     def NPCInteractions(self,*args):
@@ -327,7 +328,7 @@ class App():
                         continue
                     else:
 
-                        C1.create_image(xCTR * 40 + 20, yCTR * 40 + 20, image=self.map[y][x].IMAGE_DIR)
+                        C1.create_image(xCTR * self.tileSize + 20, yCTR * self.tileSize + 20, image=self.map[y][x].IMAGE_DIR)
                         xCTR += 1
                 except:
                     xCTR += 1
@@ -344,7 +345,7 @@ class App():
                         xCTR += 1
                         continue
                     else:
-                        C1.create_image(xCTR * 40 + 20, yCTR * 40 + 20, image=self.scenery[y][x].IMAGE_DIR)
+                        C1.create_image(xCTR * self.tileSize + 20, yCTR * self.tileSize + 20, image=self.scenery[y][x].IMAGE_DIR)
                         xCTR +=1
                 except:
                     xCTR += 1
@@ -357,7 +358,7 @@ class App():
         for i in range(len(enemyList)):
             #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
                 #print(enemyList[i].x)
-            C1.create_image((enemyList[i].x-self.PX)*40 + (self.DRAWRANGE//2)*40 + 20,(enemyList[i].y-self.PY)*40 + (self.DRAWRANGE//2)*40 + 20, image = enemyList[i].img)
+            C1.create_image((enemyList[i].x-self.PX)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20,(enemyList[i].y-self.PY)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20, image = enemyList[i].img)
         C1.create_image((self.mapWidth//2),(self.mapHeight//2),image = self.player)
 
 app = App()
