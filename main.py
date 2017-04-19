@@ -49,7 +49,8 @@ class App():
         root.bind("<KeyRelease-Down>", self.onDownUp)
         root.bind("<KeyRelease-Up>", self.onUpUp)
         #this is where we import images from the game folder, and assign them to variables
-        self.player = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
+        self.player= tk.PhotoImage(file = ".\PlayerPlaceHolderRight.png")
+
 
 
         #This is the map list; it is where we put all of the 0s and 1s that make up the cave walls and floors
@@ -119,6 +120,10 @@ class App():
 
 
     def onLeftPress(self,*args):
+
+        self.player = tk.PhotoImage(file=".\PlayerPlaceHolderLeft.png")
+
+
         try:
             self.map[self.PY][self.PX-1].CODE = self.map[self.PY][self.PX-1].CODE
         except:
@@ -140,6 +145,9 @@ class App():
 
     def onRightPress(self,*args):
 
+        self.player = tk.PhotoImage(file=".\PlayerPlaceHolderRight.png")
+
+
         try:
             self.map[self.PY][self.PX+1].CODE = self.map[self.PY][self.PX+1].CODE
         except:
@@ -159,6 +167,10 @@ class App():
             self.draw()
             self.cMR = False
     def onUpPress(self,*args):
+
+        self.player = tk.PhotoImage(file=".\PlayerPlaceHolderUp.png")
+
+
         try:
             self.map[self.PY-1][self.PX].CODE = self.map[self.PY-1][self.PX].CODE
         except:
@@ -179,6 +191,9 @@ class App():
             self.draw()
             self.cMU = False
     def onDownPress(self,*args):
+
+        self.player = tk.PhotoImage(file=".\PlayerPlaceHolderDown.png")
+
         try:
             self.map[self.PY+1][self.PX].CODE = self.map[self.PY+1][self.PX].CODE
         except:
@@ -294,7 +309,7 @@ class App():
         yCTR = 0
 
         xCTR = 0
-        P = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
+        P = tk.PhotoImage(file = ".\PlayerPlaceHolderUp.png")
         print(self.PX,self.PY)
         #print(self.PY-self.DRAWRANGE)
         for y in range((self.PY - self.DRAWRANGE//2), (self.PY + self.DRAWRANGE//2 + 1)):
