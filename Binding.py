@@ -59,7 +59,7 @@ class Battle():
         roomc.config(width=self.tsize * 2, height=self.tsize+80)
         roomc.create_image(self.tsize,self.tsize/2,image=self.floorimg)
         person = roomc.create_image(self.tsize,self.tsize/2,image = self.imgDown)
-
+        roomc.create_rectangle(0+2,self.tsize+2,self.tsize*2-2,self.tsize+78,fill="beige",outline = "black")
         self.healthbar = roomc.create_rectangle(100,self.tsize+25,self.health*3+100,self.tsize+55,fill = "green")
         self.healthLabel = Label(text="Health", font = ("papyrus",15))
         self.healthLabel.place(x=30,y=self.tsize+25)
