@@ -60,10 +60,10 @@ class App():
         self.mapsize = 100
         bI.Biome.hostility = 100
         bI.createSegment("cave",100,100,True,True,True,True,bI.mapx,bI.mapy)
-        bI.createSegment("cave", 1, 1, False, False, False, False, 10, 11)
-        bI.createSegment("cave", 1, 1, False, False, False, False, 10, 9)
-        bI.createSegment("cave", 1, 1, False, False, False, False, 11, 10)
-        bI.createSegment("cave", 1, 1, False, False, False, False, 9, 10)
+        bI.createSegment("forest", 100, 100, False, False, False, False, 10, 11)
+        bI.createSegment("forest", 100, 100, False, False, False, False, 10, 9)
+        bI.createSegment("forest", 100, 100, False, False, False, False, 11, 10)
+        bI.createSegment("forest", 100, 100, False, False, False, False, 9, 10)
         #print(bI.Biome.hostility)
         #print(bI.areaList[bI.mapy][bI.mapx].hostility)
         self.map = bI.areaList[bI.mapy][bI.mapx].map
@@ -134,6 +134,7 @@ class App():
             self.cML = False
 
     def onRightPress(self,*args):
+
         try:
             self.map[self.PY][self.PX+1].CODE = self.map[self.PY][self.PX+1].CODE
         except:
@@ -197,7 +198,7 @@ class App():
             self.PX = 0
         if dir == "-x":
             bI.mapx -=1
-            self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//24])
+            self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//24])-1
 
 
         #print(bI.areaList[11][10].biome)

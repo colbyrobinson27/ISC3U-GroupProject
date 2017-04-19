@@ -8,5 +8,5 @@ class Tile:
 caveFloor = Tile(True,True,".\GrassFloor1.png",0)
 caveWall = Tile(False,False,".\WallSketch5.png",1)
 grass1 = Tile(True,True,".\grass1.png",2)
-tree1 = Tile(True,True,".\\tree1.png",3)
+tree1 = Tile(True,False,".\\tree1.png",3)
 tileSet = [caveWall,caveFloor,grass1,tree1]

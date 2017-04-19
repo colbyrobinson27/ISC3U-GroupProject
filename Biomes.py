@@ -23,8 +23,10 @@ class Biome():
             self.map = self.generateCave()
             #self.hostility = 2
             self.biome = "cave"
-
-
+        if type == "forest":
+            self.map = self.generateForest()
+            self.biome = "forest"
+            print(self.map)
         try:
 
             print(areaList[ypos-1][xpos].biome)
@@ -51,25 +53,31 @@ class Biome():
                         self.map.append([])
 
                 for i in range(len(areaList[ypos][xpos+1].map)):
-                    self.map[i].reverse()
+
                     self.map[i].append(areaList[ypos][xpos+1].map[i][0])
-                    self.map[i].reverse()
+
 
 
         except:
             print("nonExistent")
         try:
             if areaList[ypos][xpos - 1].biome == "cave" and areaList[ypos][xpos - 1].right:
+
                 if len(areaList[ypos][xpos -1].map) > len(self.map):
+
                     for i in range(len(areaList[ypos][xpos -1].map) - len(self.map)):
+
                         self.map.append([])
 
                 for i in range(len(areaList[ypos][xpos -1].map)):
 
-                    self.map[i].append(areaList[ypos][xpos - 1].map[i][len(areaList[ypos][xpos+1].map[i])-1])
+                    self.map[i].reverse()
+                    self.map[i].append(areaList[ypos][xpos - 1].map[i][len(areaList[ypos][xpos-1].map[i])-1])
 
+                    self.map[i].reverse()
         except:
             print("nonExistent")
+        print()
         self.objectify()
     def objectify(self):
         for y in range(len(self.map)):
@@ -144,6 +152,16 @@ class Biome():
 
         # This section o the entire map line by line to the console, is only useful for debugging and will be removed when the game is finished
 
+        return map
+    def generateForest(self):
+        map = []
+        for i in range(self.y):
+            map.append([])
+            for g in range(self.x):
+                if random.randint(0,8)<=0:
+                    map[i].append(3)
+                else:
+                    map[i].append(2)
         return map
     def nextTo2(self,scale,list,x,y,n):
         ans = 0
