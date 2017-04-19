@@ -121,7 +121,7 @@ class App():
 
     def onLeftPress(self,*args):
 
-        self.player = tk.PhotoImage(file=".\PlayerPlaceHolderLeft.png")
+
 
 
         try:
@@ -138,6 +138,7 @@ class App():
         if self.PX<= 0:
             self.loadSection("-x")
         elif self.cML and self.map[self.PY][self.PX-1].CAN_MOVE == True and sceneMove:
+            self.player = tk.PhotoImage(file=".\PlayerPlaceHolderLeft.png")
             self.PX -= 1
             C1.delete("all")
             self.draw()
@@ -145,7 +146,7 @@ class App():
 
     def onRightPress(self,*args):
 
-        self.player = tk.PhotoImage(file=".\PlayerPlaceHolderRight.png")
+
 
 
         try:
@@ -162,13 +163,14 @@ class App():
         if self.PX >= len(self.map[self.PY])-1:
             self.loadSection("+x")
         elif self.cMR and self.map[self.PY][self.PX+1].CAN_MOVE == True and sceneMove:
+            self.player = tk.PhotoImage(file=".\PlayerPlaceHolderRight.png")
             self.PX +=1
             C1.delete("all")
             self.draw()
             self.cMR = False
     def onUpPress(self,*args):
 
-        self.player = tk.PhotoImage(file=".\PlayerPlaceHolderUp.png")
+
 
 
         try:
@@ -186,13 +188,14 @@ class App():
         if self.PY <= 0:
             self.loadSection("-y")
         elif self.cMU and self.map[self.PY-1][self.PX].CAN_MOVE == True and sceneMove:
+            self.player = tk.PhotoImage(file=".\PlayerPlaceHolderUp.png")
             self.PY -= 1
             C1.delete("all")
             self.draw()
             self.cMU = False
     def onDownPress(self,*args):
 
-        self.player = tk.PhotoImage(file=".\PlayerPlaceHolderDown.png")
+
 
         try:
             self.map[self.PY+1][self.PX].CODE = self.map[self.PY+1][self.PX].CODE
@@ -209,6 +212,7 @@ class App():
             self.loadSection("+y")
 
         elif self.cMD and self.map[self.PY+1][self.PX].CAN_MOVE == True and sceneMove:
+            self.player = tk.PhotoImage(file=".\PlayerPlaceHolderDown.png")
             self.PY += 1
             C1.delete("all")
             self.draw()
