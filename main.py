@@ -120,7 +120,12 @@ class App():
 
 
     def onLeftPress(self,*args):
-        if self.PX <= 0:
+        try:
+            self.map[self.PY][self.PX-1].CODE = self.map[self.PY][self.PX-1].CODE
+        except:
+            self.loadSection("-x")
+            return
+        if self.PX<= 0:
             self.loadSection("-x")
         elif self.cML:
             self.PX -= 1
@@ -129,6 +134,11 @@ class App():
             self.cML = False
 
     def onRightPress(self,*args):
+        try:
+            self.map[self.PY][self.PX+1].CODE = self.map[self.PY][self.PX+1].CODE
+        except:
+            self.loadSection("+x")
+            return
         if self.PX >= self.width-1:
             self.loadSection("+x")
         elif self.cMR:
@@ -137,6 +147,11 @@ class App():
             self.draw()
             self.cMR = False
     def onUpPress(self,*args):
+        try:
+            self.map[self.PY-1][self.PX].CODE = self.map[self.PY-1][self.PX].CODE
+        except:
+            self.loadSection("-y")
+            return
         if self.PY <= 0:
             self.loadSection("-y")
         elif self.cMU:
@@ -145,6 +160,11 @@ class App():
             self.draw()
             self.cMU = False
     def onDownPress(self,*args):
+        try:
+            self.map[self.PY+1][self.PX].CODE = self.map[self.PY+1][self.PX].CODE
+        except:
+            self.loadSection("+y")
+            return
         if self.PY >= self.height-1:
             self.loadSection("+y")
         elif self.cMD:
