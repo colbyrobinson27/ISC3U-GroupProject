@@ -127,7 +127,7 @@ class App():
             return
         if self.PX<= 0:
             self.loadSection("-x")
-        elif self.cML:
+        elif self.cML and self.map[self.PY][self.PX+-1].CAN_MOVE == True:
             self.PX -= 1
             C1.delete("all")
             self.draw()
@@ -140,9 +140,9 @@ class App():
         except:
             self.loadSection("+x")
             return
-        if self.PX >= self.width-1:
+        if self.PX >= len(self.map[self.PY])-1:
             self.loadSection("+x")
-        elif self.cMR:
+        elif self.cMR and self.map[self.PY][self.PX+1].CAN_MOVE == True:
             self.PX +=1
             C1.delete("all")
             self.draw()
@@ -155,7 +155,7 @@ class App():
             return
         if self.PY <= 0:
             self.loadSection("-y")
-        elif self.cMU:
+        elif self.cMU and self.map[self.PY-1][self.PX].CAN_MOVE == True:
             self.PY -= 1
             C1.delete("all")
             self.draw()
@@ -166,9 +166,9 @@ class App():
         except:
             self.loadSection("+y")
             return
-        if self.PY >= self.height-1:
+        if self.PY >= len(self.map)-1:
             self.loadSection("+y")
-        elif self.cMD:
+        elif self.cMD and self.map[self.PY+1][self.PX].CAN_MOVE == True:
             self.PY += 1
             C1.delete("all")
             self.draw()
@@ -276,14 +276,14 @@ class App():
             for x in range((self.PX - self.DRAWRANGE//2), (self.PX + self.DRAWRANGE//2 + 1)):
 
                 try:
-                    if self.VIEWMAP[y][x] == 0:
-                        if x > self.width - 1 or x < 0 or y > self.height-1 or y < 0:
-                            xCTR += 1
-                            continue
-                        else:
+                    #if self.VIEWMAP[y][x] == 0:
+                    if x > len(self.map[y]) - 1 or x < 0 or y > len(self.map)-1 or y < 0:
+                        xCTR += 1
+                        continue
+                    else:
 
-                            C1.create_image(xCTR * 24 + 12, yCTR * 24 + 12, image=self.map[y][x].IMAGE_DIR)
-                            xCTR += 1
+                        C1.create_image(xCTR * 24 + 12, yCTR * 24 + 12, image=self.map[y][x].IMAGE_DIR)
+                        xCTR += 1
                 except:
                     xCTR += 1
 
