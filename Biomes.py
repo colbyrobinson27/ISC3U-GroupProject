@@ -9,6 +9,7 @@ class Biome():
     def __init__(self,type,x,y,left,right,top,bottom,xpos,ypos):
 
         self.map = []
+        self.scenery = []
         self.x = x
         self.y = y
         self.left = left
@@ -26,7 +27,7 @@ class Biome():
         if type == "forest":
             self.map = self.generateForest()
             self.biome = "forest"
-            print(self.map)
+
         try:
 
             print(areaList[ypos-1][xpos].biome)
@@ -79,12 +80,18 @@ class Biome():
             print("nonExistent")
         print()
         self.objectify()
+
     def objectify(self):
         for y in range(len(self.map)):
             for x in range(len(self.map[y])):
                 for i in range(len(tiles.tileSet)):
                     if tiles.tileSet[i].CODE == self.map[y][x]:
                         self.map[y][x] = tiles.tileSet[i]
+        for y in range(len(self.scenery)):
+            for x in range(len(self.scenery[y])):
+                for i in range(len(tiles.scenerySet)):
+                    if tiles.scenerySet[i].CODE == self.scenery[y][x]:
+                        self.scenery[y][x] = tiles.scenerySet[i]
     def generateCave(self):
         map = []
         # This forloop adds enough lists to our map lists for all the Xs and Ys of the map. This creates a 2 dimensional list thats variables can be accessed by typing self.map[y][x]
@@ -157,11 +164,15 @@ class Biome():
         map = []
         for i in range(self.y):
             map.append([])
+            self.scenery.append([])
             for g in range(self.x):
-                if random.randint(0,8)<=0:
-                    map[i].append(3)
+                map[i].append(2)
+                if random.randint(0, 8) <= 0:
+                    self.scenery[i].append(1)
                 else:
-                    map[i].append(2)
+                    self.scenery[i].append(0)
+
+
         return map
     def nextTo2(self,scale,list,x,y,n):
         ans = 0

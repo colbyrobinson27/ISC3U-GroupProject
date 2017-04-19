@@ -20,8 +20,8 @@ class App():
         C1.pack()
         self.width = 100
         self.height = 100
-        self.mapHeight = 360
-        self.mapWidth = 360
+        self.mapHeight = 440
+        self.mapWidth = 440
         C1.place(width = self.mapWidth,height = self.mapHeight, x = 460, y = 0)
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
@@ -30,7 +30,7 @@ class App():
         self.PY = 50
         self.VIEWRANGE = 5
         self.VIEWMAP = [[0 for i in range(self.width)] for j in range(self.height)]
-        self.DRAWRANGE = self.mapWidth // 24
+        self.DRAWRANGE = self.mapWidth // 40
         enemyList = []
 
         self.cMD = True
@@ -49,8 +49,6 @@ class App():
         root.bind("<KeyRelease-Down>", self.onDownUp)
         root.bind("<KeyRelease-Up>", self.onUpUp)
         #this is where we import images from the game folder, and assign them to variables
-        self.floorImage = tk.PhotoImage(file = ".\GrassFloor1.png")
-        self.wallImage = tk.PhotoImage(file = ".\WallSketch5.png")
         self.player = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
 
 
@@ -67,20 +65,21 @@ class App():
         #print(bI.Biome.hostility)
         #print(bI.areaList[bI.mapy][bI.mapx].hostility)
         self.map = bI.areaList[bI.mapy][bI.mapx].map
+        self.scenery = bI.areaList[bI.mapy][bI.mapx].scenery
         #This forloor draws everything that is in the self.map variable to the screen (tk.C1). It uses a camera offset of 7 x and 7 y tiles in order to set the players position onscreen equal to the self.PX and self.PY variables
         #for i in range(self.mapsize):
          #   for g in range(len(self.map[i])):
           #      if (self.map[i][g] == "CaveWall-Middle"):
-           #         C1.create_image(g*24+12-self.PX + 7*24,i*24+12-self.PY + 7*24,image = self.wallImage)
+           #         C1.create_image(g*40+12-self.PX + 7*40,i*40+12-self.PY + 7*40,image = self.wallImage)
             #    else:
-             #       C1.create_image(g*24+12-self.PX + 7*24,i*24+12-self.PY + 7*24,image = self.floorImage)
+             #       C1.create_image(g*40+12-self.PX + 7*40,i*40+12-self.PY + 7*40,image = self.floorImage)
         self.draw()
 
         self.spawnMonsters(18,18)
         for i in range(len(enemyList)):
             #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
                 #print(enemyList[i].x)
-            C1.create_image((enemyList[i].x-self.PX)*24 + 7*24 + 12,(enemyList[i].y-self.PY)*24 + 7*24 + 12, image = enemyList[i].img)
+            C1.create_image((enemyList[i].x-self.PX)*40 + 7*40 + 20,(enemyList[i].y-self.PY)*40 + 7*40 + 20, image = enemyList[i].img)
         print(len(enemyList))
         #print(C1.coords(enemyList[len(enemyList)-1].pos))
         #We tag all of the pieces of the map as "map" now so that we can move them all without moving the player, as instead of moving a player and having to redraw the screen
@@ -125,9 +124,15 @@ class App():
         except:
             self.loadSection("-x")
             return
+        sceneMove = True
+        try:
+            if self.scenery[self.PY][self.PX-1].CAN_MOVE == False:
+                sceneMove = False
+        except:
+            sceneMove = True
         if self.PX<= 0:
             self.loadSection("-x")
-        elif self.cML and self.map[self.PY][self.PX+-1].CAN_MOVE == True:
+        elif self.cML and self.map[self.PY][self.PX-1].CAN_MOVE == True and sceneMove:
             self.PX -= 1
             C1.delete("all")
             self.draw()
@@ -140,9 +145,15 @@ class App():
         except:
             self.loadSection("+x")
             return
+        sceneMove = True
+        try:
+            if self.scenery[self.PY ][self.PX+1].CAN_MOVE == False:
+                sceneMove = False
+        except:
+            sceneMove = True
         if self.PX >= len(self.map[self.PY])-1:
             self.loadSection("+x")
-        elif self.cMR and self.map[self.PY][self.PX+1].CAN_MOVE == True:
+        elif self.cMR and self.map[self.PY][self.PX+1].CAN_MOVE == True and sceneMove:
             self.PX +=1
             C1.delete("all")
             self.draw()
@@ -153,9 +164,16 @@ class App():
         except:
             self.loadSection("-y")
             return
+        sceneMove = True
+        try:
+            if self.scenery[self.PY -1][self.PX].CAN_MOVE == False:
+                sceneMove = False
+        except:
+            sceneMove = True
+
         if self.PY <= 0:
             self.loadSection("-y")
-        elif self.cMU and self.map[self.PY-1][self.PX].CAN_MOVE == True:
+        elif self.cMU and self.map[self.PY-1][self.PX].CAN_MOVE == True and sceneMove:
             self.PY -= 1
             C1.delete("all")
             self.draw()
@@ -166,9 +184,16 @@ class App():
         except:
             self.loadSection("+y")
             return
+        sceneMove = True
+        try:
+            if self.scenery[self.PY + 1][self.PX].CAN_MOVE == False:
+                sceneMove = False
+        except:
+            sceneMove = True
         if self.PY >= len(self.map)-1:
             self.loadSection("+y")
-        elif self.cMD and self.map[self.PY+1][self.PX].CAN_MOVE == True:
+
+        elif self.cMD and self.map[self.PY+1][self.PX].CAN_MOVE == True and sceneMove:
             self.PY += 1
             C1.delete("all")
             self.draw()
@@ -198,18 +223,19 @@ class App():
             self.PX = 0
         if dir == "-x":
             bI.mapx -=1
-            self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//24])-1
+            self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//40])-1
 
 
         #print(bI.areaList[11][10].biome)
         #print(bI.areaList[11][10].map)
         self.map = bI.areaList[bI.mapy][bI.mapx].map
+        self.scenery = bI.areaList[bI.mapy][bI.mapx].scenery
         #for i in range(len(self.map)):
           #  for g in range(len(self.map[i])):
            #     if (self.map[i][g] == "CaveWall-Middle"):
-            #        C1.create_image(g*24+12-self.PX + 7*24,i*24+12-self.PY + 7*24,image = self.wallImage)
+            #        C1.create_image(g*40+12-self.PX + 7*40,i*40+12-self.PY + 7*40,image = self.wallImage)
              #   else:
-              #      C1.create_image(g*24+12-self.PX + 7*24,i*24+12-self.PY + 7*24,image = self.floorImage)
+              #      C1.create_image(g*40+12-self.PX + 7*40,i*40+12-self.PY + 7*40,image = self.floorImage)
         self.draw()
 
     def NPCInteractions(self,*args):
@@ -282,22 +308,38 @@ class App():
                         continue
                     else:
 
-                        C1.create_image(xCTR * 24 + 12, yCTR * 24 + 12, image=self.map[y][x].IMAGE_DIR)
+                        C1.create_image(xCTR * 40 + 20, yCTR * 40 + 20, image=self.map[y][x].IMAGE_DIR)
                         xCTR += 1
                 except:
                     xCTR += 1
 
-
-
-
             yCTR += 1
+
+        yCTR = 0
+        for y in range((self.PY - self.DRAWRANGE // 2), (self.PY + self.DRAWRANGE // 2 + 1)):
+            xCTR = 0
+            for x in range((self.PX - self.DRAWRANGE // 2), (self.PX + self.DRAWRANGE // 2 + 1)):
+
+                try:
+                    if x > len(self.map[y]) - 1 or x < 0 or y > len(self.map)-1 or y < 0:
+                        xCTR += 1
+                        continue
+                    else:
+                        C1.create_image(xCTR * 40 + 20, yCTR * 40 + 20, image=self.scenery[y][x].IMAGE_DIR)
+                        xCTR +=1
+                except:
+                    xCTR += 1
+                    continue
+
+            yCTR +=1
+
 
 
         for i in range(len(enemyList)):
             #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
                 #print(enemyList[i].x)
-            C1.create_image((enemyList[i].x-self.PX)*24 + 7*24 + 12,(enemyList[i].y-self.PY)*24 + 7*24 + 12, image = enemyList[i].img)
-        C1.create_image(180,180,image = self.player)
+            C1.create_image((enemyList[i].x-self.PX)*40 + (self.DRAWRANGE//2)*40 + 20,(enemyList[i].y-self.PY)*40 + (self.DRAWRANGE//2)*40 + 20, image = enemyList[i].img)
+        C1.create_image((self.mapWidth//2),(self.mapHeight//2),image = self.player)
 
 app = App()
 app.run()

@@ -17,7 +17,7 @@ class Enemy(object):
         print(x,y)
 
         if type == "FatBat":
-            self.img = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
+            self.img = tk.PhotoImage(file = ".\\fatbatmapimage.png")
             #self.pos = canvas.create_image(x,y,image = self.img)
             self.type = type
             self.x = x
