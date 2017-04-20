@@ -36,6 +36,13 @@ class Biome():
                 self.map.reverse()
                 self.map.append(areaList[ypos-1][xpos].map[areaList[ypos-1][xpos].y - 1])
                 self.map.reverse()
+                self.scenery.reverse()
+                self.scenery.append([[0]])
+
+
+
+
+                self.scenery.reverse()
         except:
             print("nonExistent")
         try:
@@ -63,7 +70,7 @@ class Biome():
             print("nonExistent")
         try:
             if areaList[ypos][xpos - 1].biome == "cave" and areaList[ypos][xpos - 1].right:
-
+                self.scenery.append([])
                 if len(areaList[ypos][xpos -1].map) > len(self.map):
 
                     for i in range(len(areaList[ypos][xpos -1].map) - len(self.map)):
@@ -74,7 +81,10 @@ class Biome():
 
                     self.map[i].reverse()
                     self.map[i].append(areaList[ypos][xpos - 1].map[i][len(areaList[ypos][xpos-1].map[i])-1])
+                    self.scenery.reverse()
 
+                    self.scenery[len(self.scenery)-1].append(0)
+                    self.scenery.reverse()
                     self.map[i].reverse()
         except:
             print("nonExistent")
