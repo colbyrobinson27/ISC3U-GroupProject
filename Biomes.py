@@ -24,6 +24,7 @@ class Biome():
             self.map = self.generateCave()
             #self.hostility = 2
             self.biome = "cave"
+
         if type == "forest":
             self.map = self.generateForest()
             self.biome = "forest"
@@ -168,6 +169,19 @@ class Biome():
         #print(map[99])
 
         # This section o the entire map line by line to the console, is only useful for debugging and will be removed when the game is finished
+        for i in range(self.y):
+            self.scenery.append([])
+            for g in range(self.x):
+                try:
+                    if map[i][g] == 0:
+                        if random.randint(0,25) == 0:
+                            self.scenery[i].append(2)
+                        else:
+                            self.scenery[i].append(0)
+                    else:
+                        self.scenery[i].append(0)
+                except:
+                    continue
 
         return map
     def generateForest(self):
