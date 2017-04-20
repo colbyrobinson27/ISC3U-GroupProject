@@ -176,11 +176,18 @@ class App():
 
 
                             enemyList[i].y += int(round(math.cos(y)))
+                            print("x" + str(enemyList[i].x),enemyList[i].y)
                         except:
+
                             continue
                         enemyList[i].moveCounter = 0
                     else:
                         enemyList[i].moveCounter +=1
+        for i in range(len(enemyList)):
+            if enemyList[i].x == self.PX and enemyList[i].y == self.PY:
+                if enemyList[i].type == "FatBat":
+                    battle1 = binding.Battle(root)
+                    eD.FatBat(3)
 
     def onLeftPress(self,*args):
 
@@ -355,8 +362,7 @@ class App():
         if response != "":
             if response == "FatBat":
                 print("wow")
-                battle1 = binding.Battle(root)
-                eD.FatBat(3)
+
     def spawnMonsters(self,xscan,yscan):
         spawned = False
         yZones = len(self.map)//yscan
