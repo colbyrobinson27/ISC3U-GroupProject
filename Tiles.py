@@ -20,4 +20,6 @@ class Scenery:
             pass
         self.CODE = CODE
 tree1 = Scenery(True,False,"./treebot.png","./treetop.png",1)
-scenerySet = [tree1]
+stag1 = Scenery(True,False,"./Images/Scenery/StagBot.png", "./Images/Scenery/StagTop.png")
+
+scenerySet = [tree1,stag1]

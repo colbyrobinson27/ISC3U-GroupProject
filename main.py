@@ -355,7 +355,7 @@ class App():
         yCTR = 0
 
         xCTR = 0
-        
+
         print(self.PX,self.PY)
         #print(self.PY-self.DRAWRANGE)
         for y in range((self.PY - self.DRAWRANGE//2), (self.PY + self.DRAWRANGE//2 + 1)):
