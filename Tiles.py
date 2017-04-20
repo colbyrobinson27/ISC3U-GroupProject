@@ -8,7 +8,8 @@ class Tile:
 caveFloor = Tile(True,True,".\\rockfloor1.png",0)
 caveWall = Tile(False,False,".\cavewall1.png",1)
 grass1 = Tile(True,True,".\grass1.png",2)
-tileSet = [caveWall,caveFloor,grass1]
+desert1 = Tile(True,True,".\desert1.png",3)
+tileSet = [caveWall,caveFloor,grass1,desert1]
 class Scenery:
     def __init__(self,CAN_SEE,CAN_MOVE,IMAGE_DIR,IMAGE_SECOND,OFFSET,CODE):
         self.CAN_SEE = CAN_SEE

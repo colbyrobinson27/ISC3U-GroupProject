@@ -31,6 +31,10 @@ class Biome():
             self.map = self.generateForest()
             self.biome = "forest"
             self.music = pygame.mixer.Sound("./Music/Blue-World.wav")
+        if type == "desert":
+            self.map = self.generateDesert()
+            self.biome = "desert"
+            self.music = pygame.mixer.Sound("./Music/CaveSong.wav")
         try:
 
             print(areaList[ypos-1][xpos].biome)
@@ -200,6 +204,15 @@ class Biome():
 
 
         return map
+    def generateDesert(self):
+        map = []
+        for i in range(self.y):
+            map.append([])
+            self.scenery.append([])
+            for g in range(self.x):
+                map[i].append(3)
+        return map
+
     def nextTo2(self,scale,list,x,y,n):
         ans = 0
         for i in range(-scale,scale+1,1):

@@ -90,7 +90,7 @@ class App():
         bI.createSegment("forest", 100, 100, False, False, False, False, 10, 9)
         bI.createSegment("forest", 100, 100, False, False, False, False, 11, 10)
         bI.createSegment("forest", 100, 100, False, False, False, False, 9, 10)
-        bI.createSegment("forest", 100, 100, False, False, False, False, 9, 11)
+        bI.createSegment("desert", 100, 100, False, False, False, False, 9, 11)
         #print(bI.Biome.hostility)
         #print(bI.areaList[bI.mapy][bI.mapx].hostility)
         bI.areaList[bI.mapy][bI.mapx].music.play(loops=-1)
