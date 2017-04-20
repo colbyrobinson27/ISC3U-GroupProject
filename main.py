@@ -21,12 +21,31 @@ class App():
         self.tileSize =32
         self.width = 100
         self.height = 100
-        self.mapHeight = 440
-        self.mapWidth = 440
+        self.mapHeight = self.tileSize*15
+        self.mapWidth = self.tileSize*15
         C1.place(width = self.mapWidth,height = self.mapHeight, x = 460, y = 0)
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
+        self.playerDown1 = tk.PhotoImage(file=".\PlayerPlaceHolderDown1.png")
+        self.playerDown2 = tk.PhotoImage(file=".\PlayerPlaceHolderDown2.png")
+        self.playerDown3 = tk.PhotoImage(file=".\PlayerPlaceHolderDown3.png")
+        self.playerDown = [self.playerDown1,self.playerDown2,self.playerDown3,self.playerDown2]
 
+        self.playerLeft1 = tk.PhotoImage(file=".\PlayerPlaceHolderLeft1.png")
+        self.playerLeft2 = tk.PhotoImage(file=".\PlayerPlaceHolderLeft2.png")
+        self.playerLeft3 = tk.PhotoImage(file=".\PlayerPlaceHolderLeft3.png")
+        self.playerLeft = [self.playerLeft1, self.playerLeft2, self.playerLeft3, self.playerLeft2]
+
+        self.playerRight1 = tk.PhotoImage(file=".\PlayerPlaceHolderRight1.png")
+        self.playerRight2 = tk.PhotoImage(file=".\PlayerPlaceHolderRight2.png")
+        self.playerRight3 = tk.PhotoImage(file=".\PlayerPlaceHolderRight3.png")
+        self.playerRight = [self.playerRight1, self.playerRight2, self.playerRight3, self.playerRight2]
+
+        self.playerUp1 = tk.PhotoImage(file=".\PlayerPlaceHolderUp1.png")
+        self.playerUp2 = tk.PhotoImage(file=".\PlayerPlaceHolderUp2.png")
+        self.playerUp3 = tk.PhotoImage(file=".\PlayerPlaceHolderUp3.png")
+        self.playerUp = [self.playerUp1, self.playerUp2, self.playerUp3, self.playerUp2]
+        self.aniCounter = 0
         self.PX = 50
         self.PY = 50
         self.VIEWRANGE = 5
@@ -50,7 +69,7 @@ class App():
         root.bind("<KeyRelease-Down>", self.onDownUp)
         root.bind("<KeyRelease-Up>", self.onUpUp)
         #this is where we import images from the game folder, and assign them to variables
-        self.player= tk.PhotoImage(file = ".\PlayerPlaceHolderRight.png")
+        self.player= tk.PhotoImage(file = ".\PlayerPlaceHolderUp1.png")
 
 
 
@@ -139,7 +158,11 @@ class App():
         if self.PX<= 0:
             self.loadSection("-x")
         elif self.cML and self.map[self.PY][self.PX-1].CAN_MOVE == True and sceneMove:
-            self.player = tk.PhotoImage(file=".\PlayerPlaceHolderLeft.png")
+            self.player = self.playerLeft[self.aniCounter]
+            self.aniCounter += 1
+            if self.aniCounter > 3:
+                self.aniCounter = 0
+
             self.PX -= 1
             C1.delete("all")
             self.draw()
@@ -164,7 +187,10 @@ class App():
         if self.PX >= len(self.map[self.PY])-1:
             self.loadSection("+x")
         elif self.cMR and self.map[self.PY][self.PX+1].CAN_MOVE == True and sceneMove:
-            self.player = tk.PhotoImage(file=".\PlayerPlaceHolderRight.png")
+            self.player = self.playerRight[self.aniCounter]
+            self.aniCounter += 1
+            if self.aniCounter > 3:
+                self.aniCounter = 0
             self.PX +=1
             C1.delete("all")
             self.draw()
@@ -189,7 +215,10 @@ class App():
         if self.PY <= 0:
             self.loadSection("-y")
         elif self.cMU and self.map[self.PY-1][self.PX].CAN_MOVE == True and sceneMove:
-            self.player = tk.PhotoImage(file=".\PlayerPlaceHolderUp.png")
+            self.player = self.playerUp[self.aniCounter]
+            self.aniCounter += 1
+            if self.aniCounter > 3:
+                self.aniCounter = 0
             self.PY -= 1
             C1.delete("all")
             self.draw()
@@ -213,7 +242,11 @@ class App():
             self.loadSection("+y")
 
         elif self.cMD and self.map[self.PY+1][self.PX].CAN_MOVE == True and sceneMove:
-            self.player = tk.PhotoImage(file=".\PlayerPlaceHolderDown.png")
+
+            self.player = self.playerDown[self.aniCounter]
+            self.aniCounter+=1
+            if self.aniCounter>3:
+                self.aniCounter=0
             self.PY += 1
             C1.delete("all")
             self.draw()
@@ -359,7 +392,7 @@ class App():
             #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
                 #print(enemyList[i].x)
             C1.create_image((enemyList[i].x-self.PX)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20,(enemyList[i].y-self.PY)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20, image = enemyList[i].img)
-        C1.create_image((self.mapWidth//2),(self.mapHeight//2),image = self.player)
+        C1.create_image((self.mapWidth//2),(self.mapHeight//2)-15,image = self.player)
 
 app = App()
 app.run()
