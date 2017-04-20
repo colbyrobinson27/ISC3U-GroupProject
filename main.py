@@ -5,6 +5,7 @@ import Biomes as bI
 
 root = tk.Tk()
 import Binding as binding
+import Player as p
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
     #This here is the initialization function. It is what is run when the class is initially started, and is where we initialize all of the local variables being used here
@@ -44,6 +45,10 @@ class App():
         self.floorImage = tk.PhotoImage(file = ".\GrassFloor1.png")
         self.wallImage = tk.PhotoImage(file = ".\WallSketch5.png")
         self.player = tk.PhotoImage(file = ".\PlayerPlaceHolder.png")
+        p.player.battleright = tk.PhotoImage(file="./WarRight.png")
+        p.player.battleleft = tk.PhotoImage(file="./WarLeft.png")
+        p.player.battleup = tk.PhotoImage(file="./WarUp.png")
+        p.player.battledown = tk.PhotoImage(file="./WarDown.png")
         self.areaList = []
         for i in range(50):
             self.areaList.append([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
