@@ -90,6 +90,7 @@ class App():
         bI.createSegment("forest", 100, 100, False, False, False, False, 10, 9)
         bI.createSegment("forest", 100, 100, False, False, False, False, 11, 10)
         bI.createSegment("forest", 100, 100, False, False, False, False, 9, 10)
+        bI.createSegment("forest", 100, 100, False, False, False, False, 9, 11)
         #print(bI.Biome.hostility)
         #print(bI.areaList[bI.mapy][bI.mapx].hostility)
         bI.areaList[bI.mapy][bI.mapx].music.play(loops=-1)
@@ -118,6 +119,24 @@ class App():
         #self.playerImage = C1.create_image(180,180,image = self.player)
 
         self.timer_tick()
+    def enemyChase(self,enemy):
+        for i in range(360):
+            ax = math.sin(i)
+
+            ay = math.cos(i)
+            x = enemy.x
+            y = enemy.y
+            for g in range(enemy.chaseRange):
+                x += ax
+                y += ay
+                #print(x)
+                if int(round(x)) == self.PX and int(round(y)) == self.PY:
+                    enemy.chase = True
+                    return i
+                else:
+                    continue
+            #enemy.chasing = False
+        return
     def run(self):
         root.mainloop()
 
@@ -146,6 +165,22 @@ class App():
         return ans
 
 
+    def updateOnClick(self):
+        for i in range(len(enemyList)):
+            if abs(enemyList[i].x - self.PX) <= enemyList[i].chaseRange and abs(enemyList[i].y - self.PY) <= enemyList[i].chaseRange:
+                y = self.enemyChase(enemyList[i])
+                if enemyList[i].chase:
+                    if enemyList[i].moveCounter >= 1:
+                        try:
+                            enemyList[i].x += int(round(math.sin(y)))
+
+
+                            enemyList[i].y += int(round(math.cos(y)))
+                        except:
+                            continue
+                        enemyList[i].moveCounter = 0
+                    else:
+                        enemyList[i].moveCounter +=1
 
     def onLeftPress(self,*args):
 
@@ -173,6 +208,7 @@ class App():
 
             self.PX -= 1
             C1.delete("all")
+            self.updateOnClick()
             self.draw()
             self.cML = False
 
@@ -201,6 +237,7 @@ class App():
                 self.aniCounter = 0
             self.PX +=1
             C1.delete("all")
+            self.updateOnClick()
             self.draw()
             self.cMR = False
     def onUpPress(self,*args):
@@ -229,6 +266,7 @@ class App():
                 self.aniCounter = 0
             self.PY -= 1
             C1.delete("all")
+            self.updateOnClick()
             self.draw()
             self.cMU = False
     def onDownPress(self,*args):
@@ -256,6 +294,7 @@ class App():
             if self.aniCounter>3:
                 self.aniCounter=0
             self.PY += 1
+            self.updateOnClick()
             C1.delete("all")
             self.draw()
             self.cMD = False
@@ -269,25 +308,36 @@ class App():
         self.cMU = True
     def loadSection(self,dir):
         print("hi")
-        bI.areaList[bI.mapy][bI.mapx].music.stop()
-        #bI.areaList[11][10] = bI.Biome("cave",100,100,True,True,True,True)
 
+        #bI.areaList[11][10] = bI.Biome("cave",100,100,True,True,True,True)
+        musicChange = False
         C1.delete('all')
         if dir == "+y":
             bI.mapy +=1
             self.PY = 0
-
+            if bI.areaList[bI.mapy][bI.mapx].biome != bI.areaList[bI.mapy-1][bI.mapx].biome:
+                bI.areaList[bI.mapy-1][bI.mapx].music.stop()
+                musicChange = True
         if dir == "-y":
             bI.mapy -=1
             self.PY = len(bI.areaList[bI.mapy][bI.mapx].map)-1
+            if bI.areaList[bI.mapy][bI.mapx].biome != bI.areaList[bI.mapy+1][bI.mapx].biome:
+                bI.areaList[bI.mapy+1][bI.mapx].music.stop()
+                musicChange = True
         if dir == "+x":
             bI.mapx +=1
             self.PX = 0
+            if bI.areaList[bI.mapy][bI.mapx].biome != bI.areaList[bI.mapy][bI.mapx-1].biome:
+                bI.areaList[bI.mapy][bI.mapx-1].music.stop()
+                musicChange = True
         if dir == "-x":
             bI.mapx -=1
             self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//self.tileSize])-1
-
-        bI.areaList[bI.mapy][bI.mapx].music.play(loops=-1)
+            if bI.areaList[bI.mapy][bI.mapx].biome != bI.areaList[bI.mapy][bI.mapx+1].biome:
+                bI.areaList[bI.mapy][bI.mapx+1].music.stop()
+                musicChange = True
+        if (musicChange):
+            bI.areaList[bI.mapy][bI.mapx].music.play(loops=-1)
         #print(bI.areaList[11][10].biome)
         #print(bI.areaList[11][10].map)
         self.map = bI.areaList[bI.mapy][bI.mapx].map
