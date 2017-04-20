@@ -12,11 +12,10 @@ import pygame
 class App():
     #This here is the initialization function. It is what is run when the class is initially started, and is where we initialize all of the local variables being used here
     def __init__(self):
-        pygame.init()
         pygame.mixer.init()
-        sounda = pygame.mixer.Sound("./Music/CaveSong.wav")
 
-        sounda.play()
+
+
         #This is where we create the tkinter, or GUI, window. We do this through the tkinter class, which we have imported as tk as seen below
         global C1, enemyList
         #This sets the size of the tkinter window
@@ -93,6 +92,7 @@ class App():
         bI.createSegment("forest", 100, 100, False, False, False, False, 9, 10)
         #print(bI.Biome.hostility)
         #print(bI.areaList[bI.mapy][bI.mapx].hostility)
+        bI.areaList[bI.mapy][bI.mapx].music.play(loops=-1)
         self.map = bI.areaList[bI.mapy][bI.mapx].map
         self.scenery = bI.areaList[bI.mapy][bI.mapx].scenery
         #This forloor draws everything that is in the self.map variable to the screen (tk.C1). It uses a camera offset of 7 x and 7 y tiles in order to set the players position onscreen equal to the self.PX and self.PY variables
@@ -269,6 +269,7 @@ class App():
         self.cMU = True
     def loadSection(self,dir):
         print("hi")
+        bI.areaList[bI.mapy][bI.mapx].music.stop()
         #bI.areaList[11][10] = bI.Biome("cave",100,100,True,True,True,True)
 
         C1.delete('all')
@@ -286,7 +287,7 @@ class App():
             bI.mapx -=1
             self.PX = len(bI.areaList[bI.mapy][bI.mapx].map[self.PY//self.tileSize])-1
 
-
+        bI.areaList[bI.mapy][bI.mapx].music.play(loops=-1)
         #print(bI.areaList[11][10].biome)
         #print(bI.areaList[11][10].map)
         self.map = bI.areaList[bI.mapy][bI.mapx].map

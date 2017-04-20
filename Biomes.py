@@ -1,5 +1,6 @@
 import random
 import Tiles as tiles
+import pygame
 areaList = []
 mapx = 10
 mapy = 10
@@ -18,17 +19,18 @@ class Biome():
         self.right = right
         self.hostility = 0
         self.integrated = False
-
+        self.music = 0
         self.biome = ""
         if type == "cave":
             self.map = self.generateCave()
             #self.hostility = 2
             self.biome = "cave"
+            self.music = pygame.mixer.Sound("./Music/CaveSong.wav")
 
         if type == "forest":
             self.map = self.generateForest()
             self.biome = "forest"
-
+            self.music = pygame.mixer.Sound("./Music/CaveSong.wav")
         try:
 
             print(areaList[ypos-1][xpos].biome)
