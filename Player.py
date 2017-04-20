@@ -6,6 +6,10 @@ class Player():
         self.luck = 0
         self.charisma = 0
         self.gold = 0
+        self.battleright = tk.PhotoImage(file="./WarRight.png")
+        self.battleleft = tk.PhotoImage(file="./WarLeft.png")
+        self.battleup = tk.PhotoImage(file="./WarUp.png")
+        self.battledown = tk.PhotoImage(file="./WarDown.png")
 
     def pstatadd(self,value):
         if value == "health":
@@ -35,11 +39,8 @@ class Player():
             self.gold -= amount
             if self.gold <= 0:
                 self.gold = 0
-    def playerimages(self):
-        self.battleright = tk.PhotoImage(file="./WarRight.png")
-        self.battleleft = tk.PhotoImage(file="./WarLeft.png")
-        self.battleup = tk.PhotoImage(file="./WarUp.png")
-        self. battledown = tk.PhotoImage(file="./WarDown.png")
+
+
 player = Player()
 class Items():
     def __init__(self, name, attack, armor, type):

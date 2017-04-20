@@ -2,8 +2,9 @@ import random
 import tkinter as tk
 import EnemyData as eD
 import Biomes as bI
-import Binding as binding
+
 root = tk.Tk()
+import Binding as binding
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
     #This here is the initialization function. It is what is run when the class is initially started, and is where we initialize all of the local variables being used here
