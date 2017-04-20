@@ -26,6 +26,8 @@ class App():
         C1.place(width = self.mapWidth,height = self.mapHeight, x = 460, y = 0)
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
+        self.treetop = tk.PhotoImage(file="./treetop.png")
+        self.treelist = []
         self.playerDown1 = tk.PhotoImage(file=".\PlayerPlaceHolderDown1.png")
         self.playerDown2 = tk.PhotoImage(file=".\PlayerPlaceHolderDown2.png")
         self.playerDown3 = tk.PhotoImage(file=".\PlayerPlaceHolderDown3.png")
@@ -47,7 +49,7 @@ class App():
         self.playerUp = [self.playerUp1, self.playerUp2, self.playerUp3, self.playerUp2]
         self.aniCounter = 0
         self.PX = 50
-        self.PY = 50
+        self.PY = 90
         self.VIEWRANGE = 5
         self.VIEWMAP = [[0 for i in range(self.width)] for j in range(self.height)]
         self.DRAWRANGE = self.mapWidth // self.tileSize
@@ -378,7 +380,11 @@ class App():
                         xCTR += 1
                         continue
                     else:
-                        C1.create_image(xCTR * self.tileSize + 20, yCTR * self.tileSize + 20, image=self.scenery[y][x].IMAGE_DIR)
+                        C1.create_image(xCTR * self.tileSize+16, yCTR * self.tileSize+16, image=self.scenery[y][x].IMAGE_DIR)
+                        try:
+                            C1.create_image(xCTR * self.tileSize+16, yCTR * self.tileSize-32, image=self.scenery[y][x].IMAGE_SECOND,tags = "treetop")
+                        except:
+                            pass
                         xCTR +=1
                 except:
                     xCTR += 1
@@ -392,7 +398,7 @@ class App():
             #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
                 #print(enemyList[i].x)
             C1.create_image((enemyList[i].x-self.PX)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20,(enemyList[i].y-self.PY)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20, image = enemyList[i].img)
-        C1.create_image((self.mapWidth//2),(self.mapHeight//2)-15,image = self.player)
-
+        C1.create_image((self.mapWidth//2),(self.mapHeight//2)-20,image = self.player)
+        C1.tag_raise("treetop")
 app = App()
 app.run()

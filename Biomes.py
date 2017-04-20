@@ -167,7 +167,7 @@ class Biome():
             self.scenery.append([])
             for g in range(self.x):
                 map[i].append(2)
-                if random.randint(0, 8) <= 0:
+                if random.randint(0, 15) <= 0:
                     self.scenery[i].append(1)
                 else:
                     self.scenery[i].append(0)
