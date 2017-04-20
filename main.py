@@ -5,12 +5,18 @@ root = tk.Tk()
 import Biomes as bI
 import Binding as binding
 import math
+import pygame
 
 
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
     #This here is the initialization function. It is what is run when the class is initially started, and is where we initialize all of the local variables being used here
     def __init__(self):
+        pygame.init()
+        pygame.mixer.init()
+        sounda = pygame.mixer.Sound("./Music/CaveSong.wav")
+
+        sounda.play()
         #This is where we create the tkinter, or GUI, window. We do this through the tkinter class, which we have imported as tk as seen below
         global C1, enemyList
         #This sets the size of the tkinter window
@@ -349,7 +355,7 @@ class App():
         yCTR = 0
 
         xCTR = 0
-        P = tk.PhotoImage(file = ".\PlayerPlaceHolderUp.png")
+        
         print(self.PX,self.PY)
         #print(self.PY-self.DRAWRANGE)
         for y in range((self.PY - self.DRAWRANGE//2), (self.PY + self.DRAWRANGE//2 + 1)):

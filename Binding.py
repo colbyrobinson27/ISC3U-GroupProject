@@ -4,8 +4,8 @@ from tkinter.scrolledtext import ScrolledText
 from tkinter import *
 import math
 import random
-
-
+import winsound
+import pygame
 
 class Player():
     def __init__(self,char):
@@ -21,6 +21,8 @@ class Battle():
         root1 = root
         tearlist = []
         global roomc, person
+        self.hit  = pygame.mixer.Sound('./Music/Hit.wav')
+
         self.shotspeed = 5
         self.tears = 40
         self.speed =5
@@ -216,7 +218,7 @@ class Battle():
 
                         roomc.itemconfig(monsterlist[j].bat, image=self.fatBatDamage)
                         monsterlist[j].damagetimer = 0
-
+                        self.hit.play()
                         if monsterlist[j].hit == monsterlist[j].health:
                             roomc.delete(monsterlist[j].bat)
                             monsterlist.pop(j)
