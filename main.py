@@ -98,6 +98,7 @@ class App():
         bI.createSegment("forest", 100, 100, False, False, False, False, 11, 10)
         bI.createSegment("forest", 100, 100, False, False, False, False, 9, 10)
         bI.createSegment("desert", 100, 100, False, False, False, False, 9, 11)
+        bI.createSegment("custom,stuff123.txt",100,100,False,False,False,False,11,11)
         #print(bI.Biome.hostility)
         #print(bI.areaList[bI.mapy][bI.mapx].hostility)
         bI.areaList[bI.mapy][bI.mapx].music.play(loops=-1)
@@ -222,7 +223,7 @@ class App():
                         enemyList[i].aniCounter = 0
 
 
-                    
+
         for i in range(len(enemyList)):
             if enemyList[i].x == self.PX and enemyList[i].y == self.PY:
                 if enemyList[i].type == "FatBat":

@@ -1,0 +1,1 @@
+4,4-CaveWallEdge,CaveWallEdge,CaveWallEdge,CaveWallEdge,GrassDark,CaveFloorDark,GrassDark,GrassBright,Tree1,GrassDark,Tree1,GrassBright,WaterLight,WaterDark,WaterDark,WaterDark,

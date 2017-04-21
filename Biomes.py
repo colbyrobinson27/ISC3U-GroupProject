@@ -1,6 +1,7 @@
 import random
 import Tiles as tiles
 import pygame
+import readingLevels as rL
 areaList = []
 mapx = 10
 mapy = 10
@@ -12,6 +13,8 @@ class Biome():
         self.map = []
         self.scenery = []
         self.x = x
+        type = type.split(",")
+
         self.y = y
         self.left = left
         self.bottom = bottom
@@ -21,20 +24,24 @@ class Biome():
         self.integrated = False
         self.music = 0
         self.biome = ""
-        if type == "cave":
+        if type[0] == "cave":
             self.map = self.generateCave()
             #self.hostility = 2
             self.biome = "cave"
             self.music = pygame.mixer.Sound("./Music/CaveSong.wav")
 
-        if type == "forest":
+        if type[0] == "forest":
             self.map = self.generateForest()
             self.biome = "forest"
             self.music = pygame.mixer.Sound("./Music/Blue-World.wav")
-        if type == "desert":
+        if type[0] == "desert":
             self.map = self.generateDesert()
             self.biome = "desert"
             self.music = pygame.mixer.Sound("./Music/DesertSong.wav")
+        if type[0] == "custom":
+            self.map = rL.openFile(type[1])
+            self.biome = "custom"
+            self.music = pygame.mixer.Sound("./Music/Blue-World.wav")
         try:
 
             print(areaList[ypos-1][xpos].biome)
