@@ -33,25 +33,10 @@ class App():
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
         self.treetop = tk.PhotoImage(file="./treetop.png")
 
-        self.batDown1 = tk.PhotoImage(file="./Images/Bat/batDown1.png")
-        self.batDown2 = tk.PhotoImage(file="./Images/Bat/batDown2.png")
-        self.batDown3 = tk.PhotoImage(file="./Images/Bat/batDown3.png")
-        self.batDown = [self.batDown1,self.batDown2,self.batDown3]
 
-        self.batUp1 = tk.PhotoImage(file="./Images/Bat/batUp1.png")
-        self.batUp2 = tk.PhotoImage(file="./Images/Bat/batUp2.png")
-        self.batUp3 = tk.PhotoImage(file="./Images/Bat/batUp3.png")
-        self.batUp = [self.batUp1,self.batUp2,self.batUp3]
 
-        self.batRight1 = tk.PhotoImage(file="./Images/Bat/batRight1.png")
-        self.batRight2 = tk.PhotoImage(file="./Images/Bat/batRight2.png")
-        self.batRight3 = tk.PhotoImage(file="./Images/Bat/batRight3.png")
-        self.batRight = [self.batRight1,self.batRight2,self.batRight3]
 
-        self.batLeft1 = tk.PhotoImage(file="./Images/Bat/batLeft1.png")
-        self.batLeft2 = tk.PhotoImage(file="./Images/Bat/batLeft2.png")
-        self.batLeft3 = tk.PhotoImage(file="./Images/Bat/batLeft3.png")
-        self.batLeft = [self.batLeft1,self.batLeft2,self.batLeft3]
+
 
         self.batAniCounter = 0
 
@@ -200,29 +185,44 @@ class App():
                             enemyList[i].y += int(round(math.cos(y)))
 
                             if int(round(math.sin(y)))== -1:
-                                enemyList[i].img = self.batLeft[enemyList[i].aniCounter]
-                                if enemyList[i].aniCounter==2:
-                                    enemyList[i].aniCounter = 0
+                                enemyList[i].dir = 3
+
+
                             elif int(round(math.sin(y)))== 1:
-                                enemyList[i].img = self.batRight[enemyList[i].aniCounter]
-                                if enemyList[i].aniCounter==2:
-                                    enemyList[i].aniCounter = 0
+                                enemyList[i].dir = 1
+
+
                             elif int(round(math.cos(y))) == -1:
-                                enemyList[i].img = self.batUp[enemyList[i].aniCounter]
-                                if enemyList[i].aniCounter==2:
-                                    enemyList[i].aniCounter = 0
+                                enemyList[i].dir = 0
+
                             elif int(round(math.cos(y))) == 1:
-                                enemyList[i].img = self.batDown[enemyList[i].aniCounter]
-                                if enemyList[i].aniCounter==2:
-                                    enemyList[i].aniCounter = 0
+                                enemyList[i].dir = 2
+
+
                             print("x" + str(enemyList[i].x),enemyList[i].y)
                         except:
 
                             continue
                         enemyList[i].moveCounter = 0
                     else:
-                        enemyList[i].aniCounter+=1
+
                         enemyList[i].moveCounter +=1
+                    print(enemyList[i].aniCounter)
+                    if enemyList[i].dir == 0:
+                        enemyList[i].img = enemyList[i].aUp[enemyList[i].aniCounter].zoom(2,2)
+                    elif enemyList[i].dir == 1:
+                        enemyList[i].img = enemyList[i].aRight[enemyList[i].aniCounter].zoom(2,2)
+                    elif enemyList[i].dir == 2:
+                        enemyList[i].img = enemyList[i].aDown[enemyList[i].aniCounter].zoom(2,2)
+                    elif enemyList[i].dir == 3:
+                        enemyList[i].img = enemyList[i].aLeft[enemyList[i].aniCounter].zoom(2,2)
+                    if enemyList[i].aniCounter<=1:
+                        enemyList[i].aniCounter += 1
+                    elif enemyList[i].aniCounter >= 2:
+                        enemyList[i].aniCounter = 0
+
+
+                    
         for i in range(len(enemyList)):
             if enemyList[i].x == self.PX and enemyList[i].y == self.PY:
                 if enemyList[i].type == "FatBat":

@@ -26,6 +26,24 @@ class Enemy(object):
             self.chase = False
             self.moveCounter = 0
             self.aniCounter = 0
+            self.batDown1 = tk.PhotoImage(file="./Images/Bat/batDown1.png")
+            self.batDown2 = tk.PhotoImage(file="./Images/Bat/batDown2.png")
+            self.batDown3 = tk.PhotoImage(file="./Images/Bat/batDown3.png")
+            self.batUp1 = tk.PhotoImage(file="./Images/Bat/batUp1.png")
+            self.batUp2 = tk.PhotoImage(file="./Images/Bat/batUp2.png")
+            self.batUp3 = tk.PhotoImage(file="./Images/Bat/batUp3.png")
+            self.batRight1 = tk.PhotoImage(file="./Images/Bat/batRight1.png")
+            self.batRight2 = tk.PhotoImage(file="./Images/Bat/batRight2.png")
+            self.batRight3 = tk.PhotoImage(file="./Images/Bat/batRight3.png")
+            self.batLeft1 = tk.PhotoImage(file="./Images/Bat/batLeft1.png")
+            self.batLeft2 = tk.PhotoImage(file="./Images/Bat/batLeft2.png")
+            self.batLeft3 = tk.PhotoImage(file="./Images/Bat/batLeft3.png")
+            self.dir = 2
+
+            self.aLeft = [self.batLeft1, self.batLeft2, self.batLeft3]
+            self.aRight = [self.batRight1, self.batRight2, self.batRight3]
+            self.aDown = [self.batDown1,self.batDown2,self.batDown3]
+            self.aUp = [self.batUp1,self.batUp2,self.batUp3]
 
 def FatBat(num):
     for i in range(num):
