@@ -211,6 +211,10 @@ class Biome():
             self.scenery.append([])
             for g in range(self.x):
                 map[i].append(3)
+                if random.randint(0, 20) <= 0:
+                    self.scenery[i].append(3)
+                else:
+                    self.scenery[i].append(0)
         return map
 
     def nextTo2(self,scale,list,x,y,n):

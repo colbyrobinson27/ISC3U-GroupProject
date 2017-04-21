@@ -23,5 +23,5 @@ class Scenery:
         self.CODE = CODE
 tree1 = Scenery(True,False,"./treebot.png","./treetop.png",-32,1)
 stag1 = Scenery(True,False,"./Images/Scenery/StagBot.png", "./Images/Scenery/StagTop.png",-16,2)
-
-scenerySet = [tree1,stag1]
+cactus1 = Scenery(True,False,"./cactus1Bottom.png","./cactus1Top.png",-16,3)
+scenerySet = [tree1,stag1,cactus1]
