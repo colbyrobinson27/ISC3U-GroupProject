@@ -25,6 +25,7 @@ class Enemy(object):
             self.chaseRange = 8
             self.chase = False
             self.moveCounter = 0
+            self.aniCounter = 0
 
 def FatBat(num):
     for i in range(num):

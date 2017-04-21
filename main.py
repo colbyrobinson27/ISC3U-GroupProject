@@ -32,7 +32,29 @@ class App():
         C1.config(bg = "Black")
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
         self.treetop = tk.PhotoImage(file="./treetop.png")
-        self.treelist = []
+
+        self.batDown1 = tk.PhotoImage(file="./Images/Bat/batDown1.png")
+        self.batDown2 = tk.PhotoImage(file="./Images/Bat/batDown2.png")
+        self.batDown3 = tk.PhotoImage(file="./Images/Bat/batDown3.png")
+        self.batDown = [self.batDown1,self.batDown2,self.batDown3]
+
+        self.batUp1 = tk.PhotoImage(file="./Images/Bat/batUp1.png")
+        self.batUp2 = tk.PhotoImage(file="./Images/Bat/batUp2.png")
+        self.batUp3 = tk.PhotoImage(file="./Images/Bat/batUp3.png")
+        self.batUp = [self.batUp1,self.batUp2,self.batUp3]
+
+        self.batRight1 = tk.PhotoImage(file="./Images/Bat/batRight1.png")
+        self.batRight2 = tk.PhotoImage(file="./Images/Bat/batRight2.png")
+        self.batRight3 = tk.PhotoImage(file="./Images/Bat/batRight3.png")
+        self.batRight = [self.batRight1,self.batRight2,self.batRight3]
+
+        self.batLeft1 = tk.PhotoImage(file="./Images/Bat/batLeft1.png")
+        self.batLeft2 = tk.PhotoImage(file="./Images/Bat/batLeft2.png")
+        self.batLeft3 = tk.PhotoImage(file="./Images/Bat/batLeft3.png")
+        self.batLeft = [self.batLeft1,self.batLeft2,self.batLeft3]
+
+        self.batAniCounter = 0
+
         self.playerDown1 = tk.PhotoImage(file=".\PlayerPlaceHolderDown1.png")
         self.playerDown2 = tk.PhotoImage(file=".\PlayerPlaceHolderDown2.png")
         self.playerDown3 = tk.PhotoImage(file=".\PlayerPlaceHolderDown3.png")
@@ -176,12 +198,30 @@ class App():
 
 
                             enemyList[i].y += int(round(math.cos(y)))
+
+                            if int(round(math.sin(y)))== -1:
+                                enemyList[i].img = self.batLeft[enemyList[i].aniCounter]
+                                if enemyList[i].aniCounter==2:
+                                    enemyList[i].aniCounter = 0
+                            elif int(round(math.sin(y)))== 1:
+                                enemyList[i].img = self.batRight[enemyList[i].aniCounter]
+                                if enemyList[i].aniCounter==2:
+                                    enemyList[i].aniCounter = 0
+                            elif int(round(math.cos(y))) == -1:
+                                enemyList[i].img = self.batUp[enemyList[i].aniCounter]
+                                if enemyList[i].aniCounter==2:
+                                    enemyList[i].aniCounter = 0
+                            elif int(round(math.cos(y))) == 1:
+                                enemyList[i].img = self.batDown[enemyList[i].aniCounter]
+                                if enemyList[i].aniCounter==2:
+                                    enemyList[i].aniCounter = 0
                             print("x" + str(enemyList[i].x),enemyList[i].y)
                         except:
 
                             continue
                         enemyList[i].moveCounter = 0
                     else:
+                        enemyList[i].aniCounter+=1
                         enemyList[i].moveCounter +=1
         for i in range(len(enemyList)):
             if enemyList[i].x == self.PX and enemyList[i].y == self.PY:
