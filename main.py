@@ -210,13 +210,13 @@ class App():
                         enemyList[i].moveCounter +=1
                     print(enemyList[i].aniCounter)
                     if enemyList[i].dir == 0:
-                        enemyList[i].img = enemyList[i].aUp[enemyList[i].aniCounter].zoom(2,2)
+                        enemyList[i].img = enemyList[i].aUp[enemyList[i].aniCounter]
                     elif enemyList[i].dir == 1:
-                        enemyList[i].img = enemyList[i].aRight[enemyList[i].aniCounter].zoom(2,2)
+                        enemyList[i].img = enemyList[i].aRight[enemyList[i].aniCounter]
                     elif enemyList[i].dir == 2:
-                        enemyList[i].img = enemyList[i].aDown[enemyList[i].aniCounter].zoom(2,2)
+                        enemyList[i].img = enemyList[i].aDown[enemyList[i].aniCounter]
                     elif enemyList[i].dir == 3:
-                        enemyList[i].img = enemyList[i].aLeft[enemyList[i].aniCounter].zoom(2,2)
+                        enemyList[i].img = enemyList[i].aLeft[enemyList[i].aniCounter]
                     if enemyList[i].aniCounter<=1:
                         enemyList[i].aniCounter += 1
                     elif enemyList[i].aniCounter >= 2:
