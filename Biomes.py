@@ -34,7 +34,7 @@ class Biome():
         if type == "desert":
             self.map = self.generateDesert()
             self.biome = "desert"
-            self.music = pygame.mixer.Sound("./Music/CaveSong.wav")
+            self.music = pygame.mixer.Sound("./Music/DesertSong.wav")
         try:
 
             print(areaList[ypos-1][xpos].biome)
