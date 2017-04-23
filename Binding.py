@@ -24,7 +24,7 @@ class Battle():
         self.hit  = pygame.mixer.Sound('./Music/Hit.wav')
 
         self.shotspeed = 5
-        self.tears = 1
+        self.tears = 0.1
         self.speed =5
         self.damage = 1
         self.luck = 1
@@ -173,10 +173,19 @@ class Battle():
                 self.teary = roomc.coords(tearlist[i].tear)[1]
             except:
                 pass
-            if self.tearx<38 or self.tearx>self.tsize*2-55 or self.teary>self.tsize-50 or self.teary<38:
+            if self.tearx<20 or self.tearx>self.tsize*2-55 or self.teary>self.tsize-50 or self.teary<38:
                 try:
+                    print(len(tearlist))
                     roomc.delete(tearlist[i].tear)
-                    tearlist.pop(i)
+                    tearlist[i].alive = False
+                    del tearlist[i].size
+                    del tearlist[i].damage
+                    del tearlist[i].tsize
+                    del tearlist[i].tear
+                    del tearlist[i].xspeed
+                    del tearlist[i].yspeed
+                    del tearlist[i].size
+                    
                 except:
                     pass
             for j in range(len(monsterlist)):
@@ -269,7 +278,8 @@ class Battle():
 
 
         root1.after(17,self.update)
-
+    def close(self):
+        roomc.delete()
 
 
 class Tear():
@@ -278,14 +288,15 @@ class Tear():
         self.size = 20
         self.tsize = tsize
         self.tear=roomc.create_oval(x,y,x+self.size,y+self.size,fill="#70e4ff")
-
+        self.alive = True
         self.xspeed = xspeed
         self.yspeed = yspeed
         self.update()
 
     def update(self):
-        self.move()
-        root1.after(17,self.update)
+        if self.alive:
+            self.move()
+            root1.after(17,self.update)
     def move(self):
         roomc.move(self.tear,self.xspeed,self.yspeed)
 
