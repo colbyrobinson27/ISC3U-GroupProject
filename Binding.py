@@ -17,14 +17,14 @@ class Player():
 
 class Battle():
     def __init__(self,root):
-        global root1, tearlist, monsterlist
+        global root1, tearlist, monsterlist, run
         root1 = root
         tearlist = []
         global roomc, person
         self.hit  = pygame.mixer.Sound('./Music/Hit.wav')
 
         self.shotspeed = 5
-        self.tears = 0.1
+        self.tears = 15
         self.speed =5
         self.damage = 1
         self.luck = 1
@@ -45,7 +45,7 @@ class Battle():
         self.imgLeft = PhotoImage(file="./WarLeft.png")
         self.imgUp = PhotoImage(file="./WarUp.png")
         self.imgDown = PhotoImage(file="./WarDown.png")
-
+        run = True
         self.imgDown = self.imgDown.zoom(3, 3)
         self.imgUp = self.imgUp.zoom(3, 3)
         self.imgRight = self.imgRight.zoom(3, 3)
@@ -71,6 +71,14 @@ class Battle():
         self.s = False
         self.w = False
         self.shoot = False
+        root.bind("<KeyRelease-Left>")
+        root.bind("<KeyRelease-Up>")
+        root.bind("<KeyRelease-Down>")
+        root.bind("<KeyRelease-Right>")
+        root.bind("<Left>")
+        root.bind("<Up>")
+        root.bind("<Down>")
+        root.bind("<Right>")
         root1.bind("<a>", self.adef)
         root1.bind("<w>", self.wdef)
         root1.bind("<s>", self.sdef)
@@ -173,7 +181,7 @@ class Battle():
                 self.teary = roomc.coords(tearlist[i].tear)[1]
             except:
                 pass
-            if self.tearx<20 or self.tearx>self.tsize*2-55 or self.teary>self.tsize-50 or self.teary<38:
+            if self.tearx<20 or self.tearx>self.tsize*2-55 or self.teary>self.tsize-50 or self.teary<30:
                 try:
                     print(len(tearlist))
                     roomc.delete(tearlist[i].tear)
@@ -209,7 +217,9 @@ class Battle():
                         if monsterlist[j].hit == monsterlist[j].health:
                             roomc.delete(monsterlist[j].bat)
                             monsterlist.pop(j)
-
+                            print(len(monsterlist))
+                            if len(monsterlist)==0:
+                                self.close(True)
 
                     except:
                         pass
@@ -267,20 +277,36 @@ class Battle():
                         roomc.coords(self.healthbar, 100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55)
 
     def update(self):
+        try:
+            if run:
+                self.move()
+                self.shootProjectile()
 
-        self.move()
-        self.shootProjectile()
-        self.collision()
-        self.x = roomc.coords(person)[0]-10
-        self.y = roomc.coords(person)[1]-10
-        self.timer+=1
-        self.damagetimer+=1
+                self.x = roomc.coords(person)[0]-10
+                self.y = roomc.coords(person)[1]-10
+                self.timer+=1
+                self.damagetimer+=1
+                self.collision()
 
 
-        root1.after(17,self.update)
-    def close(self):
-        roomc.delete()
-
+                root1.after(17,self.update)
+        except:
+            pass
+    def close(self,battleWon):
+        self.run = False
+        roomc.destroy()
+        root1.bind("<a>")
+        root1.bind("<w>")
+        root1.bind("<s>")
+        root1.bind("<d>")
+        root1.bind("<KeyRelease-a>")
+        root1.bind("<KeyRelease-d>")
+        root1.bind("<KeyRelease-w>")
+        root1.bind("<KeyRelease-s>")
+        root1.bind("<Button-1>")
+        root1.bind("<ButtonRelease-1>")
+        root1.bind("<B1-Motion>")
+        self.battleWon=battleWon
 
 class Tear():
     def __init__(self,x,y,xspeed,yspeed,tsize):
@@ -294,9 +320,13 @@ class Tear():
         self.update()
 
     def update(self):
-        if self.alive:
-            self.move()
-            root1.after(17,self.update)
+        try:
+            if run:
+                if self.alive:
+                    self.move()
+                    root1.after(17,self.update)
+        except:
+            pass
     def move(self):
         roomc.move(self.tear,self.xspeed,self.yspeed)
 
@@ -319,13 +349,17 @@ class Enemy:
         self.update()
 
     def update(self):
-        self.damagetimer+=1
-        self.chase()
-        self.move()
-        if self.damagetimer >4:
-            roomc.itemconfig(self.bat, image=self.img)
+        try:
+            if run:
+                self.damagetimer+=1
+                self.chase()
+                self.move()
+                if self.damagetimer >4:
+                    roomc.itemconfig(self.bat, image=self.img)
 
-        root1.after(17,self.update)
+                root1.after(17,self.update)
+        except:
+            pass
 
     def move(self):
         roomc.move(self.bat,self.xspeed,self.yspeed)

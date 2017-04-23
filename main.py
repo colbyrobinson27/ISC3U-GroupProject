@@ -240,7 +240,20 @@ class App():
                 self.updateOnClick()
                 C1.delete("all")
                 self.draw()
-
+        try:
+            if self.battle1.battleWon:
+                
+                root.bind("<Left>", self.onLeftPress)
+                root.bind("<Right>", self.onRightPress)
+                root.bind("<Up>", self.onUpPress)
+                root.bind("<Down>", self.onDownPress)
+                root.bind("<z>", self.NPCInteractions)
+                root.bind("<KeyRelease-Left>", self.onLeftUp)
+                root.bind("<KeyRelease-Right>", self.onRightUp)
+                root.bind("<KeyRelease-Down>", self.onDownUp)
+                root.bind("<KeyRelease-Up>", self.onUpUp)
+        except:
+            pass
 
         root.after(self.moveSpeed,self.fixedUpdate)
     def enemyChase(self,enemy):
@@ -343,7 +356,7 @@ class App():
         for i in range(len(enemyList)):
             if enemyList[i].x == self.PX and enemyList[i].y == self.PY:
                 if enemyList[i].type == "FatBat":
-                    battle1 = binding.Battle(root)
+                    self.battle1 = binding.Battle(root)
                     eD.FatBat(3)
 
     def onLeftPress(self,*args):
