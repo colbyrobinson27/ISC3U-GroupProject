@@ -15,7 +15,7 @@ class App():
         pygame.mixer.init()
 
 
-
+        self.enemyToRemove = 0
         #This is where we create the tkinter, or GUI, window. We do this through the tkinter class, which we have imported as tk as seen below
         global C1, enemyList
         #This sets the size of the tkinter window
@@ -242,7 +242,7 @@ class App():
                 self.draw()
         try:
             if self.battle1.battleWon:
-                
+                del enemyList[self.enemyToRemove]
                 root.bind("<Left>", self.onLeftPress)
                 root.bind("<Right>", self.onRightPress)
                 root.bind("<Up>", self.onUpPress)
@@ -355,7 +355,9 @@ class App():
 
         for i in range(len(enemyList)):
             if enemyList[i].x == self.PX and enemyList[i].y == self.PY:
+                self.enemyToRemove = i
                 if enemyList[i].type == "FatBat":
+
                     self.battle1 = binding.Battle(root)
                     eD.FatBat(3)
 
