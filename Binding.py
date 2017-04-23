@@ -24,7 +24,7 @@ class Battle():
         self.hit  = pygame.mixer.Sound('./Music/Hit.wav')
 
         self.shotspeed = 5
-        self.tears = 40
+        self.tears = 1
         self.speed =5
         self.damage = 1
         self.luck = 1
@@ -65,16 +65,12 @@ class Battle():
         self.healthbar = roomc.create_rectangle(100,self.tsize+25,self.health*3+100,self.tsize+55,fill = "green")
         self.healthLabel = Label(text="Health", font = ("papyrus",15))
         self.healthLabel.place(x=30,y=self.tsize+25)
-        self.shootleft=False
-        self.shootright=False
-        self.shootdown=False
-        self.shootup=False
 
         self.a = False
         self.d = False
         self.s = False
         self.w = False
-
+        self.shoot = False
         root1.bind("<a>", self.adef)
         root1.bind("<w>", self.wdef)
         root1.bind("<s>", self.sdef)
@@ -83,18 +79,13 @@ class Battle():
         root1.bind("<KeyRelease-d>", self.dup)
         root1.bind("<KeyRelease-w>", self.wup)
         root1.bind("<KeyRelease-s>", self.sup)
-        root1.bind("<Left>",self.left)
-        root1.bind("<Up>", self.up)
-        root1.bind("<Down>", self.down)
-        root1.bind("<Right>", self.right)
-        root1.bind("<KeyRelease-Left>",self.leftup)
-        root1.bind("<KeyRelease-Right>", self.rightup)
-        root1.bind("<KeyRelease-Up>", self.upup)
-        root1.bind("<KeyRelease-Down>", self.downup)
+        root1.bind("<Button-1>",self.click)
+        root1.bind("<ButtonRelease-1>",self.clickUp)
+        root1.bind("<B1-Motion>",self.click)
 
 
         self.update()
-        self.shoot()
+        self.shootProjectile()
 
     def aup(self,*args):
         self.a = False
@@ -136,42 +127,29 @@ class Battle():
             self.yspeed = -self.speed/5
 
 
-    def leftup(self,*args):
-        self.shootleft = False
-    def rightup(self,*args):
-        self.shootright = False
-    def upup(self,*args):
-        self.shootup = False
-    def downup(self,*args):
-        self.shootdown = False
+    def click(self,event,*args):
+        self.mouseX, self.mouseY = event.x, event.y
+        self.shoot = True
+    def getXY(self,event,*args):
+        self.mouseX, self.mouseY = event.x, event.y
 
-    def right(self,*args):
-        self.shootright = True
-    def left(self,*args):
-        self.shootleft = True
-    def up(self,*args):
-        self.shootup = True
-    def down(self,*args):
-        self.shootdown = True
 
-    def shoot(self):
-        if self.shootleft == True and self.timer>self.tears:
-            tearlist.append(Tear(self.x-15,self.y-10,-self.shotspeed+self.xspeed,0+self.yspeed,self.tsize))
+    def clickUp(self,*args):
+        self.shoot = False
+
+
+    def shootProjectile(self):
+
+        if self.shoot == True and self.timer>self.tears:
+
+            self.xDist = self.mouseX- roomc.coords(person)[0]
+            self.yDist = self.mouseY - roomc.coords(person)[1]
+            self.xyLength = math.sqrt((self.xDist*self.xDist)+(self.yDist*self.yDist))
+            self.xDist = self.xDist/self.xyLength
+            self.yDist = self.yDist / self.xyLength
+            tearlist.append(Tear(self.x-15,self.y-10,self.xDist*self.shotspeed,self.yDist*self.shotspeed,self.tsize))
             self.timer = 0
             roomc.itemconfig(person,image = self.imgLeft)
-        if self.shootright == True and self.timer>self.tears:
-            tearlist.append(Tear(self.x+15,self.y-10,self.shotspeed+self.xspeed,0+self.yspeed,self.tsize))
-            self.timer = 0
-            roomc.itemconfig(person, image=self.imgRight)
-        if self.shootup == True and self.timer>self.tears:
-            tearlist.append(Tear(self.x,self.y,0+self.xspeed,-self.shotspeed+self.yspeed,self.tsize))
-            self.timer = 0
-            roomc.lift(person)
-            roomc.itemconfig(person, image=self.imgUp)
-        if self.shootdown == True and self.timer>self.tears:
-            tearlist.append(Tear(self.x,self.y,0+self.xspeed,self.shotspeed+self.yspeed,self.tsize))
-            self.timer = 0
-            roomc.itemconfig(person, image=self.imgDown)
 
     def returnsprite(self, num):
         roomc.itemconfig(monsterlist[num].bat, image=self.fatBat)
@@ -282,7 +260,7 @@ class Battle():
     def update(self):
 
         self.move()
-        self.shoot()
+        self.shootProjectile()
         self.collision()
         self.x = roomc.coords(person)[0]-10
         self.y = roomc.coords(person)[1]-10
