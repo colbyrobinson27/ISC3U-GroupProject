@@ -132,7 +132,7 @@ class App():
 
         self.fixedUpdate()
     def fixedUpdate(self):
-        if self.moveCounter >10:
+        if self.moveCounter >7:
             self.moveCounter = 0
             if self.mL:
                 print("k")
@@ -243,7 +243,7 @@ class App():
                     self.draw()
         try:
             if self.battle1.battleWon:
-                
+
                 root.bind("<Left>", self.onLeftPress)
                 root.bind("<Right>", self.onRightPress)
                 root.bind("<Up>", self.onUpPress)
@@ -362,126 +362,18 @@ class App():
                     eD.FatBat(3)
 
     def onLeftPress(self,*args):
-
-
-
-        if self.mL != True:
-            try:
-                self.map[self.PY][self.PX-1].CODE = self.map[self.PY][self.PX-1].CODE
-            except:
-                self.loadSection("-x")
-                return
-            sceneMove = True
-            try:
-                if self.scenery[self.PY][self.PX-1].CAN_MOVE == False:
-                    sceneMove = False
-            except:
-                sceneMove = True
-            if self.PX<= 0:
-                self.loadSection("-x")
-            elif  self.map[self.PY][self.PX-1].CAN_MOVE == True and sceneMove:
-                self.player = self.playerLeft[self.aniCounter]
-                self.aniCounter += 1
-                if self.aniCounter > 3:
-                    self.aniCounter = 0
-
-                self.PX -= 1
-                C1.delete("all")
-                self.updateOnClick()
-                self.draw()
-
-            self.mL = True
+        self.mL = True
 
 
     def onRightPress(self,*args):
 
-
-
-        if self.mR != True:
-            try:
-                self.map[self.PY][self.PX+1].CODE = self.map[self.PY][self.PX+1].CODE
-            except:
-                self.loadSection("+x")
-                return
-            sceneMove = True
-            try:
-                if self.scenery[self.PY ][self.PX+1].CAN_MOVE == False:
-                    sceneMove = False
-            except:
-                sceneMove = True
-            if self.PX >= len(self.map[self.PY])-1:
-                self.loadSection("+x")
-            elif  self.map[self.PY][self.PX+1].CAN_MOVE == True and sceneMove:
-                self.player = self.playerRight[self.aniCounter]
-                self.aniCounter += 1
-                if self.aniCounter > 3:
-                    self.aniCounter = 0
-                self.PX +=1
-                C1.delete("all")
-                self.updateOnClick()
-                self.draw()
-
-            self.mR = True
+        self.mR = True
     def onUpPress(self,*args):
 
-
-
-        if self.mU != True:
-            try:
-                self.map[self.PY-1][self.PX].CODE = self.map[self.PY-1][self.PX].CODE
-            except:
-                self.loadSection("-y")
-                return
-            sceneMove = True
-            try:
-                if self.scenery[self.PY -1][self.PX].CAN_MOVE == False:
-                    sceneMove = False
-            except:
-                sceneMove = True
-
-            if self.PY <= 0:
-                self.loadSection("-y")
-            elif  self.map[self.PY-1][self.PX].CAN_MOVE == True and sceneMove:
-                self.player = self.playerUp[self.aniCounter]
-                self.aniCounter += 1
-                if self.aniCounter > 3:
-                    self.aniCounter = 0
-                self.PY -= 1
-                C1.delete("all")
-                self.updateOnClick()
-                self.draw()
-
-            self.mU = True
+        self.mU = True
     def onDownPress(self,*args):
 
-
-        if self.mD != True:
-            try:
-                self.map[self.PY+1][self.PX].CODE = self.map[self.PY+1][self.PX].CODE
-            except:
-                self.loadSection("+y")
-                return
-            sceneMove = True
-            try:
-                if self.scenery[self.PY + 1][self.PX].CAN_MOVE == False:
-                    sceneMove = False
-            except:
-                sceneMove = True
-            if self.PY >= len(self.map)-1:
-                self.loadSection("+y")
-
-            elif  self.map[self.PY+1][self.PX].CAN_MOVE == True and sceneMove:
-
-                self.player = self.playerDown[self.aniCounter]
-                self.aniCounter+=1
-                if self.aniCounter>3:
-                    self.aniCounter=0
-                self.PY += 1
-                self.updateOnClick()
-                C1.delete("all")
-                self.draw()
-
-            self.mD = True
+        self.mD = True
     def onLeftUp(self,*args):
 
         self.mL = False

@@ -7,41 +7,43 @@ import random
 import winsound
 import pygame
 
+
 class Player():
-    def __init__(self,char):
+    def __init__(self, char):
         if char == "warrior":
             self.health = 5
             self.damage = 1.3
             self.luck = 1
             self.armour = 0
 
+
 class Battle():
-    def __init__(self,root):
+    def __init__(self, root):
         global root1, tearlist, monsterlist, run
         root1 = root
         tearlist = []
         global roomc, person
-        self.hit  = pygame.mixer.Sound('./Music/Hit.wav')
+        self.hit = pygame.mixer.Sound('./Music/Hit.wav')
 
         self.shotspeed = 5
         self.tears = 15
-        self.speed =5
+        self.speed = 5
         self.damage = 1
         self.luck = 1
         self.knockback = 0.05
         self.size = 16
         self.scale = 40
         self.roomnum = 0
-        self.tsize = self.scale*self.size
-        self.timer=0
+        self.tsize = self.scale * self.size
+        self.timer = 0
         self.xspeed = 0
         self.yspeed = 0
         self.health = 100
-        self.damagetimer=0
-        monsterlist=[]
+        self.damagetimer = 0
+        monsterlist = []
         self.fatBat = PhotoImage(file="./FatBat.png")
         self.fatBatDamage = PhotoImage(file="./FatBatDamage.png")
-        self.imgRight=PhotoImage(file="./WarRight.png")
+        self.imgRight = PhotoImage(file="./WarRight.png")
         self.imgLeft = PhotoImage(file="./WarLeft.png")
         self.imgUp = PhotoImage(file="./WarUp.png")
         self.imgDown = PhotoImage(file="./WarDown.png")
@@ -50,21 +52,23 @@ class Battle():
         self.imgUp = self.imgUp.zoom(3, 3)
         self.imgRight = self.imgRight.zoom(3, 3)
         self.imgLeft = self.imgLeft.zoom(3, 3)
-        self.fatBatDamage =self.fatBatDamage.zoom(2,2)
-        self.fatBat = self.fatBat.zoom(2,2)
+        self.fatBatDamage = self.fatBatDamage.zoom(2, 2)
+        self.fatBat = self.fatBat.zoom(2, 2)
         self.floorimg = PhotoImage(file="./floor.png")
-        self.floorimg=self.floorimg.zoom(2,1)
-        root1.config(width=self.tsize*2,height = self.tsize+80)
-        roomc=Canvas(root1)
+        self.floorimg = self.floorimg.zoom(2, 1)
+        root1.config(width=self.tsize * 2, height=self.tsize + 80)
+        roomc = Canvas(root1)
 
         roomc.pack()
-        roomc.config(width=self.tsize * 2, height=self.tsize+80)
-        roomc.create_image(self.tsize,self.tsize/2,image=self.floorimg)
-        person = roomc.create_image(self.tsize,self.tsize/2,image = self.imgDown)
-        roomc.create_rectangle(0+2,self.tsize+2,self.tsize*2-2,self.tsize+78,fill="beige",outline = "black")
-        self.healthbar = roomc.create_rectangle(100,self.tsize+25,self.health*3+100,self.tsize+55,fill = "green")
-        self.healthLabel = Label(text="Health", font = ("papyrus",15))
-        self.healthLabel.place(x=30,y=self.tsize+25)
+        roomc.config(width=self.tsize * 2, height=self.tsize + 80)
+        roomc.create_image(self.tsize, self.tsize / 2, image=self.floorimg)
+        person = roomc.create_image(self.tsize, self.tsize / 2, image=self.imgDown)
+        roomc.create_rectangle(0 + 2, self.tsize + 2, self.tsize * 2 - 2, self.tsize + 78, fill="beige",
+                               outline="black")
+        self.healthbar = roomc.create_rectangle(100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55,
+                                                fill="green")
+        self.healthLabel = Label(text="Health", font=("papyrus", 15))
+        self.healthLabel.place(x=30, y=self.tsize + 25)
 
         self.a = False
         self.d = False
@@ -87,77 +91,81 @@ class Battle():
         root1.bind("<KeyRelease-d>", self.dup)
         root1.bind("<KeyRelease-w>", self.wup)
         root1.bind("<KeyRelease-s>", self.sup)
-        root1.bind("<Button-1>",self.click)
-        root1.bind("<ButtonRelease-1>",self.clickUp)
-        root1.bind("<B1-Motion>",self.click)
-
+        root1.bind("<Button-1>", self.click)
+        root1.bind("<ButtonRelease-1>", self.clickUp)
+        root1.bind("<B1-Motion>", self.click)
 
         self.update()
         self.shootProjectile()
 
-    def aup(self,*args):
+    def aup(self, *args):
         self.a = False
-        self.xspeed=0
-    def dup(self,*args):
+        self.xspeed = 0
+
+    def dup(self, *args):
         self.d = False
-        self.xspeed=0
-    def wup(self,*args):
+        self.xspeed = 0
+
+    def wup(self, *args):
         self.w = False
-        self.yspeed=0
-    def sup(self,*args):
+        self.yspeed = 0
+
+    def sup(self, *args):
         self.s = False
-        self.yspeed=0
-    def ddef(self,*args):
+        self.yspeed = 0
+
+    def ddef(self, *args):
         self.d = True
-    def adef(self,*args):
+
+    def adef(self, *args):
         self.a = True
-    def wdef(self,*args):
+
+    def wdef(self, *args):
         self.w = True
-    def sdef(self,*args):
+
+    def sdef(self, *args):
         self.s = True
 
-    def move(self,*args):
+    def move(self, *args):
         if self.d == True:
-            roomc.move(person,self.speed,0)
-            self.xspeed = self.speed/5
+            roomc.move(person, self.speed, 0)
+            self.xspeed = self.speed / 5
             self.yspeed = 0
         if self.s == True:
-            roomc.move(person,0,self.speed)
+            roomc.move(person, 0, self.speed)
             self.xspeed = 0
-            self.yspeed = self.speed/5
+            self.yspeed = self.speed / 5
         if self.a == True:
-            roomc.move(person,-self.speed,0)
-            self.xspeed = -self.speed/5
+            roomc.move(person, -self.speed, 0)
+            self.xspeed = -self.speed / 5
             self.yspeed = 0
         if self.w == True:
-            roomc.move(person,0,-self.speed)
+            roomc.move(person, 0, -self.speed)
             self.xspeed = 0
-            self.yspeed = -self.speed/5
+            self.yspeed = -self.speed / 5
 
-
-    def click(self,event,*args):
+    def click(self, event, *args):
         self.mouseX, self.mouseY = event.x, event.y
         self.shoot = True
-    def getXY(self,event,*args):
+
+    def getXY(self, event, *args):
         self.mouseX, self.mouseY = event.x, event.y
 
-
-    def clickUp(self,*args):
+    def clickUp(self, *args):
         self.shoot = False
-
 
     def shootProjectile(self):
 
-        if self.shoot == True and self.timer>self.tears:
-
-            self.xDist = self.mouseX- roomc.coords(person)[0]
+        if self.shoot == True and self.timer > self.tears:
+            self.xDist = self.mouseX - roomc.coords(person)[0]
             self.yDist = self.mouseY - roomc.coords(person)[1]
-            self.xyLength = math.sqrt((self.xDist*self.xDist)+(self.yDist*self.yDist))
-            self.xDist = self.xDist/self.xyLength
+            self.xyLength = math.sqrt((self.xDist * self.xDist) + (self.yDist * self.yDist))
+            self.xDist = self.xDist / self.xyLength
             self.yDist = self.yDist / self.xyLength
-            tearlist.append(Tear(self.x-15,self.y-10,self.xDist*self.shotspeed,self.yDist*self.shotspeed,self.tsize))
+            tearlist.append(
+                Tear(self.x - 15, self.y - 10, self.xDist * self.shotspeed, self.yDist * self.shotspeed, self.tsize))
             self.timer = 0
-            roomc.itemconfig(person,image = self.imgLeft)
+            roomc.itemconfig(person, image=self.imgLeft)
 
     def returnsprite(self, num):
         roomc.itemconfig(monsterlist[num].bat, image=self.fatBat)
@@ -166,13 +174,13 @@ class Battle():
     def collision(self):
 
         if roomc.coords(person)[0] < 40:
-            roomc.move(person,self.speed,0)
-        if roomc.coords(person)[0] >self.tsize*2- 60:
-            roomc.move(person,-self.speed,0)
+            roomc.move(person, self.speed, 0)
+        if roomc.coords(person)[0] > self.tsize * 2 - 60:
+            roomc.move(person, -self.speed, 0)
         if roomc.coords(person)[1] < 40:
-            roomc.move(person,0,self.speed)
-        if roomc.coords(person)[1]+40 > self.tsize-40:
-            roomc.move(person,0,-self.speed)
+            roomc.move(person, 0, self.speed)
+        if roomc.coords(person)[1] + 40 > self.tsize - 40:
+            roomc.move(person, 0, -self.speed)
         for i in range(len(tearlist)):
 
             try:
@@ -181,7 +189,7 @@ class Battle():
                 self.teary = roomc.coords(tearlist[i].tear)[1]
             except:
                 pass
-            if self.tearx<20 or self.tearx>self.tsize*2-55 or self.teary>self.tsize-50 or self.teary<30:
+            if self.tearx < 20 or self.tearx > self.tsize * 2 - 55 or self.teary > self.tsize - 50 or self.teary < 30:
                 try:
                     print(len(tearlist))
                     roomc.delete(tearlist[i].tear)
@@ -193,7 +201,7 @@ class Battle():
                     del tearlist[i].xspeed
                     del tearlist[i].yspeed
                     del tearlist[i].size
-                    
+
                 except:
                     pass
             for j in range(len(monsterlist)):
@@ -202,7 +210,8 @@ class Battle():
                     self.bbox = roomc.bbox(monsterlist[j].bat)
                 except:
                     pass
-                if self.tearx>self.bbox[0] and self.tearx<self.bbox[2] and self.teary>self.bbox[1] and self.teary<self.bbox[3]:
+                if self.tearx > self.bbox[0] and self.tearx < self.bbox[2] and self.teary > self.bbox[
+                    1] and self.teary < self.bbox[3]:
                     try:
 
                         monsterlist[j].xspeed = tearlist[i].xspeed * self.knockback
@@ -218,21 +227,20 @@ class Battle():
                             roomc.delete(monsterlist[j].bat)
                             monsterlist.pop(j)
                             print(len(monsterlist))
-                            if len(monsterlist)==0:
+                            if len(monsterlist) == 0:
                                 self.close(True)
 
                     except:
                         pass
 
-
-
-        for i in range(len(monsterlist)-1):
-            for k in range((len(monsterlist))-1,0,-1):
-                if abs(roomc.coords(monsterlist[i].bat)[0]-roomc.coords(monsterlist[k].bat)[0])<70 and abs(roomc.coords(monsterlist[i].bat)[1]-roomc.coords(monsterlist[k].bat)[1])<60:
-                    if roomc.coords(monsterlist[i].bat)[0]>roomc.coords(monsterlist[k].bat)[0]:
+        for i in range(len(monsterlist) - 1):
+            for k in range((len(monsterlist)) - 1, 0, -1):
+                if abs(roomc.coords(monsterlist[i].bat)[0] - roomc.coords(monsterlist[k].bat)[0]) < 70 and abs(
+                                roomc.coords(monsterlist[i].bat)[1] - roomc.coords(monsterlist[k].bat)[1]) < 60:
+                    if roomc.coords(monsterlist[i].bat)[0] > roomc.coords(monsterlist[k].bat)[0]:
                         monsterlist[i].xspeed = 1
                         monsterlist[k].xspeed = -1
-                    if roomc.coords(monsterlist[i].bat)[0]<roomc.coords(monsterlist[k].bat)[0]:
+                    if roomc.coords(monsterlist[i].bat)[0] < roomc.coords(monsterlist[k].bat)[0]:
                         monsterlist[i].xspeed = -1
                         monsterlist[k].xspeed = 1
                     if roomc.coords(monsterlist[i].bat)[1] > roomc.coords(monsterlist[k].bat)[1]:
@@ -244,35 +252,36 @@ class Battle():
         for i in range(len(monsterlist)):
             self.x = roomc.coords(person)[0]
             self.y = roomc.coords(person)[1]
-            if abs(roomc.coords(monsterlist[i].bat)[0]-self.x)<70 and abs(roomc.coords(monsterlist[i].bat)[1]-self.y)<60:
-                if roomc.coords(monsterlist[i].bat)[0]>self.x:
+            if abs(roomc.coords(monsterlist[i].bat)[0] - self.x) < 70 and abs(
+                            roomc.coords(monsterlist[i].bat)[1] - self.y) < 60:
+                if roomc.coords(monsterlist[i].bat)[0] > self.x:
                     monsterlist[i].xspeed = 2
-                    roomc.move(person,-2,0)
-                    if self.damagetimer>10:
-                        self.damagetimer=0
+                    roomc.move(person, -2, 0)
+                    if self.damagetimer > 10:
+                        self.damagetimer = 0
                         self.health += -monsterlist[i].damage
-                        roomc.coords(self.healthbar,100,self.tsize+25,self.health*3+100,self.tsize+55)
-                if roomc.coords(monsterlist[i].bat)[0]<self.x:
+                        roomc.coords(self.healthbar, 100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55)
+                if roomc.coords(monsterlist[i].bat)[0] < self.x:
                     monsterlist[i].xspeed = -2
                     roomc.move(person, 2, 0)
-                    if self.damagetimer>20:
-                        self.damagetimer=0
+                    if self.damagetimer > 20:
+                        self.damagetimer = 0
                         self.health += -monsterlist[i].damage
                         roomc.coords(self.healthbar, 100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55)
                 if roomc.coords(monsterlist[i].bat)[1] > self.y:
                     monsterlist[i].yspeed = 2
-                    roomc.move(person, 0,-2)
+                    roomc.move(person, 0, -2)
 
-                    if self.damagetimer>20:
-                        self.damagetimer=0
+                    if self.damagetimer > 20:
+                        self.damagetimer = 0
                         self.health += -monsterlist[i].damage
                         roomc.coords(self.healthbar, 100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55)
 
                 if roomc.coords(monsterlist[i].bat)[1] < self.y:
                     monsterlist[i].yspeed = -2
-                    roomc.move(person, 0,2)
-                    if self.damagetimer>20:
-                        self.damagetimer=0
+                    roomc.move(person, 0, 2)
+                    if self.damagetimer > 20:
+                        self.damagetimer = 0
                         self.health += -monsterlist[i].damage
                         roomc.coords(self.healthbar, 100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55)
 
@@ -282,17 +291,17 @@ class Battle():
                 self.move()
                 self.shootProjectile()
 
-                self.x = roomc.coords(person)[0]-10
-                self.y = roomc.coords(person)[1]-10
-                self.timer+=1
-                self.damagetimer+=1
+                self.x = roomc.coords(person)[0] - 10
+                self.y = roomc.coords(person)[1] - 10
+                self.timer += 1
+                self.damagetimer += 1
                 self.collision()
 
-
-                root1.after(17,self.update)
+                root1.after(17, self.update)
         except:
             pass
-    def close(self,battleWon):
+
+    def close(self, battleWon):
         self.run = False
         roomc.destroy()
         root1.bind("<a>")
@@ -306,14 +315,15 @@ class Battle():
         root1.bind("<Button-1>")
         root1.bind("<ButtonRelease-1>")
         root1.bind("<B1-Motion>")
-        self.battleWon=battleWon
+        self.battleWon = battleWon
+
 
 class Tear():
-    def __init__(self,x,y,xspeed,yspeed,tsize):
+    def __init__(self, x, y, xspeed, yspeed, tsize):
         self.damage = 1
         self.size = 20
         self.tsize = tsize
-        self.tear=roomc.create_oval(x,y,x+self.size,y+self.size,fill="#70e4ff")
+        self.tear = roomc.create_oval(x, y, x + self.size, y + self.size, fill="#70e4ff")
         self.alive = True
         self.xspeed = xspeed
         self.yspeed = yspeed
@@ -324,24 +334,25 @@ class Tear():
             if run:
                 if self.alive:
                     self.move()
-                    root1.after(17,self.update)
+                    root1.after(17, self.update)
         except:
             pass
+
     def move(self):
-        roomc.move(self.tear,self.xspeed,self.yspeed)
+        roomc.move(self.tear, self.xspeed, self.yspeed)
 
 
 class Enemy:
-    def __init__(self,x,y):
+    def __init__(self, x, y):
 
-        self.img = PhotoImage(file = "./FatBat.png")
-        self.img=self.img.zoom(2,2)
-        self.bat = roomc.create_image(x,y,image=self.img)
+        self.img = PhotoImage(file="./FatBat.png")
+        self.img = self.img.zoom(2, 2)
+        self.bat = roomc.create_image(x, y, image=self.img)
 
-        self.health =50
+        self.health = 50
         self.speed = 2.5
         self.speedgain = 0.05
-        self.xspeed=self.speed
+        self.xspeed = self.speed
         self.yspeed = self.speed
         self.damagetimer = 0
         self.hit = 0
@@ -351,25 +362,25 @@ class Enemy:
     def update(self):
         try:
             if run:
-                self.damagetimer+=1
+                self.damagetimer += 1
                 self.chase()
                 self.move()
-                if self.damagetimer >4:
+                if self.damagetimer > 4:
                     roomc.itemconfig(self.bat, image=self.img)
 
-                root1.after(17,self.update)
+                root1.after(17, self.update)
         except:
             pass
 
     def move(self):
-        roomc.move(self.bat,self.xspeed,self.yspeed)
+        roomc.move(self.bat, self.xspeed, self.yspeed)
 
     def chase(self):
-        self.pos=roomc.coords(self.bat)[0:2]
+        self.pos = roomc.coords(self.bat)[0:2]
         self.playerpos = roomc.coords(person)[0:2]
         try:
             if self.pos[0] > self.playerpos[0]:
-                self.xspeed+=-self.speedgain
+                self.xspeed += -self.speedgain
             if self.pos[0] < self.playerpos[0]:
                 self.xspeed += self.speedgain
             if self.pos[1] > self.playerpos[1]:
@@ -377,17 +388,14 @@ class Enemy:
             if self.pos[1] < self.playerpos[1]:
                 self.yspeed += self.speedgain
 
-            if self.xspeed>self.speed:
-                self.xspeed=self.speed
-            elif self.xspeed<-self.speed:
-                self.xspeed=-self.speed
-            if self.yspeed>self.speed:
-                self.yspeed=self.speed
-            elif self.yspeed<-self.speed:
-                self.yspeed=-self.speed
+            if self.xspeed > self.speed:
+                self.xspeed = self.speed
+            elif self.xspeed < -self.speed:
+                self.xspeed = -self.speed
+            if self.yspeed > self.speed:
+                self.yspeed = self.speed
+            elif self.yspeed < -self.speed:
+                self.yspeed = -self.speed
 
         except:
             pass
-
-
-
