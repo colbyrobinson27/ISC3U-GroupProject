@@ -362,17 +362,21 @@ class App():
         for i in range(len(enemyList)):
             if enemyList[i].x == self.PX and enemyList[i].y == self.PY:
                 self.enemyToRemove = i
-                root.unbind('all')
+                self.mL = False
+                self.mR = False
+                self.mU = False
+                self.mD = False
+                root.unbind("<Left>")
+                root.unbind("<Right>")
+                root.unbind("<Up>")
+                root.unbind("<Down>")
+                root.unbind("<z>")
+                root.unbind("<KeyRelease-Left>")
+                root.unbind("<KeyRelease-Right>")
+                root.unbind("<KeyRelease-Down>")
+                root.unbind("<KeyRelease-Up>")
                 if enemyList[i].type == "FatBat":
-                    root.unbind("<Left>")
-                    root.unbind("<Right>")
-                    root.unbind("<Up>")
-                    root.unbind("<Down>")
-                    root.unbind("<z>")
-                    root.unbind("<KeyRelease-Left>")
-                    root.unbind("<KeyRelease-Right>")
-                    root.unbind("<KeyRelease-Down>")
-                    root.unbind("<KeyRelease-Up>")
+
                     self.battle1 = binding.Battle(root)
                     eD.FatBat(3)
 
