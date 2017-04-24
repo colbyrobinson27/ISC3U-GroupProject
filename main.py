@@ -132,6 +132,7 @@ class App():
 
         self.fixedUpdate()
     def fixedUpdate(self):
+
         if self.moveCounter >7:
             self.moveCounter = 0
             if self.mL:
@@ -140,7 +141,7 @@ class App():
                     self.map[self.PY][self.PX - 1].CODE = self.map[self.PY][self.PX - 1].CODE
                 except:
                     self.loadSection("-x")
-                    return
+
                 sceneMove = True
                 try:
                     if self.scenery[self.PY][self.PX - 1].CAN_MOVE == False:
@@ -168,7 +169,7 @@ class App():
                     self.map[self.PY][self.PX + 1].CODE = self.map[self.PY][self.PX + 1].CODE
                 except:
                     self.loadSection("+x")
-                    return
+
                 sceneMove = True
                 try:
                     if self.scenery[self.PY][self.PX + 1].CAN_MOVE == False:
@@ -194,7 +195,7 @@ class App():
                     self.map[self.PY - 1][self.PX].CODE = self.map[self.PY - 1][self.PX].CODE
                 except:
                     self.loadSection("-y")
-                    return
+
                 sceneMove = True
                 try:
                     if self.scenery[self.PY - 1][self.PX].CAN_MOVE == False:
@@ -221,7 +222,7 @@ class App():
                     self.map[self.PY + 1][self.PX].CODE = self.map[self.PY + 1][self.PX].CODE
                 except:
                     self.loadSection("+y")
-                    return
+
                 sceneMove = True
                 try:
                     if self.scenery[self.PY + 1][self.PX].CAN_MOVE == False:
@@ -361,8 +362,17 @@ class App():
         for i in range(len(enemyList)):
             if enemyList[i].x == self.PX and enemyList[i].y == self.PY:
                 self.enemyToRemove = i
+                root.unbind('all')
                 if enemyList[i].type == "FatBat":
-
+                    root.unbind("<Left>")
+                    root.unbind("<Right>")
+                    root.unbind("<Up>")
+                    root.unbind("<Down>")
+                    root.unbind("<z>")
+                    root.unbind("<KeyRelease-Left>")
+                    root.unbind("<KeyRelease-Right>")
+                    root.unbind("<KeyRelease-Down>")
+                    root.unbind("<KeyRelease-Up>")
                     self.battle1 = binding.Battle(root)
                     eD.FatBat(3)
 
@@ -434,7 +444,7 @@ class App():
              #   else:
               #      C1.create_image(g*self.tileSize+12-self.PX + 7*self.tileSize,i*self.tileSize+12-self.PY + 7*self.tileSize,image = self.floorImage)
         self.draw()
-        self.fixedUpdate()
+
     def NPCInteractions(self,*args):
         response = eD.eNT(self.PX,self.PY,enemyList)
         if response != "":

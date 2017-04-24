@@ -75,14 +75,7 @@ class Battle():
         self.s = False
         self.w = False
         self.shoot = False
-        root.bind("<KeyRelease-Left>")
-        root.bind("<KeyRelease-Up>")
-        root.bind("<KeyRelease-Down>")
-        root.bind("<KeyRelease-Right>")
-        root.bind("<Left>")
-        root.bind("<Up>")
-        root.bind("<Down>")
-        root.bind("<Right>")
+
         root1.bind("<a>", self.adef)
         root1.bind("<w>", self.wdef)
         root1.bind("<s>", self.sdef)
