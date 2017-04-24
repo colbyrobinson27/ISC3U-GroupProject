@@ -243,11 +243,10 @@ class App():
                     self.draw()
         try:
             if self.battle1.battleWon:
-<<<<<<< HEAD
-                del enemyList[self.enemyToRemove]
-=======
 
->>>>>>> origin/master
+                del enemyList[self.enemyToRemove]
+
+
                 root.bind("<Left>", self.onLeftPress)
                 root.bind("<Right>", self.onRightPress)
                 root.bind("<Up>", self.onUpPress)
