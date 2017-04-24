@@ -39,7 +39,8 @@ class Biome():
             self.biome = "desert"
             self.music = pygame.mixer.Sound("./Music/DesertSong.wav")
         if type[0] == "custom":
-            self.map = rL.openFile(type[1])
+            self.map = rL.openFile(type[1],self.scenery)
+            print(self.scenery)
             self.biome = "custom"
             self.music = pygame.mixer.Sound("./Music/Blue-World.wav")
         try:
