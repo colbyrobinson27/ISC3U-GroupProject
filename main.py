@@ -315,24 +315,27 @@ class App():
                 if enemyList[i].chase:
                     if enemyList[i].moveCounter >= 1:
                         try:
-                            enemyList[i].x += int(round(math.sin(y)))
 
 
-                            enemyList[i].y += int(round(math.cos(y)))
+
+
 
                             if int(round(math.sin(y)))== -1:
                                 enemyList[i].dir = 3
-
+                                enemyList[i].x += int(round(math.sin(y)))
 
                             elif int(round(math.sin(y)))== 1:
                                 enemyList[i].dir = 1
+                                enemyList[i].x += int(round(math.sin(y)))
 
 
-                            elif int(round(math.cos(y))) == -1:
+                            if int(round(math.cos(y))) == -1:
                                 enemyList[i].dir = 0
+                                enemyList[i].y += int(round(math.cos(y)))
 
                             elif int(round(math.cos(y))) == 1:
                                 enemyList[i].dir = 2
+                                enemyList[i].y += int(round(math.cos(y)))
 
 
                             print("x" + str(enemyList[i].x),enemyList[i].y)
