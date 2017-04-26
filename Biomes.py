@@ -187,13 +187,13 @@ class Biome():
             self.scenery.append([])
             for g in range(self.x):
                 try:
-                    if map[i][g] == 0:
-                        if random.randint(0,25) == 0:
-                            self.scenery[i].append(2)
-                        else:
-                            self.scenery[i].append(0)
+                    if map[i][g] == 0 and map[i-1][g] == 1:
+                        self.scenery[i].append(4)
+                    elif random.randint(0,25) == 0 and map[i][g] == 0:
+                        self.scenery[i].append(2)
                     else:
                         self.scenery[i].append(0)
+
                 except:
                     continue
 
