@@ -11,7 +11,7 @@ def openFile(fileName,scene):
     size[1] = int(size[1])
     print(size,tiles)
     map = []
-    tileSet = ['caveWall', 'caveFloor', 'grass1', 'desert1']
+    tileSet = ['caveFloor','caveWall', 'grass1', 'desert1']
     scenerySet = ['tree1','stag1','cactus1']
     for i in range(int(size[1])):
         map.append([])
