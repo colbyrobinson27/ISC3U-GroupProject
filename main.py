@@ -538,9 +538,9 @@ class App():
                         xCTR += 1
                         continue
                     else:
-                        C1.create_image(xCTR * self.tileSize+16+self.scenery[y][x].XOFFSET, yCTR * self.tileSize+16, image=self.scenery[y][x].IMAGE_DIR)
+                        C1.create_image(xCTR * self.tileSize+16, yCTR * self.tileSize+16, image=self.scenery[y][x].IMAGE_DIR)
                         try:
-                            C1.create_image(xCTR * self.tileSize+16+self.scenery[y][x].XOFFSET , yCTR * self.tileSize+self.scenery[y][x].YOFFSET, image=self.scenery[y][x].IMAGE_SECOND,tags = "treetop")
+                            C1.create_image(xCTR * self.tileSize+16, yCTR * self.tileSize+self.scenery[y][x].OFFSET, image=self.scenery[y][x].IMAGE_SECOND,tags = "treetop")
                         except:
                             pass
                         xCTR +=1
