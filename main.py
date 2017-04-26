@@ -85,6 +85,15 @@ class App():
         root.bind("<KeyRelease-Right>", self.onRightUp)
         root.bind("<KeyRelease-Down>", self.onDownUp)
         root.bind("<KeyRelease-Up>", self.onUpUp)
+        root.bind("<a>", self.onLeftPress)
+        root.bind("<d>", self.onRightPress)
+        root.bind("<w>", self.onUpPress)
+        root.bind("<s>", self.onDownPress)
+
+        root.bind("<KeyRelease-a>", self.onLeftUp)
+        root.bind("<KeyRelease-d>", self.onRightUp)
+        root.bind("<KeyRelease-s>", self.onDownUp)
+        root.bind("<KeyRelease-w>", self.onUpUp)
         #this is where we import images from the game folder, and assign them to variables
         self.player= tk.PhotoImage(file = ".\PlayerPlaceHolderUp1.png")
 
@@ -247,7 +256,15 @@ class App():
 
                 del enemyList[self.enemyToRemove]
 
+                root.bind("<a>", self.onLeftPress)
+                root.bind("<d>", self.onRightPress)
+                root.bind("<w>", self.onUpPress)
+                root.bind("<s>", self.onDownPress)
 
+                root.bind("<KeyRelease-a>", self.onLeftUp)
+                root.bind("<KeyRelease-d>", self.onRightUp)
+                root.bind("<KeyRelease-s>", self.onDownUp)
+                root.bind("<KeyRelease-w>", self.onUpUp)
                 root.bind("<Left>", self.onLeftPress)
                 root.bind("<Right>", self.onRightPress)
                 root.bind("<Up>", self.onUpPress)
