@@ -1,8 +1,9 @@
 import random
 import tkinter as tk
-import EnemyData as eD
+
 root = tk.Tk()
 import Biomes as bI
+import EnemyData as eD
 import Binding as binding
 import math
 import pygame
@@ -405,7 +406,7 @@ class App():
                 root.unbind("<KeyRelease-Right>")
                 root.unbind("<KeyRelease-Down>")
                 root.unbind("<KeyRelease-Up>")
-                if enemyList[i].type == "FatBat":
+                if enemyList[i].type == "fatbat":
 
                     self.battle1 = binding.Battle(root)
                     eD.FatBat(3)
@@ -497,9 +498,15 @@ class App():
                         for b in range(xscan):
                             if spawned != True:
                                 if self.map[i*yscan+h][g*xscan+b].CODE == 0:
-                                    enemyList.append(eD.Enemy("FatBat",g*xscan+b,i*yscan+h ))
-                                    print(g*xscan+b,i*yscan+h)
+                                    enemyList.append(eD.Enemy(eD.enemies[0]))
+                                    print(g*xscan+b,i*yscan +h,i*xZones + g)
+                                    print("curx", enemyList[i*xZones + g].x)
+                                    enemyList[i*xZones + g].x = g*xscan+b
+                                    enemyList[i * xZones + g].y = i*yscan +h
+
                                     spawned = True
+        for i in range(len(enemyList)):
+            print("x:",enemyList[i].x,"y:",enemyList[i].y)
 
     def calcFOV(self):  #By Rhys
         print('RAN')
