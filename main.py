@@ -86,7 +86,7 @@ class App():
         root.bind("<KeyRelease-Down>", self.onDownUp)
         root.bind("<KeyRelease-Up>", self.onUpUp)
         #this is where we import images from the game folder, and assign them to variables
-        self.player= tk.PhotoImage(file = ".\PlayerPlaceHolderUp1.png")
+        self.player= tk.PhotoImage(file = "./Images/Characters/2Down1.png")
 
 
 
