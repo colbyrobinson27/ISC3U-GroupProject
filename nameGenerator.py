@@ -8,12 +8,12 @@ def characterNameGenerator():
         5:"dem",
         6:"grog",
         7:"meon",
-        8:"daen",
+        8:"dawr",
         9:"freg",
         10:"con",
         11:"don",
         12:"ferg",
-        13:"xan",
+        13:"peow",
         14:"brun",
         15:"gein",
         16:"hun",
@@ -22,15 +22,15 @@ def characterNameGenerator():
         19:"dert",
         20:"qwey",
         21:"yuop",
-        22:"zein",
-        23:"zop",
+        22:"greyn",
+        23:"watt",
         24:"weil",
         25:"quin",
         26:"hut",
         27:"drag",
         28:"yunk",
         29:"brein",
-        30:"sux"
+        30:"sull"
         }
     firstSeg = random.randint(1,len(fNSeg))
     secondSeg = firstSeg
@@ -39,6 +39,4 @@ def characterNameGenerator():
         secondSeg = random.randint(1,len(fNSeg))
     name = fNSeg[firstSeg] + fNSeg[secondSeg]
 
-    print(name)
-for i in range(10):
-    characterNameGenerator()
+    return name
