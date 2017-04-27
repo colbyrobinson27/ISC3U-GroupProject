@@ -416,16 +416,16 @@ class App():
         self.downTime = event.time
         self.mD = True
     def onLeftUp(self,*args):
-
+        self.leftTime = 0
         self.mL = False
     def onRightUp(self,*args):
-
+        self.rightTime = 0
         self.mR = False
     def onDownUp(self,*args):
-
+        self.downTime = 0
         self.mD = False
     def onUpUp(self,*args):
-
+        self.upTime = 0
         self.mU = False
     def loadSection(self,dir):
         print("hi")
