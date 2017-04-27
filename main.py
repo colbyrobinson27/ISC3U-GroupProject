@@ -41,24 +41,24 @@ class App():
         self.moveCounter = 0
         self.batAniCounter = 0
 
-        self.playerDown1 = tk.PhotoImage(file=".\PlayerPlaceHolderDown1.png")
-        self.playerDown2 = tk.PhotoImage(file=".\PlayerPlaceHolderDown2.png")
-        self.playerDown3 = tk.PhotoImage(file=".\PlayerPlaceHolderDown3.png")
+        self.playerDown1 = tk.PhotoImage(file="./Images/Characters/2Down1.png")
+        self.playerDown2 = tk.PhotoImage(file="./Images/Characters/2Down2.png")
+        self.playerDown3 = tk.PhotoImage(file="./Images/Characters/2Down3.png")
         self.playerDown = [self.playerDown1,self.playerDown2,self.playerDown3,self.playerDown2]
 
-        self.playerLeft1 = tk.PhotoImage(file=".\PlayerPlaceHolderLeft1.png")
-        self.playerLeft2 = tk.PhotoImage(file=".\PlayerPlaceHolderLeft2.png")
-        self.playerLeft3 = tk.PhotoImage(file=".\PlayerPlaceHolderLeft3.png")
+        self.playerLeft1 = tk.PhotoImage(file="./Images/Characters/2Left1.png")
+        self.playerLeft2 = tk.PhotoImage(file="./Images/Characters/2Left2.png")
+        self.playerLeft3 = tk.PhotoImage(file="./Images/Characters/2Left3.png")
         self.playerLeft = [self.playerLeft1, self.playerLeft2, self.playerLeft3, self.playerLeft2]
 
-        self.playerRight1 = tk.PhotoImage(file=".\PlayerPlaceHolderRight1.png")
-        self.playerRight2 = tk.PhotoImage(file=".\PlayerPlaceHolderRight2.png")
-        self.playerRight3 = tk.PhotoImage(file=".\PlayerPlaceHolderRight3.png")
+        self.playerRight1 = tk.PhotoImage(file="./Images/Characters/2Right1.png")
+        self.playerRight2 = tk.PhotoImage(file="./Images/Characters/2Right2.png")
+        self.playerRight3 = tk.PhotoImage(file="./Images/Characters/2Right3.png")
         self.playerRight = [self.playerRight1, self.playerRight2, self.playerRight3, self.playerRight2]
 
-        self.playerUp1 = tk.PhotoImage(file=".\PlayerPlaceHolderUp1.png")
-        self.playerUp2 = tk.PhotoImage(file=".\PlayerPlaceHolderUp2.png")
-        self.playerUp3 = tk.PhotoImage(file=".\PlayerPlaceHolderUp3.png")
+        self.playerUp1 = tk.PhotoImage(file="./Images/Characters/2Up1.png")
+        self.playerUp2 = tk.PhotoImage(file="./Images/Characters/2Up2.png")
+        self.playerUp3 = tk.PhotoImage(file="./Images/Characters/2Up3.png")
         self.playerUp = [self.playerUp1, self.playerUp2, self.playerUp3, self.playerUp2]
         self.aniCounter = 0
         self.PX = 50
@@ -71,7 +71,10 @@ class App():
         self.mR = False
         self.mU = False
         self.mD = False
-
+        self.rightTime = 0
+        self.leftTime = 1
+        self.upTime = 2
+        self.downTime = 3
 
         #Here is just variables that are used to stop players from holding down a key and moving extremely fast, not too much to worry about
 
@@ -85,6 +88,7 @@ class App():
         root.bind("<KeyRelease-Right>", self.onRightUp)
         root.bind("<KeyRelease-Down>", self.onDownUp)
         root.bind("<KeyRelease-Up>", self.onUpUp)
+
         root.bind("<a>", self.onLeftPress)
         root.bind("<d>", self.onRightPress)
         root.bind("<w>", self.onUpPress)
@@ -95,7 +99,7 @@ class App():
         root.bind("<KeyRelease-s>", self.onDownUp)
         root.bind("<KeyRelease-w>", self.onUpUp)
         #this is where we import images from the game folder, and assign them to variables
-        self.player= tk.PhotoImage(file = ".\PlayerPlaceHolderUp1.png")
+        self.player= tk.PhotoImage(file = "./Images/Characters/2Down1.png")
 
 
 
@@ -110,7 +114,7 @@ class App():
         bI.createSegment("forest", 100, 100, False, False, False, False, 11, 10)
         bI.createSegment("forest", 100, 100, False, False, False, False, 9, 10)
         bI.createSegment("desert", 100, 100, False, False, False, False, 9, 11)
-        bI.createSegment("custom,file13.txt",100,100,False,False,False,False,11,11)
+        bI.createSegment("custom,littleCave.txt",100,100,False,False,False,False,11,11)
         #print(bI.Biome.hostility)
         #print(bI.areaList[bI.mapy][bI.mapx].hostility)
         bI.areaList[bI.mapy][bI.mapx].music.play(loops=-1)
@@ -144,7 +148,7 @@ class App():
 
         if self.moveCounter >7:
             self.moveCounter = 0
-            if self.mL:
+            if self.mL and self.leftTime>self.rightTime and self.leftTime > self.downTime and self.leftTime> self.upTime:
                 print("k")
                 try:
                     self.map[self.PY][self.PX - 1].CODE = self.map[self.PY][self.PX - 1].CODE
@@ -172,7 +176,7 @@ class App():
                     self.draw()
 
 
-            if self.mR:
+            if self.mR and self.rightTime>self.leftTime and self.rightTime > self.downTime and self.rightTime> self.upTime:
 
                 try:
                     self.map[self.PY][self.PX + 1].CODE = self.map[self.PY][self.PX + 1].CODE
@@ -198,7 +202,7 @@ class App():
                     self.draw()
 
 
-            if self.mU:
+            if self.mU and self.upTime>self.leftTime and self.upTime > self.downTime and self.upTime> self.rightTime:
 
                 try:
                     self.map[self.PY - 1][self.PX].CODE = self.map[self.PY - 1][self.PX].CODE
@@ -225,7 +229,7 @@ class App():
                     self.draw()
 
 
-            if self.mD:
+            if self.mD and self.downTime>self.leftTime and self.downTime > self.rightTime and self.downTime> self.upTime:
 
                 try:
                     self.map[self.PY + 1][self.PX].CODE = self.map[self.PY + 1][self.PX].CODE
@@ -260,6 +264,12 @@ class App():
                 root.bind("<d>", self.onRightPress)
                 root.bind("<w>", self.onUpPress)
                 root.bind("<s>", self.onDownPress)
+
+                root.bind("<KeyRelease-a>", self.onLeftUp)
+                root.bind("<KeyRelease-d>", self.onRightUp)
+                root.bind("<KeyRelease-s>", self.onDownUp)
+                root.bind("<KeyRelease-w>", self.onUpUp)
+
 
                 root.bind("<KeyRelease-a>", self.onLeftUp)
                 root.bind("<KeyRelease-d>", self.onRightUp)
@@ -400,30 +410,29 @@ class App():
                     self.battle1 = binding.Battle(root)
                     eD.FatBat(3)
 
-    def onLeftPress(self,*args):
+    def onLeftPress(self,event,*args):
+        self.leftTime = event.time
         self.mL = True
-
-
-    def onRightPress(self,*args):
-
+    def onRightPress(self,event,*args):
+        self.rightTime = event.time
         self.mR = True
-    def onUpPress(self,*args):
-
+    def onUpPress(self,event,*args):
+        self.upTime = event.time
         self.mU = True
-    def onDownPress(self,*args):
-
+    def onDownPress(self,event,*args):
+        self.downTime = event.time
         self.mD = True
     def onLeftUp(self,*args):
-
+        self.leftTime = 0
         self.mL = False
     def onRightUp(self,*args):
-
+        self.rightTime = 0
         self.mR = False
     def onDownUp(self,*args):
-
+        self.downTime = 0
         self.mD = False
     def onUpUp(self,*args):
-
+        self.upTime = 0
         self.mU = False
     def loadSection(self,dir):
         print("hi")
