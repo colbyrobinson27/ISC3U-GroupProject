@@ -28,10 +28,10 @@ class Player():
             else:
                 self.charisma += 1
                 return True
-    def gold(self,amount,function):
-        if function.lower == "give":
+    def goldChange(self,amount,function):
+        if function.lower() == "give":
             self.gold += amount
-        elif function.lower == "take":
+        elif function.lower() == "take":
             self.gold -= amount
             if self.gold <= 0:
                 self.gold = 0

@@ -283,7 +283,7 @@ class Battle():
             if abs(roomc.coords(self.drops[i].pos)[0] - self.x) <= self.drops[i].pickUpRangex and abs(roomc.coords(self.drops[i].pos)[1] - self.y) <= self.drops[i].pickUpRangey:
                 print("wow")
                 if self.drops[i].TYPE == "gold":
-                    p.player.gold += self.drops[i].value
+                    p.player.goldChange(self.drops[i].value,"give")
                 roomc.delete(self.drops[i].pos)
                 self.drops.pop(i)
 
