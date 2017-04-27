@@ -556,7 +556,7 @@ class App():
             #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
                 #print(enemyList[i].x)
             C1.create_image((enemyList[i].x-self.PX)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20,(enemyList[i].y-self.PY)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20, image = enemyList[i].img)
-        C1.create_image((self.mapWidth//2),(self.mapHeight//2),image = self.player)
+        C1.create_image((self.mapWidth//2)+4,(self.mapHeight//2),image = self.player)
         C1.tag_raise("treetop")
 app = App()
 app.run()
