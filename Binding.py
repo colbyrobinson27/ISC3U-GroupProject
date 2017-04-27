@@ -221,7 +221,6 @@ class Battle():
                             print(roomc.coords(monsterlist[j].bat)[0],roomc.coords(monsterlist[j].bat)[1])
                             roomc.delete(monsterlist[j].bat)
                             monsterlist.pop(j)
-                            print(self.drops)
                             print(len(monsterlist))
                             if len(monsterlist) == 0:
                                 self.close(True)
@@ -283,12 +282,11 @@ class Battle():
         for i in range(len(self.drops)):
             if abs(roomc.coords(self.drops[i].pos)[0] - self.x) <= self.drops[i].pickUpRangex and abs(roomc.coords(self.drops[i].pos)[1] - self.y) <= self.drops[i].pickUpRangey:
                 print("wow")
-                if self.drops[i].type == "gold":
-                    p.gold += self.drops[i].value
-                print("ok... then")
+                if self.drops[i].TYPE == "gold":
+                    p.player.gold += self.drops[i].value
                 roomc.delete(self.drops[i].pos)
                 self.drops.pop(i)
-                print("ok...")
+
     def update(self):
         try:
             if run:
