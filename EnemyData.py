@@ -17,7 +17,7 @@ class Enemy(object):
         print(x,y)
         self.type = type
         if type == "FatBat":
-            self.img = tk.PhotoImage(file = ".\\fatbatmapimage.png")
+            self.img = tk.PhotoImage(file = "./Images/Enemies/Bat/BatDown1.png")
             #self.pos = canvas.create_image(x,y,image = self.img)
             self.type = type
             self.x = x
@@ -26,18 +26,18 @@ class Enemy(object):
             self.chase = False
             self.moveCounter = 0
             self.aniCounter = 0
-            self.batDown1 = tk.PhotoImage(file="./Images/Bat/batDown1.png")
-            self.batDown2 = tk.PhotoImage(file="./Images/Bat/batDown2.png")
-            self.batDown3 = tk.PhotoImage(file="./Images/Bat/batDown3.png")
-            self.batUp1 = tk.PhotoImage(file="./Images/Bat/batUp1.png")
-            self.batUp2 = tk.PhotoImage(file="./Images/Bat/batUp2.png")
-            self.batUp3 = tk.PhotoImage(file="./Images/Bat/batUp3.png")
-            self.batRight1 = tk.PhotoImage(file="./Images/Bat/batRight1.png")
-            self.batRight2 = tk.PhotoImage(file="./Images/Bat/batRight2.png")
-            self.batRight3 = tk.PhotoImage(file="./Images/Bat/batRight3.png")
-            self.batLeft1 = tk.PhotoImage(file="./Images/Bat/batLeft1.png")
-            self.batLeft2 = tk.PhotoImage(file="./Images/Bat/batLeft2.png")
-            self.batLeft3 = tk.PhotoImage(file="./Images/Bat/batLeft3.png")
+            self.batDown1 = tk.PhotoImage(file="./Images/Enemies/Bat/batDown1.png")
+            self.batDown2 = tk.PhotoImage(file="./Images/Enemies/Bat/batDown2.png")
+            self.batDown3 = tk.PhotoImage(file="./Images/Enemies/Bat/batDown3.png")
+            self.batUp1 = tk.PhotoImage(file="./Images/Enemies/Bat/batUp1.png")
+            self.batUp2 = tk.PhotoImage(file="./Images/Enemies/Bat/batUp2.png")
+            self.batUp3 = tk.PhotoImage(file="./Images/Enemies/Bat/batUp3.png")
+            self.batRight1 = tk.PhotoImage(file="./Images/Enemies/Bat/batRight1.png")
+            self.batRight2 = tk.PhotoImage(file="./Images/Enemies/Bat/batRight2.png")
+            self.batRight3 = tk.PhotoImage(file="./Images/Enemies/Bat/batRight3.png")
+            self.batLeft1 = tk.PhotoImage(file="./Images/Enemies/Bat/batLeft1.png")
+            self.batLeft2 = tk.PhotoImage(file="./Images/Enemies/Bat/batLeft2.png")
+            self.batLeft3 = tk.PhotoImage(file="./Images/Enemies/Bat/batLeft3.png")
             self.dir = 2
 
             self.aLeft = [self.batLeft1, self.batLeft2, self.batLeft3]

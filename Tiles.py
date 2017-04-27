@@ -27,5 +27,5 @@ tree1 = Scenery(True,False,"./treebot.png","./treetop.png",-32,0,1)
 #stag1 = Scenery(True,False,"./Images/Scenery/StagBot.png", "./Images/Scenery/StagTop.png",-16,2)
 cactus1 = Scenery(True,False,"./cactus1Bottom.png","./cactus1Top.png",-15,0,3)
 rock1 = Scenery(True,False,"./RockBot1.png","./RockTop1.png",-5,0,2)
-caveWallB = Scenery(True,False,"./Images/Scenery/CaveWallB1.png","./Images/Scenery/CaveWallB2.png",-16,4,4)
-scenerySet = [tree1,rock1,cactus1,caveWallB]
+
+scenerySet = [tree1,rock1,cactus1]

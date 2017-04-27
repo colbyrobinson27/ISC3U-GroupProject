@@ -6,7 +6,7 @@ import math
 import random
 import winsound
 import pygame
-
+import Player as p
 
 class Player():
     def __init__(self, char):
@@ -24,7 +24,7 @@ class Battle():
         tearlist = []
         global roomc, person
         self.hit = pygame.mixer.Sound('./Music/Hit.wav')
-
+        self.drops = []
         self.shotspeed = 5
         self.tears = 15
         self.speed = 5
@@ -217,6 +217,8 @@ class Battle():
                         monsterlist[j].damagetimer = 0
                         self.hit.play()
                         if monsterlist[j].hit == monsterlist[j].health:
+                            self.drops.append(Drop("gold", 1, roomc.coords(monsterlist[j].bat)[0],roomc.coords(monsterlist[j].bat)[1]))
+                            print(roomc.coords(monsterlist[j].bat)[0],roomc.coords(monsterlist[j].bat)[1])
                             roomc.delete(monsterlist[j].bat)
                             monsterlist.pop(j)
                             print(len(monsterlist))
@@ -277,6 +279,13 @@ class Battle():
                         self.damagetimer = 0
                         self.health += -monsterlist[i].damage
                         roomc.coords(self.healthbar, 100, self.tsize + 25, self.health * 3 + 100, self.tsize + 55)
+        for i in range(len(self.drops)):
+            if abs(roomc.coords(self.drops[i].pos)[0] - self.x) <= self.drops[i].pickUpRangex and abs(roomc.coords(self.drops[i].pos)[1] - self.y) <= self.drops[i].pickUpRangey:
+                print("wow")
+                if self.drops[i].TYPE == "gold":
+                    p.player.gold += self.drops[i].value
+                roomc.delete(self.drops[i].pos)
+                self.drops.pop(i)
 
     def update(self):
         try:
@@ -392,3 +401,14 @@ class Enemy:
 
         except:
             pass
+class Drop():
+    def __init__(self,TYPE,VALUE,x,y):
+        self.TYPE = TYPE
+        print(self.TYPE)
+        if self.TYPE == "gold":
+
+            self.img = tk.PhotoImage(file = "./Images/Drops/gold.png")
+            self.pos = roomc.create_image(int(x),int(y),image = self.img)
+            self.value = VALUE
+            self.pickUpRangex = 8
+            self.pickUpRangey = 8
