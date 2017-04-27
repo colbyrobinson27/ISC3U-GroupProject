@@ -45,6 +45,7 @@ class Enemy(object):
         self.aDown = [self.batDown1,self.batDown2,self.batDown3]
         self.aUp = [self.batUp1,self.batUp2,self.batUp3]
 enemies = [["fatbat","Bat",8]]
+
 def FatBat(num):
     for i in range(num):
             binding.monsterlist.append(binding.Enemy(enemypositionsx[random.randint(0,22)],enemypositionsy[random.randint(0,10)]))
@@ -55,3 +56,6 @@ def FatBat(num):
             binding.monsterlist[i].speedgain = 0.05
             binding.monsterlist[i].damage = 5
 
+enemyDict = {
+    "fatbat": FatBat
+}

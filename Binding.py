@@ -184,7 +184,7 @@ class Battle():
                 pass
             if self.tearx < 20 or self.tearx > self.tsize * 2 - 55 or self.teary > self.tsize - 50 or self.teary < 30:
                 try:
-                    print(len(tearlist))
+
                     roomc.delete(tearlist[i].tear)
                     tearlist[i].alive = False
                     del tearlist[i].size
@@ -218,11 +218,11 @@ class Battle():
                         self.hit.play()
                         if monsterlist[j].hit == monsterlist[j].health:
                             self.drops.append(Drop("gold", 1, roomc.coords(monsterlist[j].bat)[0],roomc.coords(monsterlist[j].bat)[1]))
-                            print(roomc.coords(monsterlist[j].bat)[0],roomc.coords(monsterlist[j].bat)[1])
+
                             roomc.delete(monsterlist[j].bat)
                             monsterlist.pop(j)
-                            print(len(monsterlist))
-                            if len(monsterlist) == 0:
+
+                            if len(monsterlist) <= 0 and len(self.drops) <=0:
                                 self.close(True)
 
                     except:
@@ -284,8 +284,13 @@ class Battle():
                 print("wow")
                 if self.drops[i].TYPE == "gold":
                     p.player.goldChange(self.drops[i].value,"give")
+                print("ok")
                 roomc.delete(self.drops[i].pos)
                 self.drops.pop(i)
+                print(len(self.drops))
+                if len(monsterlist) <= 0 and len(self.drops) <= 0:
+                    self.close(True)
+                return
 
     def update(self):
         try:

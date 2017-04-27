@@ -409,7 +409,7 @@ class App():
                 if enemyList[i].type == "fatbat":
 
                     self.battle1 = binding.Battle(root)
-                    eD.FatBat(3)
+                    eD.enemyDict["fatbat"](8)
 
     def onLeftPress(self,event,*args):
         self.leftTime = event.time
