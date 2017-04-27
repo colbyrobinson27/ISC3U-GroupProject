@@ -41,24 +41,24 @@ class App():
         self.moveCounter = 0
         self.batAniCounter = 0
 
-        self.playerDown1 = tk.PhotoImage(file=".\PlayerPlaceHolderDown1.png")
-        self.playerDown2 = tk.PhotoImage(file=".\PlayerPlaceHolderDown2.png")
-        self.playerDown3 = tk.PhotoImage(file=".\PlayerPlaceHolderDown3.png")
+        self.playerDown1 = tk.PhotoImage(file="./Images/Characters/2Down1.png")
+        self.playerDown2 = tk.PhotoImage(file="./Images/Characters/2Down2.png")
+        self.playerDown3 = tk.PhotoImage(file="./Images/Characters/2Down3.png")
         self.playerDown = [self.playerDown1,self.playerDown2,self.playerDown3,self.playerDown2]
 
-        self.playerLeft1 = tk.PhotoImage(file=".\PlayerPlaceHolderLeft1.png")
-        self.playerLeft2 = tk.PhotoImage(file=".\PlayerPlaceHolderLeft2.png")
-        self.playerLeft3 = tk.PhotoImage(file=".\PlayerPlaceHolderLeft3.png")
+        self.playerLeft1 = tk.PhotoImage(file="./Images/Characters/2Left1.png")
+        self.playerLeft2 = tk.PhotoImage(file="./Images/Characters/2Left2.png")
+        self.playerLeft3 = tk.PhotoImage(file="./Images/Characters/2Left3.png")
         self.playerLeft = [self.playerLeft1, self.playerLeft2, self.playerLeft3, self.playerLeft2]
 
-        self.playerRight1 = tk.PhotoImage(file=".\PlayerPlaceHolderRight1.png")
-        self.playerRight2 = tk.PhotoImage(file=".\PlayerPlaceHolderRight2.png")
-        self.playerRight3 = tk.PhotoImage(file=".\PlayerPlaceHolderRight3.png")
+        self.playerRight1 = tk.PhotoImage(file="./Images/Characters/2Right1.png")
+        self.playerRight2 = tk.PhotoImage(file="./Images/Characters/2Right2.png")
+        self.playerRight3 = tk.PhotoImage(file="./Images/Characters/2Right3.png")
         self.playerRight = [self.playerRight1, self.playerRight2, self.playerRight3, self.playerRight2]
 
-        self.playerUp1 = tk.PhotoImage(file=".\PlayerPlaceHolderUp1.png")
-        self.playerUp2 = tk.PhotoImage(file=".\PlayerPlaceHolderUp2.png")
-        self.playerUp3 = tk.PhotoImage(file=".\PlayerPlaceHolderUp3.png")
+        self.playerUp1 = tk.PhotoImage(file="./Images/Characters/2Up1.png")
+        self.playerUp2 = tk.PhotoImage(file="./Images/Characters/2Up2.png")
+        self.playerUp3 = tk.PhotoImage(file="./Images/Characters/2Up3.png")
         self.playerUp = [self.playerUp1, self.playerUp2, self.playerUp3, self.playerUp2]
         self.aniCounter = 0
         self.PX = 50
@@ -556,7 +556,7 @@ class App():
             #if self.VIEWMAP[enemyList[i].y][enemyList[i].x] == 0:
                 #print(enemyList[i].x)
             C1.create_image((enemyList[i].x-self.PX)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20,(enemyList[i].y-self.PY)*self.tileSize + (self.DRAWRANGE//2)*self.tileSize + 20, image = enemyList[i].img)
-        C1.create_image((self.mapWidth//2),(self.mapHeight//2)-20,image = self.player)
+        C1.create_image((self.mapWidth//2),(self.mapHeight//2),image = self.player)
         C1.tag_raise("treetop")
 app = App()
 app.run()
