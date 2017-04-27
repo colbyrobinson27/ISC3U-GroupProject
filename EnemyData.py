@@ -44,7 +44,8 @@ class Enemy(object):
         self.aRight = [self.batRight1, self.batRight2, self.batRight3]
         self.aDown = [self.batDown1,self.batDown2,self.batDown3]
         self.aUp = [self.batUp1,self.batUp2,self.batUp3]
-enemies = [["fatbat","Bat",8]]
+
+
 
 def FatBat(num):
     for i in range(num):

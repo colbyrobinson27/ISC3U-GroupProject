@@ -16,6 +16,7 @@ class Biome():
         type = type.split(",")
 
         self.y = y
+        self.enemies = 0
         self.left = left
         self.bottom = bottom
         self.top = top
@@ -29,20 +30,36 @@ class Biome():
             #self.hostility = 2
             self.biome = "cave"
             self.music = pygame.mixer.Sound("./Music/CaveSong.wav")
+            self.enemies = {
+                "fatbat":["fatbat","Bat",8],
+                "spider":["spider","Spider",6]
+            }
 
         if type[0] == "forest":
             self.map = self.generateForest()
             self.biome = "forest"
             self.music = pygame.mixer.Sound("./Music/Blue-World.wav")
+            self.enemies = {
+                "fatbat": ["fatbat", "Bat", 8],
+                
+            }
         if type[0] == "desert":
             self.map = self.generateDesert()
             self.biome = "desert"
             self.music = pygame.mixer.Sound("./Music/DesertSong.wav")
+            self.enemies = {
+                "fatbat": ["fatbat", "Bat", 8],
+
+            }
         if type[0] == "custom":
             self.map = rL.openFile(type[1],self.scenery)
             print(self.scenery)
             self.biome = "custom"
             self.music = pygame.mixer.Sound("./Music/Blue-World.wav")
+            self.enemies = {
+                "fatbat": ["fatbat", "Bat", 8],
+
+            }
         try:
 
             print(areaList[ypos-1][xpos].biome)
