@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import random
 import tkinter as tk
 
@@ -8,6 +7,7 @@ import EnemyData as eD
 import Binding as binding
 import math
 import pygame
+import NPCS as npc
 
 
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
@@ -77,7 +77,8 @@ class App():
         self.leftTime = 1
         self.upTime = 2
         self.downTime = 3
-
+        self.npcList = []
+        self.npcList.append(npc.NPC(npc.npcBase[0]))
         #Here is just variables that are used to stop players from holding down a key and moving extremely fast, not too much to worry about
 
         #These are keybinds. They use tkinter to bind certain keys to certain functions. We have bound all arrow keys on press and on release at the moment
@@ -481,10 +482,9 @@ class App():
         self.draw()
 
     def NPCInteractions(self,*args):
-        response = eD.eNT(self.PX,self.PY,enemyList)
-        if response != "":
-            if response == "FatBat":
-                print("wow")
+        response = eD.eNT(self.PX,self.PY,self.npcList)
+        if response == "shop":
+            print()
 
     def spawnMonsters(self,xscan,yscan):
         spawned = False
@@ -593,3 +593,4 @@ class App():
         C1.create_image((self.mapWidth//2),(self.mapHeight//2)-20,image = self.player)
         C1.tag_raise("treetop")
 app = App()
+app.run()
