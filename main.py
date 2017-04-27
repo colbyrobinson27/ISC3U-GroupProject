@@ -6,7 +6,7 @@ import Biomes as bI
 import Binding as binding
 import math
 import pygame
-
+import Player as p
 
 #Hello! This is the home base for operations of the game. The structure below is known as a class, and is where we put all of the things that are in the game.
 class App():
@@ -259,7 +259,6 @@ class App():
             if self.battle1.battleWon:
 
                 del enemyList[self.enemyToRemove]
-
                 root.bind("<a>", self.onLeftPress)
                 root.bind("<d>", self.onRightPress)
                 root.bind("<w>", self.onUpPress)
