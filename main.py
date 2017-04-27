@@ -71,7 +71,10 @@ class App():
         self.mR = False
         self.mU = False
         self.mD = False
-
+        self.rightTime = 0
+        self.leftTime = 1
+        self.upTime = 2
+        self.downTime = 3
 
         #Here is just variables that are used to stop players from holding down a key and moving extremely fast, not too much to worry about
 
@@ -85,6 +88,15 @@ class App():
         root.bind("<KeyRelease-Right>", self.onRightUp)
         root.bind("<KeyRelease-Down>", self.onDownUp)
         root.bind("<KeyRelease-Up>", self.onUpUp)
+
+        root.bind("<a>", self.onLeftPress)
+        root.bind("<d>", self.onRightPress)
+        root.bind("<w>", self.onUpPress)
+        root.bind("<s>", self.onDownPress)
+        root.bind("<KeyRelease-a>", self.onLeftUp)
+        root.bind("<KeyRelease-d>", self.onRightUp)
+        root.bind("<KeyRelease-s>", self.onDownUp)
+        root.bind("<KeyRelease-w>", self.onUpUp)
         #this is where we import images from the game folder, and assign them to variables
         self.player= tk.PhotoImage(file = "./Images/Characters/2Down1.png")
 
@@ -135,7 +147,7 @@ class App():
 
         if self.moveCounter >7:
             self.moveCounter = 0
-            if self.mL:
+            if self.mL and self.leftTime>self.rightTime and self.leftTime > self.downTime and self.leftTime> self.upTime:
                 print("k")
                 try:
                     self.map[self.PY][self.PX - 1].CODE = self.map[self.PY][self.PX - 1].CODE
@@ -163,7 +175,7 @@ class App():
                     self.draw()
 
 
-            if self.mR:
+            if self.mR and self.rightTime>self.leftTime and self.rightTime > self.downTime and self.rightTime> self.upTime:
 
                 try:
                     self.map[self.PY][self.PX + 1].CODE = self.map[self.PY][self.PX + 1].CODE
@@ -189,7 +201,7 @@ class App():
                     self.draw()
 
 
-            if self.mU:
+            if self.mU and self.upTime>self.leftTime and self.upTime > self.downTime and self.upTime> self.rightTime:
 
                 try:
                     self.map[self.PY - 1][self.PX].CODE = self.map[self.PY - 1][self.PX].CODE
@@ -216,7 +228,7 @@ class App():
                     self.draw()
 
 
-            if self.mD:
+            if self.mD and self.downTime>self.leftTime and self.downTime > self.rightTime and self.downTime> self.upTime:
 
                 try:
                     self.map[self.PY + 1][self.PX].CODE = self.map[self.PY + 1][self.PX].CODE
@@ -247,6 +259,14 @@ class App():
 
                 del enemyList[self.enemyToRemove]
 
+                root.bind("<a>", self.onLeftPress)
+                root.bind("<d>", self.onRightPress)
+                root.bind("<w>", self.onUpPress)
+                root.bind("<s>", self.onDownPress)
+                root.bind("<KeyRelease-a>", self.onLeftUp)
+                root.bind("<KeyRelease-d>", self.onRightUp)
+                root.bind("<KeyRelease-s>", self.onDownUp)
+                root.bind("<KeyRelease-w>", self.onUpUp)
 
                 root.bind("<Left>", self.onLeftPress)
                 root.bind("<Right>", self.onRightPress)
@@ -383,18 +403,17 @@ class App():
                     self.battle1 = binding.Battle(root)
                     eD.FatBat(3)
 
-    def onLeftPress(self,*args):
+    def onLeftPress(self,event,*args):
+        self.leftTime = event.time
         self.mL = True
-
-
-    def onRightPress(self,*args):
-
+    def onRightPress(self,event,*args):
+        self.rightTime = event.time
         self.mR = True
-    def onUpPress(self,*args):
-
+    def onUpPress(self,event,*args):
+        self.upTime = event.time
         self.mU = True
-    def onDownPress(self,*args):
-
+    def onDownPress(self,event,*args):
+        self.downTime = event.time
         self.mD = True
     def onLeftUp(self,*args):
 
