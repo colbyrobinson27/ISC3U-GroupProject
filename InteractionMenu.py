@@ -3,14 +3,17 @@ class Option:
     def __init__(self,package):
         self.canvas  =  package[0]
         self.optionOne = package[1]
-        self.optionOneText = Tex
+        self.optionOneText = package[2]
         self.optionTwo = package[3]
+        self.optionTwoText = package[4]
         try:
             self.optionThree = package[5]
+            self.optionThreeText = package[6]
         except:
             pass
         try:
             self.optionFour = package[7]
+            self.optionFour = package[8]
         except:
             pass
 

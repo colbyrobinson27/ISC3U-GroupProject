@@ -1,5 +1,5 @@
 import tkinter as tk
-import NameGenerator as nameGen
+import nameGenerator as nameGen
 class NPC():
     def __init__(self,package):
         self.img = tk.PhotoImage(file = "./Images/NPC/" + package[0] + "/down1.png")
