@@ -23,16 +23,23 @@ class App():
         #This sets the size of the tkinter window
         root.geometry("1280x720")
         #This is the canvas, which is where all of the graphics for the game are painted
+        C2 = tk.Canvas(root)
         C1 = tk.Canvas(root)
+
         self.moveSpeed = 150
+        C2.pack()
         C1.pack()
-        self.tileSize =32
+
+        self.tileSize = 32
         self.width = 100
         self.height = 100
-        self.mapHeight = self.tileSize*15
-        self.mapWidth = self.tileSize*15
-        C1.place(width = self.mapWidth,height = self.mapHeight, x = 460, y = 0)
-        C1.config(bg = "Black")
+        self.mapHeight = self.tileSize * 15
+        self.mapWidth = self.tileSize * 15
+        C2.place(width=1280, height=720, x=0, y=0)
+        C2.config(bg="#8c3605")
+        C1.place(width=self.mapWidth, height=self.mapHeight, x=460, y=0)
+        C1.config(bg="Black")
+
         #This initializes our positioning variables, which are not a python built in, and so must be changed manually throughout the scripts... remember that!
         self.treetop = tk.PhotoImage(file="./treetop.png")
 
